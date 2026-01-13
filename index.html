@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Simcan2Fog • Simulate the Future of Fog Computing</title>
+  <meta name="description" content="Discrete-event simulation platform for fog, edge and cloud environments – built on OMNeT++ and INET. Official publication: SoftwareX (2025)."/>
+ 
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: { extend: { colors: { primary: '#0ea5e9', neon: '#22d3ee', bgDark: '#0f172a' } } }
+    }
+  </script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Inter', system-ui, sans-serif; }
+    .gradient-hero { background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #0ea5e9 100%); }
+    .glass { background: rgba(30,41,59,0.55); backdrop-filter: blur(12px); border: 1px solid rgba(255,255,255,0.12); }
+    .carousel { position: relative; overflow: hidden; width: 100%; height: 100%; border-radius: 1.5rem; }
+    .carousel-track { display: flex; transition: transform 0.7s cubic-bezier(0.34, 1.56, 0.64, 1); height: 100%; }
+    .carousel-slide { min-width: 100%; height: 100%; flex-shrink: 0; position: relative; display: flex; flex-direction: column; }
+    .carousel-slide img { width: 100%; height: 100%; object-fit: cover; position: absolute; top: 0; left: 0; }
+    .carousel-caption-box { position: absolute; bottom: 0; left: 0; right: 0; background: linear-gradient(to top, #0f172a 0%, rgba(15, 23, 42, 0.9) 70%, transparent 100%); padding: 4rem 1.5rem 1.5rem; z-index: 10; }
+    @media (min-width: 768px) { .carousel-caption-box { padding: 4rem 5rem 1.5rem; } }
+    .carousel-btn { pointer-events: all; position: absolute; top: 50%; transform: translateY(-50%); width: 52px; height: 52px; background: rgba(0,0,0,0.55); backdrop-filter: blur(10px); border-radius: 9999px; color: white; font-size: 1.6rem; display: flex; align-items: center; justify-content: center; transition: all 0.3s; border: 1px solid rgba(255,255,255,0.25); }
+    .carousel-btn:hover { background: rgba(14,165,233,0.75); transform: translateY(-50%) scale(1.12); }
+    .carousel-btn.prev { left: 20px; } .carousel-btn.next { right: 20px; }
+    .carousel-dots { position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%); display: flex; gap: 14px; }
+    .carousel-dot { width: 14px; height: 14px; border-radius: 50%; background: rgba(255,255,255,0.45); cursor: pointer; transition: all 0.35s; }
+    .carousel-dot.active { background: #22d3ee; transform: scale(1.4); box-shadow: 0 0 12px #22d3ee80; }
+    .feature-card { 
+      background: rgba(30,41,59,0.65); 
+      backdrop-filter: blur(10px); 
+      border: 1px solid rgba(34,211,238,0.25);
+    }
+  </style>
+</head>
+<body class="bg-slate-950 text-slate-100 antialiased">
+
+  <!-- NAVIGATION -->
+  <nav class="fixed top-0 w-full z-50 bg-slate-900/80 backdrop-blur-xl border-b border-slate-700/40">
+    <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+      <div class="flex items-center gap-3">
+        <div class="w-11 h-11 rounded-xl bg-gradient-to-br from-cyan-500 to-blue-600 flex items-center justify-center font-bold text-white text-2xl shadow-lg">S2F</div>
+        <span class="text-2xl font-semibold tracking-tight">Simcan2Fog</span>
+      </div>
+     
+      <div class="hidden md:flex gap-8 font-medium">
+        <a href="index.html" class="hover:text-cyan-300 transition-colors">Home</a>
+        <a href="features.html" class="hover:text-cyan-300 transition-colors">Features</a>
+        <a href="tutorial.html" class="hover:text-cyan-300 transition-colors">Tutorial</a>
+        <a href="doc/documentation.html" class="hover:text-cyan-300 transition-colors">Documentation</a>
+        <a href="publications.html" class="hover:text-cyan-300 transition-colors">Publications</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- HERO + CAROUSEL -->
+  <section id="home" class="gradient-hero pt-32 pb-16 md:pt-40 relative overflow-hidden">
+    <div class="max-w-7xl mx-auto px-6 grid md:grid-cols-5 gap-8 md:gap-12 items-center relative z-10">
+      <div class="md:col-span-2">
+        <p class="text-lg md:text-xl text-cyan-300/90 mb-3 font-medium tracking-wide">
+          Simulate the Future of Fog Computing
+        </p>
+        <h1 class="text-4xl md:text-5xl lg:text-6xl font-extrabold leading-tight mb-5">
+          Simcan2Fog
+        </h1>
+        <p class="text-xl md:text-2xl text-cyan-200 mb-6 font-medium">
+          The discrete-event simulation framework for Fog, Edge and Cloud computing
+        </p>
+       
+        <p class="text-lg text-slate-200 mb-8">
+          Latest release: <strong>v1.2.0</strong> • January 2026<br/>
+          Built on <strong>OMNeT++ 6.3.0</strong> & <strong>INET 4.5.4</strong> • 
+          <a href="https://www.sciencedirect.com/science/article/pii/S2352711025003905" target="_blank" class="text-cyan-300 hover:underline">SoftwareX (2025)</a>
+        </p>
+
+        <div class="flex flex-wrap gap-4">
+          <a href="https://github.com/UlyssesDeAguilar/Simcan2Fog#quick-start" target="_blank"
+             class="px-8 py-4 bg-gradient-to-r from-green-500 to-emerald-600 rounded-2xl font-bold text-base hover:scale-105 hover:shadow-2xl hover:shadow-green-600/40 transition-all duration-300">
+            Do the tutorial →
+          </a>
+          <a href="https://github.com/UlyssesDeAguilar/Simcan2Fog/releases" target="_blank"
+             class="px-8 py-4 bg-gradient-to-r from-cyan-500 to-blue-600 rounded-2xl font-bold text-base hover:scale-105 hover:shadow-2xl hover:shadow-cyan-600/40 transition-all duration-300">
+            Download Simcan2Fog
+          </a>
+        </div>
+      </div>
+
+      <!-- CAROUSEL -->
+      <div class="md:col-span-3 relative h-[380px] md:h-[520px] rounded-3xl overflow-hidden shadow-2xl shadow-cyan-900/60 border border-cyan-500/30">
+        <div class="carousel" id="carousel">
+          <div class="carousel-track" id="track">
+            <div class="carousel-slide">
+              <img src="images/001bis.jpg" alt="Global network connections and data centers">
+              <div class="carousel-caption-box">
+                <h3 class="text-xl md:text-2xl font-bold text-white mb-2">OMNeT++ Integration</h3>
+                <p class="text-slate-200 text-sm md:text-base">Built on the powerful OMNeT++ discrete-event simulation framework with full GUI support</p>
+              </div>
+            </div>
+            <div class="carousel-slide">
+              <img src="images/002.jpg" alt="Abstract network topology visualization">
+              <div class="carousel-caption-box">
+                <h3 class="text-xl md:text-2xl font-bold text-white mb-2">Fog Computing Architecture</h3>
+                <p class="text-slate-200 text-sm md:text-base">Model hierarchical fog nodes, edge devices and cloud data centers in multi-tier systems</p>
+              </div>
+            </div>
+            <div class="carousel-slide">
+              <img src="images/003bis.jpg" alt="IoT devices and smart technology">
+              <div class="carousel-caption-box">
+                <h3 class="text-xl md:text-2xl font-bold text-white mb-2">IoT & Smart Environments</h3>
+                <p class="text-slate-200 text-sm md:text-base">Simulate sensors, actuators, smart homes and IoT gateways with realistic behavior</p>
+              </div>
+            </div>
+            <div class="carousel-slide">
+              <img src="images/004bis.jpg" alt="Cloud computing infrastructure with servers">
+              <div class="carousel-caption-box">
+                <h3 class="text-xl md:text-2xl font-bold text-white mb-2">Task Offloading & Orchestration</h3>
+                <p class="text-slate-200 text-sm md:text-base">Dynamic workload placement, container/VM simulation and intelligent orchestration policies</p>
+              </div>
+            </div>
+            <div class="carousel-slide">
+              <img src="images/005.jpg" alt="Network simulation and data processing">
+              <div class="carousel-caption-box">
+                <h3 class="text-xl md:text-2xl font-bold text-white mb-2">Detailed Performance Metrics</h3>
+                <p class="text-slate-200 text-sm md:text-base">Comprehensive analysis of latency, resource usage, energy consumption and QoS parameters</p>
+              </div>
+            </div>
+          </div>
+          <div class="carousel-controls">
+            <button class="carousel-btn prev" id="prevBtn">←</button>
+            <button class="carousel-btn next" id="nextBtn">→</button>
+          </div>
+          <div class="carousel-dots" id="dots"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- HOW TO CITE -->
+  <section class="py-20 bg-slate-900/80 border-t border-slate-700/40">
+    <div class="max-w-7xl mx-auto px-6">
+      <div class="grid md:grid-cols-2 gap-12 items-start">
+        <!-- Left side: Text -->
+        <div>
+          <h2 class="text-4xl font-bold mb-6">How to Cite</h2>
+          <p class="text-lg text-slate-300 mb-6 leading-relaxed">
+            If you use SimCan2Fog in your research, please cite our core paper. 
+            This helps us continue to justify the development and maintenance of the framework.
+          </p>
+          <div class="bg-slate-800/50 border border-cyan-500/30 rounded-xl p-6">
+            <div class="flex items-start gap-3 mb-4">
+              <svg class="w-6 h-6 text-cyan-400 mt-1 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+              </svg>
+              <div>
+                <h3 class="text-xl font-semibold text-cyan-300 mb-2">
+                  Simcan2Fog: A discrete-event platform for the modelling and simulation of Fog computing environments
+                </h3>
+                <p class="text-slate-300">
+                  SoftwareX, Volume 32, 2025, 102424
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right side: BibTeX -->
+        <div>
+          <div class="bg-slate-950/80 border border-slate-700/60 rounded-xl overflow-hidden">
+            <div class="bg-slate-800/80 px-6 py-3 flex items-center justify-between border-b border-slate-700/60">
+              <span class="text-sm font-semibold text-slate-300 tracking-wider">BIBTEX CITATION</span>
+              <button onclick="copyBibtex()" class="px-4 py-1.5 bg-slate-700/60 hover:bg-slate-600/60 rounded-lg text-sm font-medium transition flex items-center gap-2">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
+                </svg>
+                Copy
+              </button>
+            </div>
+            <div class="p-6">
+              <pre class="text-sm font-mono leading-relaxed text-slate-200" id="bibtexCode"><code>@article{deaguilar2025,
+  title = {Simcan2Fog: A discrete-event platform for the 
+           modelling and simulation of Fog computing environments},
+  journal = {SoftwareX},
+  volume = {32},
+  pages = {102424},
+  year = {2025},
+  issn = {2352-7110},
+  doi = {https://doi.org/10.1016/j.softx.2025.102424},
+  url = {https://www.sciencedirect.com/science/article/pii/S2352711025003905},
+  author = {Ulysses {de Aguilar} and Pablo C. Cañizares and Alberto Núñez}
+}</code></pre>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- WHAT IS SIMCAN2FOG? -->
+  <section id="what-is" class="py-24 bg-slate-900/50">
+    <div class="max-w-6xl mx-auto px-6">
+      <h2 class="text-5xl font-bold mb-10 text-center bg-gradient-to-r from-cyan-300 to-blue-400 bg-clip-text text-transparent">
+        What is Simcan2Fog?
+      </h2>
+      <div class="prose prose-invert prose-lg max-w-none text-center md:text-left">
+        <p>Simcan2Fog is an open-source discrete-event simulation framework designed for modeling and analyzing <strong>Fog</strong>, <strong>Edge</strong> and <strong>Cloud</strong> computing environments, with particular focus on IoT and distributed applications.</p>
+        <p>It extends <strong>OMNeT++</strong> and <strong>INET</strong> with high-level models for hierarchical fog architectures, task offloading, resource management, service orchestration and realistic network behavior in multi-tier systems.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- FEATURES -->
+  <section id="features" class="py-24 bg-gradient-to-b from-slate-900 to-slate-950">
+    <div class="max-w-7xl mx-auto px-6">
+      <h2 class="text-5xl font-bold mb-16 text-center">Key Features</h2>
+      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div class="feature-card p-8 rounded-2xl">
+          <h3 class="text-2xl font-semibold text-cyan-300 mb-4">Native Fog & Edge Modeling</h3>
+          <p>Hierarchical nodes, micro data-centers, multi-tier fog-cloud architectures</p>
+        </div>
+        <div class="feature-card p-8 rounded-2xl">
+          <h3 class="text-2xl font-semibold text-cyan-300 mb-4">Full INET Network Stack</h3>
+          <p>Wired & wireless, mobility, 5G/6G abstractions, SDN support</p>
+        </div>
+        <div class="feature-card p-8 rounded-2xl">
+          <h3 class="text-2xl font-semibold text-cyan-300 mb-4">Task Offloading & Orchestration</h3>
+          <p>Dynamic placement, container/VM simulation, orchestration policies</p>
+        </div>
+        <div class="feature-card p-8 rounded-2xl">
+          <h3 class="text-2xl font-semibold text-cyan-300 mb-4">Detailed Performance Metrics</h3>
+          <p>Latency, resource usage, energy, QoS, service response time</p>
+        </div>
+        <div class="feature-card p-8 rounded-2xl">
+          <h3 class="text-2xl font-semibold text-cyan-300 mb-4">OMNeT++ GUI Support</h3>
+          <p>Interactive visualization and debugging of complex fog scenarios</p>
+        </div>
+        <div class="feature-card p-8 rounded-2xl">
+          <h3 class="text-2xl font-semibold text-cyan-300 mb-4">Modular & Extensible</h3>
+          <p>GPL-3.0 • Easy to implement new fog strategies, devices and algorithms</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- HOW DOES IT WORK? -->
+  <section id="how-it-works" class="py-20 bg-slate-900/30">
+    <div class="max-w-5xl mx-auto px-6 text-center">
+      <h2 class="text-5xl font-bold mb-12">How does it work?</h2>
+      <p class="text-xl text-slate-300 max-w-4xl mx-auto leading-relaxed">
+        Simcan2Fog provides high-level compound modules that represent fog devices, cloud servers, IoT sensors/actuators and the underlying communication infrastructure.<br/><br/>
+        It allows realistic simulation of task offloading decisions, service migration, resource contention and end-to-end communication delays in hierarchical fog-cloud environments.
+      </p>
+    </div>
+  </section>
+
+  <!-- DOCUMENTATION -->
+  <section id="documentation" class="py-24">
+    <div class="max-w-7xl mx-auto px-6 text-center">
+      <h2 class="text-5xl font-bold mb-10">Documentation & Tutorials</h2>
+      <p class="text-xl text-slate-300 mb-12 max-w-3xl mx-auto">
+        Detailed NED documentation, installation guide, example scenarios and step-by-step tutorials to start simulating fog computing environments quickly.
+      </p>
+      <div class="flex flex-wrap justify-center gap-8">
+        <a href="https://ulyssesdeaguilar.github.io/s2f-ned-docs/" target="_blank"
+           class="px-12 py-6 bg-gradient-to-r from-cyan-600 to-blue-600 rounded-2xl text-xl font-bold hover:scale-105 transition">
+          NED Documentation →
+        </a>
+        <a href="https://github.com/UlyssesDeAguilar/Simcan2Fog#quick-start" class="px-12 py-6 border-2 border-cyan-500 rounded-2xl text-xl font-bold hover:bg-cyan-950/50 transition">
+          Start the Tutorial →
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- PUBLICATIONS -->
+  <section id="publications" class="py-20 bg-slate-900/60">
+    <div class="max-w-5xl mx-auto px-6 text-center">
+      <h2 class="text-4xl font-bold mb-10">Please cite</h2>
+      <div class="prose prose-invert max-w-none text-lg">
+        <p>If you use Simcan2Fog for your research, please consider citing:</p>
+        <blockquote class="border-l-4 border-cyan-500 pl-6 my-8 italic">
+          [Paper title] – Simcan2Fog: A simulation framework for Fog and Edge computing<br/>
+          SoftwareX, 2025 • DOI: 10.1016/j.softx.2025.102XXX<br/>
+          <a href="https://www.sciencedirect.com/science/article/pii/S2352711025003905" target="_blank" class="text-cyan-300 hover:underline">Read the paper →</a>
+        </blockquote>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="bg-slate-950 border-t border-slate-800 py-12 text-slate-400 text-center">
+    <div class="max-w-7xl mx-auto px-6">
+      <p class="text-lg">© 2026 Simcan2Fog • Open Source Fog Computing Simulation Framework</p>
+      <p class="mt-2">Built with OMNeT++ 6.3.0 & INET 4.5.4 • Licensed under GPL-3.0</p>
+      <div class="mt-8 flex justify-center gap-12 text-sm">
+        <a href="https://github.com/UlyssesDeAguilar/Simcan2Fog" class="hover:text-cyan-400">GitHub</a>
+        <a href="https://ulyssesdeaguilar.github.io/s2f-ned-docs/" class="hover:text-cyan-400">Documentation</a>
+        <a href="https://github.com/UlyssesDeAguilar/Simcan2Fog/releases" class="hover:text-cyan-400">Releases</a>
+        <a href="https://www.sciencedirect.com/science/article/pii/S2352711025003905" class="hover:text-cyan-400">Paper</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- CAROUSEL JAVASCRIPT -->
+  <script>
+    const track = document.getElementById('track');
+    const slides = Array.from(track.children);
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+    const dotsContainer = document.getElementById('dots');
+    let currentIndex = 0;
+    let interval;
+    slides.forEach((_, i) => {
+      const dot = document.createElement('div');
+      dot.classList.add('carousel-dot');
+      if (i === 0) dot.classList.add('active');
+      dot.addEventListener('click', () => goToSlide(i));
+      dotsContainer.appendChild(dot);
+    });
+    const dots = Array.from(dotsContainer.children);
+    function updateCarousel() {
+      track.style.transform = `translateX(-${currentIndex * 100}%)`;
+      dots.forEach((d, i) => d.classList.toggle('active', i === currentIndex));
+    }
+    function goToSlide(idx) {
+      currentIndex = (idx + slides.length) % slides.length;
+      updateCarousel();
+      resetInterval();
+    }
+    function nextSlide() { goToSlide(currentIndex + 1); }
+    function prevSlide() { goToSlide(currentIndex - 1); }
+    function resetInterval() {
+      clearInterval(interval);
+      interval = setInterval(nextSlide, 5000);
+    }
+    nextBtn.addEventListener('click', nextSlide);
+    prevBtn.addEventListener('click', prevSlide);
+    document.getElementById('carousel').addEventListener('mouseenter', () => clearInterval(interval));
+    document.getElementById('carousel').addEventListener('mouseleave', resetInterval);
+    resetInterval();
+
+    // Copy BibTeX function
+    function copyBibtex() {
+      const bibtexText = document.getElementById('bibtexCode').textContent;
+      navigator.clipboard.writeText(bibtexText).then(() => {
+        const btn = event.target.closest('button');
+        const originalHTML = btn.innerHTML;
+        btn.innerHTML = `<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+        </svg>Copied!`;
+        setTimeout(() => {
+          btn.innerHTML = originalHTML;
+        }, 2000);
+      });
+    }
+  </script>
+
+</body>
+</html>

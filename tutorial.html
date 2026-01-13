@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Tutorial - Simcan2Fog</title>
+  <meta name="description" content="Step-by-step tutorial for installing and running Simcan2Fog discrete-event simulation platform."/>
+ 
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: { extend: { colors: { primary: '#0ea5e9', neon: '#22d3ee', bgDark: '#0f172a' } } }
+    }
+  </script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Inter', system-ui, sans-serif; }
+    code, pre { font-family: 'JetBrains Mono', monospace; }
+    .gradient-hero { background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #0ea5e9 100%); }
+    .step-box { background: rgba(30,41,59,0.5); border-left: 4px solid #22d3ee; }
+    pre { background: rgba(15, 23, 42, 0.8); border: 1px solid rgba(34, 211, 238, 0.3); }
+  </style>
+</head>
+<body class="bg-slate-950 text-slate-100 antialiased">
+
+  <!-- Animated Background -->
+  <div class="fixed w-full h-full top-0 left-0 -z-10 bg-gradient-to-b from-slate-900 via-slate-950 to-slate-900"></div>
+
+  <!-- NAVIGATION -->
+  <nav class="fixed top-0 w-full z-50 bg-slate-900/80 backdrop-blur-xl border-b border-slate-700/40">
+    <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+      <div class="flex items-center gap-3">
+        <div class="w-11 h-11 rounded-xl bg-gradient-to-br from-cyan-500 to-blue-600 flex items-center justify-center font-bold text-white text-2xl shadow-lg">S2F</div>
+        <span class="text-2xl font-semibold tracking-tight">Simcan2Fog</span>
+      </div>
+     
+      <div class="hidden md:flex gap-8 font-medium">
+        <a href="index.html" class="hover:text-cyan-300 transition-colors">Home</a>
+        <a href="features.html" class="hover:text-cyan-300 transition-colors">Features</a>
+        <a href="tutorial.html" class="text-cyan-300">Tutorial</a>
+        <a href="documentation.html" class="hover:text-cyan-300 transition-colors">Documentation</a>
+        <a href="publications.html" class="hover:text-cyan-300 transition-colors">Publications</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- HERO SECTION -->
+  <section class="gradient-hero pt-32 pb-16">
+    <div class="max-w-4xl mx-auto px-6 text-center">
+      <h1 class="text-5xl md:text-6xl font-extrabold mb-6">Tutorial</h1>
+      <p class="text-xl text-slate-200">
+        Learn how to set up Simcan2Fog
+      </p>
+    </div>
+  </section>
+
+  <!-- TUTORIAL CONTENT -->
+  <section class="py-20">
+    <div class="max-w-5xl mx-auto px-6">
+      
+      <!-- Introduction -->
+      <div class="mb-16">
+        <p class="text-lg leading-relaxed mb-6">
+          Below, we give a brief tutorial-style introduction on how to get started with installing and using Simcan2Fog. 
+          For other tutorial-style introductions on how to use Simcan2Fog as well as more in-depth information, please refer to the <a href="publications.html" class="text-cyan-400 hover:underline">publications page</a>.
+        </p>
+      </div>
+
+      <!-- THE EASY WAY -->
+      <div class="mb-20">
+        <h2 class="text-4xl font-bold mb-8 text-cyan-300">The easy way</h2>
+        
+        <div class="bg-gradient-to-r from-cyan-950/50 to-blue-950/50 border-2 border-cyan-500/50 rounded-2xl p-8 mb-8">
+          <p class="text-lg leading-relaxed mb-6">
+            For quickly trying out Simcan2Fog and for running Simcan2Fog on systems you do not have administrative access to, 
+            we are recommending <strong class="text-cyan-300">Instant Simcan2Fog</strong>, a virtual machine that contains a ready-to-run 
+            version of Simcan2Fog and all supporting tools.
+          </p>
+          <div class="text-center">
+            <a href="documentation.html#instant" class="inline-block px-10 py-4 bg-gradient-to-r from-green-500 to-emerald-600 rounded-2xl font-bold text-lg hover:scale-105 transition">
+              About Instant Simcan2Fog →
+            </a>
+          </div>
+        </div>
+
+        <p class="text-slate-300 text-lg">
+          If you are using Instant Simcan2Fog, you can directly <a href="#finish" class="text-cyan-400 hover:underline font-semibold">skip ahead to the final step: running Simcan2Fog</a>.
+        </p>
+        
+        <p class="text-slate-300 text-lg mt-6">
+          For learning how to set up Simcan2Fog on your own machine, read on.
+        </p>
+      </div>
+
+      <!-- THE HARD WAY -->
+      <div class="mb-16">
+        <h2 class="text-4xl font-bold mb-8 text-cyan-300">The hard way</h2>
+        
+        <div class="bg-amber-950/30 border-l-4 border-amber-500 p-6 rounded-r-xl mb-8">
+          <p class="font-semibold text-amber-300 mb-2">📝 Note:</p>
+          <p class="text-slate-200 leading-relaxed">
+            Simcan2Fog runs on <strong>Linux</strong>, <strong>Mac OS X</strong>, and <strong>Windows</strong>. 
+            Because of the extensive debugging capabilities that it offers, Simcan2Fog is best built and run on Linux.
+            For running Linux on Windows, we recommend using the <a href="https://learn.microsoft.com/en-us/windows/wsl/install" target="_blank" class="text-cyan-400 hover:underline">Windows Subsystem for Linux (WSL)</a> 
+            or a virtual machine running Linux. This will allow the use of additional libraries and result in a much smoother experience than running Simcan2Fog natively on Windows.
+          </p>
+        </div>
+
+        <p class="text-slate-300 text-lg mb-4">
+          This tutorial assumes that you are using Ubuntu Linux, that your home directory is <code class="text-cyan-400">/home/user</code>, 
+          and that all necessary software will be installed in <code class="text-cyan-400">/home/user/omnetpp-6.3.0</code>.
+        </p>
+        <p class="text-slate-300 text-lg">
+          Aside from the paths given, these steps are similar when building and running the simulations on Mac OS X or Windows (using WSL).
+        </p>
+      </div>
+
+      <hr class="border-slate-700 my-12">
+
+      <!-- Step 1: OMNeT++ -->
+      <div id="step1" class="mb-16">
+        <h2 class="text-4xl font-bold mb-6 flex items-center gap-3">
+          <span class="bg-cyan-600 text-white w-12 h-12 rounded-full flex items-center justify-center text-xl font-bold">1</span>
+          Download and build OMNeT++ 6.3.0
+        </h2>
+        
+        <div class="step-box p-6 rounded-lg mb-6">
+          <p class="text-lg mb-4">
+            <a href="https://omnetpp.org/download/old.html" target="_blank" class="text-cyan-400 hover:underline font-semibold">Download OMNeT++ 6.3.0</a> 
+            and unpack it as <code class="text-cyan-400">/home/user/omnetpp-6.3.0</code>.
+          </p>
+          <div class="bg-slate-900/50 border border-slate-700 rounded-lg p-4 mb-4">
+            <p class="font-semibold text-cyan-300 mb-2">📝 Note:</p>
+            <p class="text-slate-300 text-sm">
+              If you unpack OMNeT++ to a different folder, make sure it contains no spaces.
+            </p>
+          </div>
+          <p class="text-slate-300 mb-4">
+            On Linux and Mac, the <a href="https://doc.omnetpp.org/omnetpp/InstallGuide.pdf" target="_blank" class="text-cyan-400 hover:underline">OMNeT++ install guide</a> 
+            has many helpful hints on pre- and post-configuration of your system.
+          </p>
+        </div>
+
+        <div class="step-box p-6 rounded-lg mb-6">
+          <p class="text-lg mb-4 font-semibold">Build OMNeT++ 6.3.0 by running:</p>
+          <pre class="p-4 rounded-lg overflow-x-auto mb-4"><code class="text-sm text-cyan-300">cd ~/omnetpp-6.3.0
+./configure</code></pre>
+          <p class="text-slate-300 mb-4">
+            (making sure to examine the summary for potential errors) followed by
+          </p>
+          <pre class="p-4 rounded-lg overflow-x-auto mb-4"><code class="text-sm text-cyan-300">make</code></pre>
+          <p class="text-slate-300 mb-4">
+            to start the build process. If all went well, this will result in <code class="text-cyan-400">/home/user/omnetpp-6.3.0/bin/omnetpp</code> being built. Run
+          </p>
+          <pre class="p-4 rounded-lg overflow-x-auto"><code class="text-sm text-cyan-300">omnetpp</code></pre>
+          <p class="text-slate-300 mt-4">
+            to launch the OMNeT++ 6.3.0 IDE. This tutorial will assume that you picked <code class="text-cyan-400">/home/user/omnetpp-6.3.0/samples</code> as your workspace.
+          </p>
+        </div>
+      </div>
+
+      <hr class="border-slate-700 my-12">
+
+      <!-- Step 2: INET4 -->
+      <div id="step2" class="mb-16">
+        <h2 class="text-4xl font-bold mb-6 flex items-center gap-3">
+          <span class="bg-cyan-600 text-white w-12 h-12 rounded-full flex items-center justify-center text-xl font-bold">2</span>
+          Download and build INET4 4.5.4
+        </h2>
+        
+        <div class="step-box p-6 rounded-lg mb-6">
+          <p class="text-lg mb-4">
+            The easiest way to install INET4 is from the OMNeT++ IDE wizard:
+          </p>
+          <ol class="list-decimal list-inside space-y-3 text-slate-200 ml-4">
+            <li>In the OMNeT++ IDE, go to <code class="text-cyan-400">Help → Install Simulation Models</code></li>
+            <li>Click on <code class="text-cyan-400">INET Framework 4</code> and let the default path</li>
+            <li>Click <code class="text-cyan-400">Install Project</code></li>
+          </ol>
+        </div>
+
+        <div class="step-box p-6 rounded-lg">
+          <p class="text-slate-300">
+            After the installation is complete, you can run a tutorial, example or showcase provided by INET to verify that everything is working correctly.
+          </p>
+        </div>
+      </div>
+
+      <hr class="border-slate-700 my-12">
+
+      <!-- Step 3: Simcan2Fog -->
+      <div id="step3" class="mb-16">
+        <h2 class="text-4xl font-bold mb-6 flex items-center gap-3">
+          <span class="bg-cyan-600 text-white w-12 h-12 rounded-full flex items-center justify-center text-xl font-bold">3</span>
+          Download and build the Simcan2Fog module framework
+        </h2>
+        
+        <div class="step-box p-6 rounded-lg mb-6">
+          <p class="text-lg mb-4">
+            <a href="https://github.com/UlyssesDeAguilar/Simcan2Fog/releases" target="_blank" class="text-cyan-400 hover:underline font-semibold">Download Simcan2Fog 1.2.0</a> 
+            and unpack it as <code class="text-cyan-400">/home/user/omnetpp-6.3.0/Simcan2Fog</code>. 
+            Import the project into your OMNeT++ IDE workspace by clicking <em>File → Import → General: Existing Projects into Workspace</em> and selecting the directory you unpacked the module framework to.
+          </p>
+        </div>
+
+        <div class="step-box p-6 rounded-lg mb-6">
+          <p class="text-lg mb-4">
+            Build the newly imported project by choosing <em>Project → Build All</em> in the OMNeT++ IDE. After the project built, you are ready to run your first fog computing simulations.
+          </p>
+        </div>
+
+        <div class="step-box p-6 rounded-lg">
+          <p class="text-lg mb-4 font-semibold">Configure environment variables:</p>
+          <p class="text-slate-300 mb-4">
+            Add the following lines to your <code class="text-cyan-400">~/.bashrc</code> (or shell equivalent):
+          </p>
+          <pre class="p-4 rounded-lg overflow-x-auto"><code class="text-sm text-cyan-300"># Load OMNeT++, INET4, and Simcan2Fog environment variables
+[ -f "$HOME/omnetpp-6.3.0/setenv" ] && source "$HOME/omnetpp-6.3.0/setenv" -q
+[ -f "$HOME/omnetpp-6.3.0/inet4.5/setenv" ] && source "$HOME/omnetpp-6.3.0/inet4.5/setenv" -q
+[ -f "$HOME/omnetpp-6.3.0/Simcan2Fog/setenv" ] && source "$HOME/omnetpp-6.3.0/Simcan2Fog/setenv" -q</code></pre>
+          <p class="text-slate-300 mt-4">
+            Then reload your shell configuration by running <code class="text-cyan-400">source ~/.bashrc</code>.
+          </p>
+        </div>
+      </div>
+
+      <hr class="border-slate-700 my-12">
+
+      <!-- Final Step: Run -->
+      <div id="finish" class="mb-16">
+        <h2 class="text-4xl font-bold mb-6 flex items-center gap-3">
+          <span class="bg-green-600 text-white w-14 h-14 rounded-full flex items-center justify-center text-2xl font-bold">✓</span>
+          Final step: Run the Simcan2Fog demo scenario
+        </h2>
+        
+        <div class="step-box p-6 rounded-lg mb-6">
+          <p class="text-lg mb-4">
+            In the OMNeT++ IDE, simulate the Simcan2Fog smart home demo scenario by right-clicking on 
+            <code class="text-cyan-400">Simcan2Fog/showcases/iot/omnetpp.ini</code> and choosing 
+            <em>Run As → OMNeT++ simulation</em>.
+          </p>
+          <p class="text-slate-300 mb-4">
+            Similar to the last example, this should create and start a launch configuration. You can later re-launch this configuration by clicking the green <em>Run</em> button in the OMNeT++ IDE.
+          </p>
+        </div>
+
+        <div class="bg-green-950/30 border-l-4 border-green-500 p-6 rounded-r-xl mb-8">
+          <p class="text-slate-200 leading-relaxed">
+            If everything worked as intended, this will give you a working simulation scenario using OMNeT++ and INET running in parallel to simulate a smart home environment with sensors, actuators, and fog nodes processing IoT data.
+          </p>
+        </div>
+
+        <div class="step-box p-6 rounded-lg mb-6">
+          <p class="text-lg mb-4 font-semibold">Understanding the simulation:</p>
+          <p class="text-slate-300 mb-4">
+            If you ran a debug build of the simulation (e.g., by choosing <em>Debug as</em> instead of <em>Run as</em> when launching the simulation), 
+            you will see a wealth of debug output in the log window. Note, however, that a simulation running in debug mode executes at lower speed.
+          </p>
+          <p class="text-slate-300">
+            The smart home scenario demonstrates how sensors collect data (brightness, temperature), controllers process the information locally, 
+            and fog nodes provide additional computational capacity when needed. The simulation shows the interaction between IoT devices, 
+            fog layer, and cloud data centres, allowing you to measure latency and resource usage metrics.
+          </p>
+        </div>
+
+        <div class="bg-slate-800/50 border border-slate-700 rounded-xl p-6">
+          <h3 class="text-2xl font-bold mb-4 text-cyan-300">Available Showcases:</h3>
+          <div class="space-y-4">
+            <div>
+              <h4 class="font-bold text-lg text-white mb-2">🏢 Datacentre</h4>
+              <p class="text-slate-300">Shows how users request cloud VMs, deploy services, and how local applications communicate with cloud services.</p>
+            </div>
+            <div>
+              <h4 class="font-bold text-lg text-white mb-2">🏠 IoT (Smart Home)</h4>
+              <p class="text-slate-300">Quick configuration and topology for IoT models. Models a complete smart house with sensors, actuators, and controllers.</p>
+            </div>
+            <div>
+              <h4 class="font-bold text-lg text-white mb-2">🔗 Proxy</h4>
+              <p class="text-slate-300">Explores the Proxy module, a key component of the framework. Includes optional DNS integration.</p>
+            </div>
+            <div>
+              <h4 class="font-bold text-lg text-white mb-2">📊 Statistics</h4>
+              <p class="text-slate-300">Demonstrates how to configure simulations for statistical and event capture. Generate sequence charts to visualize interactions.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <hr class="border-slate-700 my-12">
+
+      <!-- New Projects Section -->
+      <div id="newprojects" class="mb-16">
+        <h2 class="text-4xl font-bold mb-8">New Projects</h2>
+        
+        <p class="text-lg text-slate-300 mb-6 leading-relaxed">
+          While we recommend simply modifying the tutorial simulation to get started with using Simcan2Fog, pretty soon you might want to create a dedicated OMNeT++ project.
+        </p>
+        
+        <div class="step-box p-6 rounded-lg">
+          <p class="text-lg mb-4">
+            To create a new Simcan2Fog project:
+          </p>
+          <ol class="list-decimal list-inside space-y-3 text-slate-200 ml-4">
+            <li>In the OMNeT++ IDE, go to <code class="text-cyan-400">File → New → OMNeT++ Project</code></li>
+            <li>Name your project and select the workspace location</li>
+            <li>Right-click on your project → <code class="text-cyan-400">Properties → Project References</code></li>
+            <li>Check both <code class="text-cyan-400">inet4.5</code> and <code class="text-cyan-400">Simcan2Fog</code></li>
+            <li>Click <code class="text-cyan-400">Apply and Close</code></li>
+          </ol>
+          <p class="text-slate-300 mt-4">
+            Your new project can now use all the modules and functionality provided by Simcan2Fog and INET4.
+          </p>
+        </div>
+      </div>
+
+      <hr class="border-slate-700 my-12">
+
+      <!-- End Section -->
+      <div class="mb-16">
+        <h2 class="text-4xl font-bold mb-8">End</h2>
+        
+        <p class="text-lg text-slate-300 mb-6 leading-relaxed">
+          This concludes the mini-tutorial. In-depth information on how to use Simcan2Fog is available in the <a href="doc/documentation.html" class="text-cyan-400 hover:underline">documentation</a>, 
+          with configuration examples in the <a href="https://github.com/UlyssesDeAguilar/Simcan2Fog/tree/master/showcases" target="_blank" class="text-cyan-400 hover:underline">showcases folder</a>.
+        </p>
+
+        <div class="bg-slate-800/30 border border-slate-700 rounded-xl p-6">
+          <h3 class="text-xl font-bold mb-4 text-cyan-300">On this page:</h3>
+          <div class="grid md:grid-cols-2 gap-4 text-slate-300">
+            <a href="#step1" class="hover:text-cyan-400 transition">→ Install OMNeT++</a>
+            <a href="#step2" class="hover:text-cyan-400 transition">→ Install INET4</a>
+            <a href="#step3" class="hover:text-cyan-400 transition">→ Install Simcan2Fog</a>
+            <a href="#finish" class="hover:text-cyan-400 transition">→ Run Simcan2Fog</a>
+            <a href="#newprojects" class="hover:text-cyan-400 transition">→ New Projects</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Success Box -->
+      <div class="bg-gradient-to-r from-cyan-950/50 to-blue-950/50 border border-cyan-500/30 rounded-2xl p-8 text-center">
+        <h2 class="text-3xl font-bold mb-4">🎉 You're All Set!</h2>
+        <p class="text-xl text-slate-200 mb-6">
+          You've successfully installed Simcan2Fog and run your first simulation.
+        </p>
+        <p class="text-slate-300 mb-8">
+          Explore the showcases, modify the examples, and start building your own fog computing scenarios.
+        </p>
+        <div class="flex flex-wrap justify-center gap-4">
+          <a href="features.html" class="px-8 py-3 bg-gradient-to-r from-cyan-500 to-blue-600 rounded-xl font-bold hover:scale-105 transition">
+            Explore Features
+          </a>
+          <a href="doc/documentation.html" class="px-8 py-3 border-2 border-cyan-500 rounded-xl font-bold hover:bg-cyan-950/50 transition">
+            View Documentation
+          </a>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="bg-slate-950 border-t border-slate-800 py-12 text-slate-400 text-center">
+    <div class="max-w-7xl mx-auto px-6">
+      <p class="text-lg">© 2026 Simcan2Fog • Open Source Fog Computing Simulation Framework</p>
+      <p class="mt-2">Built with OMNeT++ 6.3.0 & INET 4.5.4 • Licensed under GPL-3.0</p>
+      <div class="mt-8 flex justify-center gap-12 text-sm">
+        <a href="https://github.com/UlyssesDeAguilar/Simcan2Fog" class="hover:text-cyan-400">GitHub</a>
+        <a href="https://ulyssesdeaguilar.github.io/s2f-ned-docs/" class="hover:text-cyan-400">Documentation</a>
+        <a href="https://github.com/UlyssesDeAguilar/Simcan2Fog/releases" class="hover:text-cyan-400">Releases</a>
+        <a href="https://www.sciencedirect.com/science/article/pii/S2352711025003905" class="hover:text-cyan-400">Paper</a>
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>
