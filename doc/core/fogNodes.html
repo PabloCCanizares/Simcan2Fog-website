@@ -1,0 +1,641 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Fog Nodes - Simcan2Fog Documentation</title>
+  <meta name="description" content="Complete guide to Fog Nodes in Simcan2Fog framework"/>
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: { extend: { colors: { primary: '#0ea5e9', neon: '#22d3ee', bgDark: '#0f172a' } } }
+    }
+  </script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Inter', system-ui, sans-serif; }
+    code, pre { font-family: 'JetBrains Mono', monospace; }
+    .custom-scrollbar::-webkit-scrollbar { width: 6px; height: 6px; }
+    .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
+    .custom-scrollbar::-webkit-scrollbar-thumb { background: #334155; border-radius: 10px; }
+    .code-block { background: #1e293b; border: 1px solid #334155; }
+  </style>
+</head>
+<body class="bg-slate-950 text-slate-100 antialiased">
+
+  <div class="fixed w-full h-full top-0 left-0 -z-10 bg-gradient-to-b from-slate-900 via-slate-950 to-slate-900"></div>
+
+  <!-- NAVIGATION -->
+  <nav class="sticky top-0 z-50 w-full bg-slate-900/80 backdrop-blur-xl border-b border-slate-700/40">
+    <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+      <div class="flex items-center gap-3">
+        <div class="w-11 h-11 rounded-xl bg-gradient-to-br from-cyan-500 to-blue-600 flex items-center justify-center font-bold text-white text-2xl shadow-lg">S2F</div>
+        <span class="text-2xl font-semibold tracking-tight">Simcan2Fog</span>
+      </div>
+
+      <div class="hidden md:flex gap-8 font-medium">
+        <a href="../../index.html" class="hover:text-cyan-300 transition-colors">Home</a>
+        <a href="../../features.html" class="hover:text-cyan-300 transition-colors">Features</a>
+        <a href="../../tutorial.html" class="hover:text-cyan-300 transition-colors">Tutorial</a>
+        <a href="../documentation.html" class="text-cyan-300">Documentation</a>
+        <a href="../../publications.html" class="hover:text-cyan-300 transition-colors">Publications</a>
+      </div>
+    </div>
+  </nav>
+
+  <div class="max-w-[1440px] mx-auto flex">
+
+    <!-- SIDEBAR -->
+    <aside class="hidden lg:block w-72 h-[calc(100vh-76px)] sticky top-[76px] border-r border-slate-800 p-6 overflow-y-auto custom-scrollbar">
+      <div class="flex flex-col gap-6">
+        <nav class="flex flex-col gap-6">
+          <section>
+            <h3 class="text-xs font-bold uppercase tracking-wider text-slate-400 mb-3 px-3">Core Concepts</h3>
+            <ul class="flex flex-col gap-1">
+              <li><a class="flex items-center gap-3 px-3 py-2 text-sm font-medium hover:bg-slate-800 rounded-lg transition" href="architecture.html"><span>🏗️</span>Architecture</a></li>
+              <li><a class="flex items-center gap-3 px-3 py-2 text-sm font-medium text-cyan-400 bg-cyan-500/10 rounded-lg border-l-2 border-cyan-500" href="#"><span>🌫️</span>Fog Nodes</a></li>
+              <li><a class="flex items-center gap-3 px-3 py-2 text-sm font-medium hover:bg-slate-800 rounded-lg transition" href="../documentation.html#iot-devices"><span>💡</span>IoT Devices</a></li>
+              <li><a class="flex items-center gap-3 px-3 py-2 text-sm font-medium hover:bg-slate-800 rounded-lg transition" href="messageQueue.html"><span>📨</span>Message Queue</a></li>
+            </ul>
+          </section>
+        </nav>
+
+        <div class="pt-6 border-t border-slate-800">
+          <a href="../documentation.html" class="text-sm text-slate-400 hover:text-cyan-400 transition flex items-center gap-2">
+            ← Back to Documentation
+          </a>
+        </div>
+      </div>
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <main class="flex-1 min-w-0 p-6 lg:p-12 overflow-hidden">
+      <div class="max-w-4xl mx-auto">
+
+        <!-- Breadcrumbs -->
+        <nav class="flex items-center gap-2 mb-8 text-sm text-slate-400 font-medium">
+          <a href="../../index.html" class="hover:text-cyan-400 transition-colors">Home</a>
+          <span>›</span>
+          <a href="../documentation.html" class="hover:text-cyan-400 transition-colors">Documentation</a>
+          <span>›</span>
+          <span class="text-slate-100">Fog Nodes</span>
+        </nav>
+
+        <!-- Page Header -->
+        <div class="mb-12 border-b border-slate-800 pb-8">
+          <div class="flex items-center gap-3 mb-4">
+            <div class="w-14 h-14 rounded-xl bg-gradient-to-br from-purple-500/20 to-blue-600/20 flex items-center justify-center text-3xl border border-purple-500/30">
+              🌫️
+            </div>
+            <div>
+              <h1 class="text-4xl md:text-5xl font-black tracking-tight">Fog Nodes</h1>
+              <p class="text-slate-400 mt-1">Distributed compute layer for edge-to-cloud orchestration</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- What are Fog Nodes? -->
+        <section class="mb-16">
+          <h2 class="text-3xl font-bold mb-6">What are Fog Nodes?</h2>
+
+          <div class="bg-slate-900/50 border border-slate-800 rounded-xl p-6 mb-6">
+            <p class="text-slate-300 leading-relaxed mb-4">
+              <strong class="text-white">Fog nodes</strong> are compute-capable devices positioned in the
+              <strong class="text-white">intermediate layer</strong> between IoT edge devices and centralized
+              cloud data centres. They form the core of the fog computing paradigm, bringing computational
+              power, storage, and networking closer to data sources.
+            </p>
+            <p class="text-slate-300 leading-relaxed">
+              In Simcan2Fog, fog nodes are modelled as full-fledged compute nodes with
+              <strong class="text-white">routing capabilities</strong>,
+              <strong class="text-white">virtualization support</strong>, and
+              <strong class="text-white">local storage</strong>, enabling them to process workloads
+              locally or forward them intelligently to other fog nodes or cloud data centres.
+            </p>
+          </div>
+
+          <div class="bg-blue-950/20 border-l-4 border-blue-500 rounded-r-xl p-6">
+            <p class="font-semibold text-blue-300 mb-2">💡 Key Concept</p>
+            <p class="text-slate-300">
+              Unlike traditional cloud computing where all processing happens in remote data centres,
+              fog nodes enable <strong class="text-white">distributed processing</strong> at the network edge.
+              This significantly reduces latency, conserves bandwidth, and enables real-time applications
+              that require immediate responses.
+            </p>
+          </div>
+        </section>
+
+        <!-- Fog Node Capabilities -->
+        <section class="mb-16">
+          <h2 class="text-3xl font-bold mb-6">Core Capabilities</h2>
+
+          <div class="space-y-6">
+
+            <!-- Routing -->
+            <div class="bg-slate-900/50 border border-slate-800 rounded-xl p-6">
+              <div class="flex items-start gap-3 mb-4">
+                <div class="w-10 h-10 rounded-lg bg-cyan-500/10 text-cyan-400 flex items-center justify-center flex-shrink-0 text-xl">
+                  🔀
+                </div>
+                <div class="flex-1">
+                  <h3 class="text-xl font-bold mb-2 text-cyan-400">Intelligent Routing</h3>
+                </div>
+              </div>
+
+              <p class="text-slate-300 mb-4">
+                Fog nodes act as network routers with full IP routing capabilities, forwarding traffic
+                between IoT devices, other fog nodes, and cloud infrastructure.
+              </p>
+
+              <ul class="space-y-2 text-slate-300">
+                <li>• <strong class="text-white">IPv4/IPv6 support:</strong> Full network stack via INET integration</li>
+                <li>• <strong class="text-white">Dynamic routing:</strong> Support for routing protocols and network topology changes</li>
+                <li>• <strong class="text-white">Multi-interface:</strong> Multiple network interfaces (Ethernet, Wi-Fi, cellular)</li>
+                <li>• <strong class="text-white">QoS management:</strong> Traffic prioritization for latency-sensitive applications</li>
+              </ul>
+            </div>
+
+            <!-- Virtualization -->
+            <div class="bg-slate-900/50 border border-slate-800 rounded-xl p-6">
+              <div class="flex items-start gap-3 mb-4">
+                <div class="w-10 h-10 rounded-lg bg-purple-500/10 text-purple-400 flex items-center justify-center flex-shrink-0 text-xl">
+                  📦
+                </div>
+                <div class="flex-1">
+                  <h3 class="text-xl font-bold mb-2 text-purple-400">Virtualization & Containerization</h3>
+                </div>
+              </div>
+
+              <p class="text-slate-300 mb-4">
+                Fog nodes can host virtual machines and containers, enabling flexible service deployment
+                closer to the edge.
+              </p>
+
+              <ul class="space-y-2 text-slate-300">
+                <li>• <strong class="text-white">VM hosting:</strong> Support for multiple VM types with configurable resources</li>
+                <li>• <strong class="text-white">Container simulation:</strong> Lightweight containerized application deployment</li>
+                <li>• <strong class="text-white">Resource isolation:</strong> CPU, memory, and storage allocation per service</li>
+                <li>• <strong class="text-white">Live migration:</strong> Service migration between fog nodes for load balancing</li>
+              </ul>
+            </div>
+
+            <!-- Storage -->
+            <div class="bg-slate-900/50 border border-slate-800 rounded-xl p-6">
+              <div class="flex items-start gap-3 mb-4">
+                <div class="w-10 h-10 rounded-lg bg-green-500/10 text-green-400 flex items-center justify-center flex-shrink-0 text-xl">
+                  💾
+                </div>
+                <div class="flex-1">
+                  <h3 class="text-xl font-bold mb-2 text-green-400">Local Storage</h3>
+                </div>
+              </div>
+
+              <p class="text-slate-300 mb-4">
+                Each fog node includes local storage capabilities for caching, temporary data storage,
+                and reducing dependency on cloud storage.
+              </p>
+
+              <ul class="space-y-2 text-slate-300">
+                <li>• <strong class="text-white">Data caching:</strong> Store frequently accessed data locally</li>
+                <li>• <strong class="text-white">Configurable capacity:</strong> Storage size and I/O throughput parameters</li>
+                <li>• <strong class="text-white">Bandwidth reduction:</strong> Minimize data transfer to/from cloud</li>
+                <li>• <strong class="text-white">Edge analytics:</strong> Process and store IoT data before cloud upload</li>
+              </ul>
+            </div>
+
+            <!-- Compute Power -->
+            <div class="bg-slate-900/50 border border-slate-800 rounded-xl p-6">
+              <div class="flex items-start gap-3 mb-4">
+                <div class="w-10 h-10 rounded-lg bg-orange-500/10 text-orange-400 flex items-center justify-center flex-shrink-0 text-xl">
+                  ⚡
+                </div>
+                <div class="flex-1">
+                  <h3 class="text-xl font-bold mb-2 text-orange-400">Computational Resources</h3>
+                </div>
+              </div>
+
+              <p class="text-slate-300 mb-4">
+                Fog nodes provide configurable computational capacity for processing edge workloads.
+              </p>
+
+              <ul class="space-y-2 text-slate-300">
+                <li>• <strong class="text-white">CPU cores:</strong> Multiple cores with configurable MIPS ratings</li>
+                <li>• <strong class="text-white">Memory:</strong> RAM capacity for running services and caching</li>
+                <li>• <strong class="text-white">Scheduling:</strong> CPU schedulers for VM/container resource management</li>
+                <li>• <strong class="text-white">Energy modelling:</strong> Power consumption simulation for energy-aware policies</li>
+              </ul>
+            </div>
+
+          </div>
+        </section>
+
+        <!-- Fog Node Architecture -->
+        <section class="mb-16">
+          <h2 class="text-3xl font-bold mb-6">Internal Architecture</h2>
+
+          <div class="mb-8 bg-slate-900 border-2 border-dashed border-slate-700 rounded-xl p-12 text-center">
+            <div class="flex flex-col items-center gap-4">
+              <div class="w-20 h-20 rounded-full bg-slate-800 flex items-center justify-center text-4xl">
+                🏗️
+              </div>
+              <div>
+                <p class="text-slate-400 font-semibold mb-1">Fog Node Internal Structure</p>
+                <p class="text-slate-500 text-sm">Components showing NetworkStack, Hypervisor, and resource management</p>
+              </div>
+            </div>
+          </div>
+
+          <p class="text-slate-300 mb-6">
+            A fog node in Simcan2Fog is composed of several internal modules:
+          </p>
+
+          <div class="space-y-4">
+
+            <div class="bg-slate-900/50 border-l-4 border-cyan-500 rounded-r-xl p-6">
+              <h4 class="font-bold text-white mb-2">Network Stack</h4>
+              <p class="text-slate-300 text-sm">
+                Full INET network stack with IP routing, TCP/UDP protocols, and multiple physical interfaces.
+                Includes <code class="text-cyan-400 bg-slate-800 px-2 py-1 rounded">QueueClient</code> for
+                Message Queue integration.
+              </p>
+            </div>
+
+            <div class="bg-slate-900/50 border-l-4 border-purple-500 rounded-r-xl p-6">
+              <h4 class="font-bold text-white mb-2">Hypervisor / Container Manager</h4>
+              <p class="text-slate-300 text-sm">
+                Manages VM and container lifecycle (creation, startup, execution, migration, shutdown).
+                Enforces resource allocation and isolation between services.
+              </p>
+            </div>
+
+            <div class="bg-slate-900/50 border-l-4 border-green-500 rounded-r-xl p-6">
+              <h4 class="font-bold text-white mb-2">Storage Manager</h4>
+              <p class="text-slate-300 text-sm">
+                Handles local storage operations, caching, and data persistence. Configurable with
+                capacity and I/O throughput parameters.
+              </p>
+            </div>
+
+            <div class="bg-slate-900/50 border-l-4 border-orange-500 rounded-r-xl p-6">
+              <h4 class="font-bold text-white mb-2">Resource Monitor</h4>
+              <p class="text-slate-300 text-sm">
+                Tracks current resource usage (CPU, memory, storage, network bandwidth) and reports
+                to orchestration layer for placement decisions.
+              </p>
+            </div>
+
+          </div>
+        </section>
+
+        <!-- Request Processing Flow -->
+        <section class="mb-16">
+          <h2 class="text-3xl font-bold mb-6">Request Processing Flow</h2>
+
+          <p class="text-slate-300 mb-6">
+            When a fog node receives a service deployment request from the IoT layer, it follows
+            this decision-making process:
+          </p>
+
+          <div class="space-y-4">
+
+            <div class="bg-slate-900/50 border-l-4 border-cyan-500 rounded-r-xl p-6">
+              <div class="flex items-start gap-3">
+                <div class="w-8 h-8 rounded-full bg-cyan-600 text-white flex items-center justify-center font-bold flex-shrink-0">1</div>
+                <div class="flex-1">
+                  <h4 class="font-bold text-white mb-2">Request Reception</h4>
+                  <p class="text-slate-300 text-sm">
+                    Fog node receives a deployment request via Message Queue or direct network communication.
+                    Request includes resource requirements (CPU, memory, storage) and application characteristics.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div class="bg-slate-900/50 border-l-4 border-cyan-500 rounded-r-xl p-6">
+              <div class="flex items-start gap-3">
+                <div class="w-8 h-8 rounded-full bg-cyan-600 text-white flex items-center justify-center font-bold flex-shrink-0">2</div>
+                <div class="flex-1">
+                  <h4 class="font-bold text-white mb-2">Local Capacity Check</h4>
+                  <p class="text-slate-300 text-sm">
+                    Node evaluates if it has sufficient available resources to handle the request locally.
+                    Checks current CPU usage, free memory, storage capacity, and network bandwidth.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div class="bg-slate-900/50 border-l-4 border-cyan-500 rounded-r-xl p-6">
+              <div class="flex items-start gap-3">
+                <div class="w-8 h-8 rounded-full bg-cyan-600 text-white flex items-center justify-center font-bold flex-shrink-0">3</div>
+                <div class="flex-1">
+                  <h4 class="font-bold text-white mb-2">Local Processing Decision</h4>
+                  <p class="text-slate-300 text-sm mb-2">
+                    <strong class="text-white">If resources available:</strong> Deploy service locally, create VM/container,
+                    and start application execution. This minimizes latency by processing at the edge.
+                  </p>
+                  <p class="text-slate-300 text-sm">
+                    <strong class="text-white">If insufficient resources:</strong> Proceed to step 4.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div class="bg-slate-900/50 border-l-4 border-cyan-500 rounded-r-xl p-6">
+              <div class="flex items-start gap-3">
+                <div class="w-8 h-8 rounded-full bg-cyan-600 text-white flex items-center justify-center font-bold flex-shrink-0">4</div>
+                <div class="flex-1">
+                  <h4 class="font-bold text-white mb-2">Fog Mesh Forwarding</h4>
+                  <p class="text-slate-300 text-sm">
+                    Node queries neighboring fog nodes in the mesh to find one with available capacity.
+                    Uses distributed coordination or centralized fog orchestrator to select target node.
+                    Forwards request to selected peer fog node.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div class="bg-slate-900/50 border-l-4 border-cyan-500 rounded-r-xl p-6">
+              <div class="flex items-start gap-3">
+                <div class="w-8 h-8 rounded-full bg-cyan-600 text-white flex items-center justify-center font-bold flex-shrink-0">5</div>
+                <div class="flex-1">
+                  <h4 class="font-bold text-white mb-2">Cloud Escalation</h4>
+                  <p class="text-slate-300 text-sm">
+                    If the entire fog layer is saturated, the request is escalated to the Cloud Provider layer.
+                    Cloud provider assigns request to appropriate data centre using placement policies
+                    (first-fit, best-fit, zone-aware, etc.).
+                  </p>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+          <div class="mt-6 bg-amber-950/20 border-l-4 border-amber-500 rounded-r-xl p-6">
+            <p class="font-semibold text-amber-300 mb-2">⚙️ Configurable Policies</p>
+            <p class="text-slate-300">
+              The decision logic at each step is configurable. Researchers can implement custom
+              placement strategies, cost-aware policies, energy-efficient algorithms, or latency-optimized
+              routing to study different fog computing scenarios.
+            </p>
+          </div>
+        </section>
+
+        <!-- Configuration Example -->
+        <section class="mb-16">
+          <h2 class="text-3xl font-bold mb-6">Configuration Example</h2>
+
+          <p class="text-slate-300 mb-6">
+            Here's how to configure a fog node in your <code class="bg-slate-800 px-2 py-1 rounded text-sm text-pink-400">omnetpp.ini</code> file:
+          </p>
+
+          <div class="code-block rounded-xl overflow-hidden shadow-2xl">
+            <div class="flex items-center justify-between px-4 py-3 bg-slate-800/50 border-b border-slate-700">
+              <span class="text-xs font-mono text-slate-400">omnetpp.ini</span>
+              <button onclick="copyCode()" class="flex items-center gap-2 text-xs text-slate-400 hover:text-white transition">
+                <span>📋</span> Copy
+              </button>
+            </div>
+            <pre class="p-6 text-sm font-mono overflow-x-auto custom-scrollbar" id="codeBlock"><span class="text-slate-500"># Fog Node Configuration</span>
+<span class="text-blue-400">*.fogNode[*].typename</span> = <span class="text-emerald-400">"FogNode"</span>
+
+<span class="text-slate-500"># Compute Resources</span>
+<span class="text-blue-400">*.fogNode[*].numCpuCores</span> = <span class="text-pink-400">8</span>
+<span class="text-blue-400">*.fogNode[*].cpuSpeed</span> = <span class="text-pink-400">480000</span> <span class="text-slate-500"># MIPS</span>
+<span class="text-blue-400">*.fogNode[*].memory</span> = <span class="text-emerald-400">"16GB"</span>
+
+<span class="text-slate-500"># Storage Configuration</span>
+<span class="text-blue-400">*.fogNode[*].storageCapacity</span> = <span class="text-emerald-400">"1TB"</span>
+<span class="text-blue-400">*.fogNode[*].storageIOSpeed</span> = <span class="text-pink-400">500</span> <span class="text-slate-500"># Mbps</span>
+
+<span class="text-slate-500"># Network Interfaces</span>
+<span class="text-blue-400">*.fogNode[*].numEthInterfaces</span> = <span class="text-pink-400">2</span>
+<span class="text-blue-400">*.fogNode[*].eth[*].bitrate</span> = <span class="text-pink-400">10</span><span class="text-emerald-400">Gbps</span>
+
+<span class="text-slate-500"># Virtualization Settings</span>
+<span class="text-blue-400">*.fogNode[*].hypervisor.typename</span> = <span class="text-emerald-400">"StandardHypervisor"</span>
+<span class="text-blue-400">*.fogNode[*].maxVMs</span> = <span class="text-pink-400">10</span>
+
+<span class="text-slate-500"># Placement Policy</span>
+<span class="text-blue-400">*.fogNode[*].placementPolicy</span> = <span class="text-emerald-400">"BestFit"</span> <span class="text-slate-500"># Options: FirstFit, BestFit, WorstFit</span>
+
+<span class="text-slate-500"># Energy Modelling (optional)</span>
+<span class="text-blue-400">*.fogNode[*].energyStorage.typename</span> = <span class="text-emerald-400">"SimpleEpEnergyStorage"</span>
+<span class="text-blue-400">*.fogNode[*].energyConsumption.typename</span> = <span class="text-emerald-400">"StateBasedEpEnergyConsumer"</span></pre>
+          </div>
+        </section>
+
+        <!-- Fog Mesh Topology -->
+        <section class="mb-16">
+          <h2 class="text-3xl font-bold mb-6">Fog Mesh Topology</h2>
+
+          <p class="text-slate-300 mb-6">
+            Fog nodes can be arranged in various topologies depending on the scenario:
+          </p>
+
+          <div class="grid md:grid-cols-2 gap-6">
+
+            <div class="bg-slate-900/50 border border-slate-800 rounded-xl p-6">
+              <h3 class="text-lg font-bold mb-3 text-cyan-400">🔗 Full Mesh</h3>
+              <p class="text-slate-300 text-sm mb-3">
+                Every fog node is directly connected to every other fog node. Provides maximum
+                redundancy and low latency between nodes, but requires more network links.
+              </p>
+              <p class="text-slate-400 text-xs">
+                <strong>Use case:</strong> Small deployments, critical infrastructure
+              </p>
+            </div>
+
+            <div class="bg-slate-900/50 border border-slate-800 rounded-xl p-6">
+              <h3 class="text-lg font-bold mb-3 text-cyan-400">🌳 Hierarchical</h3>
+              <p class="text-slate-300 text-sm mb-3">
+                Fog nodes organized in tiers (local, regional, backbone). Requests flow upward
+                through hierarchy until resources are found or reach cloud layer.
+              </p>
+              <p class="text-slate-400 text-xs">
+                <strong>Use case:</strong> Smart cities, wide-area deployments
+              </p>
+            </div>
+
+            <div class="bg-slate-900/50 border border-slate-800 rounded-xl p-6">
+              <h3 class="text-lg font-bold mb-3 text-cyan-400">⭐ Star</h3>
+              <p class="text-slate-300 text-sm mb-3">
+                Central fog node acts as hub, with edge fog nodes connected to it. Simplifies
+                routing and management, but creates single point of failure.
+              </p>
+              <p class="text-slate-400 text-xs">
+                <strong>Use case:</strong> Campus networks, enterprise deployments
+              </p>
+            </div>
+
+            <div class="bg-slate-900/50 border border-slate-800 rounded-xl p-6">
+              <h3 class="text-lg font-bold mb-3 text-cyan-400">🔄 Ring</h3>
+              <p class="text-slate-300 text-sm mb-3">
+                Fog nodes connected in circular topology. Provides redundancy with limited links,
+                supports failover by routing in opposite direction.
+              </p>
+              <p class="text-slate-400 text-xs">
+                <strong>Use case:</strong> Industrial control systems, resilient networks
+              </p>
+            </div>
+
+          </div>
+        </section>
+
+        <!-- Benefits -->
+        <section class="mb-16">
+          <h2 class="text-3xl font-bold mb-6">Benefits of Fog Nodes</h2>
+
+          <div class="grid md:grid-cols-2 gap-6">
+
+            <div class="bg-slate-900/50 border border-slate-800 rounded-xl p-6">
+              <h3 class="text-lg font-bold mb-3 text-cyan-400">⚡ Reduced Latency</h3>
+              <p class="text-slate-300 text-sm">
+                Processing data at the edge dramatically reduces round-trip time compared to sending
+                all data to distant cloud data centres. Essential for real-time applications.
+              </p>
+            </div>
+
+            <div class="bg-slate-900/50 border border-slate-800 rounded-xl p-6">
+              <h3 class="text-lg font-bold mb-3 text-cyan-400">📉 Bandwidth Optimization</h3>
+              <p class="text-slate-300 text-sm">
+                Local processing and caching reduces the volume of data transmitted over WAN links,
+                lowering costs and alleviating network congestion.
+              </p>
+            </div>
+
+            <div class="bg-slate-900/50 border border-slate-800 rounded-xl p-6">
+              <h3 class="text-lg font-bold mb-3 text-cyan-400">🔒 Privacy & Security</h3>
+              <p class="text-slate-300 text-sm">
+                Sensitive data can be processed locally without leaving the edge, improving privacy
+                and compliance with data sovereignty regulations.
+              </p>
+            </div>
+
+            <div class="bg-slate-900/50 border border-slate-800 rounded-xl p-6">
+              <h3 class="text-lg font-bold mb-3 text-cyan-400">🌐 Offline Operation</h3>
+              <p class="text-slate-300 text-sm">
+                Fog nodes can continue operating even when cloud connectivity is lost, ensuring
+                service continuity for critical applications.
+              </p>
+            </div>
+
+            <div class="bg-slate-900/50 border border-slate-800 rounded-xl p-6">
+              <h3 class="text-lg font-bold mb-3 text-cyan-400">📊 Scalability</h3>
+              <p class="text-slate-300 text-sm">
+                Adding more fog nodes scales capacity horizontally, distributing load across
+                multiple locations instead of overloading centralized cloud.
+              </p>
+            </div>
+
+            <div class="bg-slate-900/50 border border-slate-800 rounded-xl p-6">
+              <h3 class="text-lg font-bold mb-3 text-cyan-400">💡 Context Awareness</h3>
+              <p class="text-slate-300 text-sm">
+                Proximity to edge devices enables fog nodes to make location-aware and context-aware
+                processing decisions for better service quality.
+              </p>
+            </div>
+
+          </div>
+        </section>
+
+        <!-- Ready-to-Run Examples -->
+        <section class="mb-16">
+          <h2 class="text-3xl font-bold mb-6">Ready-to-Run Examples</h2>
+          <p class="text-slate-400 mb-6">
+            Simcan2Fog includes several showcase scenarios in the <code class="bg-slate-800 px-2 py-1 rounded text-sm text-cyan-400">showcases/</code> directory:
+          </p>
+
+          <div class="grid md:grid-cols-2 gap-6">
+            <div class="bg-slate-900/50 border border-slate-800 rounded-xl p-6 hover:border-cyan-500/50 transition">
+              <h3 class="text-lg font-bold mb-2">🏠 Smart Home (IoT)</h3>
+              <p class="text-sm text-slate-400 mb-3">
+                Complete smart house with sensors, actuators, and fog gateways. Demonstrates IoT data collection and processing.
+              </p>
+              <code class="text-xs text-cyan-400">showcases/iot/</code>
+            </div>
+
+            <div class="bg-slate-900/50 border border-slate-800 rounded-xl p-6 hover:border-cyan-500/50 transition">
+              <h3 class="text-lg font-bold mb-2">🏢 Data Centre</h3>
+              <p class="text-sm text-slate-400 mb-3">
+                VM provisioning, service deployment, and cloud-to-edge communication patterns.
+              </p>
+              <code class="text-xs text-cyan-400">showcases/Datacentre/</code>
+            </div>
+
+            <div class="bg-slate-900/50 border border-slate-800 rounded-xl p-6 hover:border-cyan-500/50 transition">
+              <h3 class="text-lg font-bold mb-2">🔗 Proxy & DNS</h3>
+              <p class="text-sm text-slate-400 mb-3">
+                Demonstrates proxy module functionality with optional DNS integration for service discovery.
+              </p>
+              <code class="text-xs text-cyan-400">showcases/Proxy/</code>
+            </div>
+
+            <div class="bg-slate-900/50 border border-slate-800 rounded-xl p-6 hover:border-cyan-500/50 transition">
+              <h3 class="text-lg font-bold mb-2">📊 Statistics</h3>
+              <p class="text-sm text-slate-400 mb-3">
+                Statistical capture, event recording, and sequence diagram generation for analysis.
+              </p>
+              <code class="text-xs text-cyan-400">showcases/Statistics/</code>
+            </div>
+          </div>
+        </section>
+
+        <!-- Reference -->
+        <section class="p-8 rounded-2xl bg-cyan-500/5 border border-cyan-500/20 mb-16">
+          <div class="flex gap-6">
+            <div class="hidden sm:flex shrink-0 w-12 h-12 items-center justify-center rounded-full bg-cyan-500 text-white text-2xl">
+              📚
+            </div>
+            <div>
+              <h3 class="text-2xl font-bold mb-3">Learn More</h3>
+              <p class="text-slate-400 mb-6 leading-relaxed">
+                Explore the complete Simcan2Fog architecture, including how fog nodes interact with
+                IoT devices, cloud providers, and data centres.
+              </p>
+              <div class="flex flex-wrap gap-4">
+                <a href="architecture.html" class="inline-flex items-center gap-2 font-bold text-cyan-400 hover:text-cyan-300 transition">
+                  Architecture Overview →
+                </a>
+                <a href="messageQueue.html" class="inline-flex items-center gap-2 font-bold text-cyan-400 hover:text-cyan-300 transition">
+                  Message Queue →
+                </a>
+                <a href="../../tutorial.html" class="inline-flex items-center gap-2 font-bold text-cyan-400 hover:text-cyan-300 transition">
+                  Get Started →
+                </a>
+              </div>
+            </div>
+          </div>
+        </section>
+
+      </div>
+    </main>
+
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="bg-slate-950 border-t border-slate-800 py-12 text-slate-400 text-center">
+    <div class="max-w-7xl mx-auto px-6">
+      <p class="text-lg">© 2026 Simcan2Fog • Open Source Fog Computing Simulation Framework</p>
+      <p class="mt-2">Built with OMNeT++ 6.3.0 & INET 4.5.4 • Licensed under GPL-3.0</p>
+      <div class="mt-8 flex justify-center gap-12 text-sm">
+        <a href="https://github.com/UlyssesDeAguilar/Simcan2Fog" class="hover:text-cyan-400">GitHub</a>
+        <a href="https://ulyssesdeaguilar.github.io/s2f-ned-docs/" class="hover:text-cyan-400">Documentation</a>
+        <a href="https://github.com/UlyssesDeAguilar/Simcan2Fog/releases" class="hover:text-cyan-400">Releases</a>
+        <a href="https://www.sciencedirect.com/science/article/pii/S2352711025003905" class="hover:text-cyan-400">Paper</a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    function copyCode() {
+      const code = document.getElementById('codeBlock').textContent;
+      navigator.clipboard.writeText(code).then(() => {
+        alert('Code copied to clipboard!');
+      });
+    }
+  </script>
+
+</body>
+</html>

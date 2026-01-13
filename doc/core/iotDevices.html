@@ -1,0 +1,695 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>IoT Devices - Simcan2Fog Documentation</title>
+  <meta name="description" content="Complete guide to IoT devices: sensors, actuators and controllers in Simcan2Fog"/>
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: { extend: { colors: { primary: '#0ea5e9', neon: '#22d3ee', bgDark: '#0f172a' } } }
+    }
+  </script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Inter', system-ui, sans-serif; }
+    code, pre { font-family: 'JetBrains Mono', monospace; }
+    .custom-scrollbar::-webkit-scrollbar { width: 6px; height: 6px; }
+    .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
+    .custom-scrollbar::-webkit-scrollbar-thumb { background: #334155; border-radius: 10px; }
+    .code-block { background: #1e293b; border: 1px solid #334155; }
+  </style>
+</head>
+<body class="bg-slate-950 text-slate-100 antialiased">
+
+  <div class="fixed w-full h-full top-0 left-0 -z-10 bg-gradient-to-b from-slate-900 via-slate-950 to-slate-900"></div>
+
+  <!-- NAVIGATION -->
+  <nav class="sticky top-0 z-50 w-full bg-slate-900/80 backdrop-blur-xl border-b border-slate-700/40">
+    <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+      <div class="flex items-center gap-3">
+        <div class="w-11 h-11 rounded-xl bg-gradient-to-br from-cyan-500 to-blue-600 flex items-center justify-center font-bold text-white text-2xl shadow-lg">S2F</div>
+        <span class="text-2xl font-semibold tracking-tight">Simcan2Fog</span>
+      </div>
+
+      <div class="hidden md:flex gap-8 font-medium">
+        <a href="../../index.html" class="hover:text-cyan-300 transition-colors">Home</a>
+        <a href="../../features.html" class="hover:text-cyan-300 transition-colors">Features</a>
+        <a href="../../tutorial.html" class="hover:text-cyan-300 transition-colors">Tutorial</a>
+        <a href="../documentation.html" class="text-cyan-300">Documentation</a>
+        <a href="../../publications.html" class="hover:text-cyan-300 transition-colors">Publications</a>
+      </div>
+    </div>
+  </nav>
+
+  <div class="max-w-[1440px] mx-auto flex">
+
+    <!-- SIDEBAR -->
+    <aside class="hidden lg:block w-72 h-[calc(100vh-76px)] sticky top-[76px] border-r border-slate-800 p-6 overflow-y-auto custom-scrollbar">
+      <div class="flex flex-col gap-6">
+        <nav class="flex flex-col gap-6">
+          <section>
+            <h3 class="text-xs font-bold uppercase tracking-wider text-slate-400 mb-3 px-3">Core Concepts</h3>
+            <ul class="flex flex-col gap-1">
+              <li><a class="flex items-center gap-3 px-3 py-2 text-sm font-medium hover:bg-slate-800 rounded-lg transition" href="architecture.html"><span>🏗️</span>Architecture</a></li>
+              <li><a class="flex items-center gap-3 px-3 py-2 text-sm font-medium hover:bg-slate-800 rounded-lg transition" href="fogNodes.html"><span>🌫️</span>Fog Nodes</a></li>
+              <li><a class="flex items-center gap-3 px-3 py-2 text-sm font-medium text-cyan-400 bg-cyan-500/10 rounded-lg border-l-2 border-cyan-500" href="#"><span>💡</span>IoT Devices</a></li>
+              <li><a class="flex items-center gap-3 px-3 py-2 text-sm font-medium hover:bg-slate-800 rounded-lg transition" href="messageQueue.html"><span>📨</span>Message Queue</a></li>
+            </ul>
+          </section>
+        </nav>
+
+        <div class="pt-6 border-t border-slate-800">
+          <a href="../documentation.html" class="text-sm text-slate-400 hover:text-cyan-400 transition flex items-center gap-2">
+            ← Back to Documentation
+          </a>
+        </div>
+      </div>
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <main class="flex-1 min-w-0 p-6 lg:p-12 overflow-hidden">
+      <div class="max-w-4xl mx-auto">
+
+        <!-- Breadcrumbs -->
+        <nav class="flex items-center gap-2 mb-8 text-sm text-slate-400 font-medium">
+          <a href="../../index.html" class="hover:text-cyan-400 transition-colors">Home</a>
+          <span>›</span>
+          <a href="../documentation.html" class="hover:text-cyan-400 transition-colors">Documentation</a>
+          <span>›</span>
+          <span class="text-slate-100">IoT Devices</span>
+        </nav>
+
+        <!-- Page Header -->
+        <div class="mb-12 border-b border-slate-800 pb-8">
+          <div class="flex items-center gap-3 mb-4">
+            <div class="w-14 h-14 rounded-xl bg-gradient-to-br from-orange-500/20 to-yellow-600/20 flex items-center justify-center text-3xl border border-orange-500/30">
+              💡
+            </div>
+            <div>
+              <h1 class="text-4xl md:text-5xl font-black tracking-tight">IoT Devices</h1>
+              <p class="text-slate-400 mt-1">Sensors, actuators and controllers for edge environments</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Overview -->
+        <section class="mb-16">
+          <h2 class="text-3xl font-bold mb-6">Overview</h2>
+
+          <div class="bg-slate-900/50 border border-slate-800 rounded-xl p-6 mb-6">
+            <p class="text-slate-300 leading-relaxed mb-4">
+              To accelerate the composition of IoT scenarios, Simcan2Fog provides
+              <strong class="text-white">pre-configured modules</strong> that represent typical entities
+              found in IoT environments. These include <strong class="text-white">sensors</strong> for
+              acquiring environmental measurements, <strong class="text-white">actuators</strong> for
+              performing physical actions, and <strong class="text-white">controllers</strong> for
+              coordinating edge operations.
+            </p>
+            <p class="text-slate-300 leading-relaxed">
+              All IoT device models are fully parameterizable, allowing researchers to customize their
+              behavior, sampling rates, consumption patterns, and hardware specifications to match
+              real-world devices or experimental requirements.
+            </p>
+          </div>
+
+          <div class="bg-blue-950/20 border-l-4 border-blue-500 rounded-r-xl p-6">
+            <p class="font-semibold text-blue-300 mb-2">💡 Key Principle</p>
+            <p class="text-slate-300">
+              IoT devices form the <strong class="text-white">foundation layer</strong> of the fog
+              computing hierarchy. They generate data at the edge, process simple operations locally
+              via controllers, and can request fog or cloud resources for intensive computations.
+            </p>
+          </div>
+        </section>
+
+        <!-- Sensors -->
+        <section class="mb-16">
+          <h2 class="text-3xl font-bold mb-6">Sensors</h2>
+
+          <div class="bg-slate-900/50 border border-slate-800 rounded-xl p-6 mb-6">
+            <p class="text-slate-300 leading-relaxed mb-4">
+              Sensors are one of the most important elements in IoT environments. Their role consists
+              of acquiring measurements from the environment in which they are located. Simcan2Fog
+              includes sensors from different categories, all of which can be included in the
+              environments defined by the platform.
+            </p>
+          </div>
+
+          <!-- Sensor Types -->
+          <h3 class="text-2xl font-bold mb-4 text-cyan-400">Available Sensor Types</h3>
+
+          <div class="grid md:grid-cols-2 gap-6 mb-8">
+
+            <!-- Temperature Sensor -->
+            <div class="bg-slate-900/50 border border-slate-800 rounded-xl p-6">
+              <div class="flex items-start gap-3 mb-3">
+                <div class="w-10 h-10 rounded-lg bg-red-500/10 text-red-400 flex items-center justify-center flex-shrink-0 text-xl">
+                  🌡️
+                </div>
+                <div class="flex-1">
+                  <h4 class="text-lg font-bold mb-1 text-white">Temperature Sensor</h4>
+                  <p class="text-xs text-slate-400">tag: <code class="text-cyan-400">temp</code></p>
+                </div>
+              </div>
+              <ul class="text-slate-300 text-sm space-y-1">
+                <li>• <strong>Distribution:</strong> uniform(20,25)</li>
+                <li>• <strong>Update period:</strong> 10s</li>
+                <li>• <strong>Unit:</strong> degrees celsius (°C)</li>
+              </ul>
+            </div>
+
+            <!-- Humidity Sensor -->
+            <div class="bg-slate-900/50 border border-slate-800 rounded-xl p-6">
+              <div class="flex items-start gap-3 mb-3">
+                <div class="w-10 h-10 rounded-lg bg-blue-500/10 text-blue-400 flex items-center justify-center flex-shrink-0 text-xl">
+                  💧
+                </div>
+                <div class="flex-1">
+                  <h4 class="text-lg font-bold mb-1 text-white">Humidity Sensor</h4>
+                  <p class="text-xs text-slate-400">tag: <code class="text-cyan-400">humidity</code></p>
+                </div>
+              </div>
+              <ul class="text-slate-300 text-sm space-y-1">
+                <li>• <strong>Distribution:</strong> uniform(30,100)</li>
+                <li>• <strong>Update period:</strong> 10s</li>
+                <li>• <strong>Unit:</strong> relative humidity (%)</li>
+              </ul>
+            </div>
+
+            <!-- Luminosity Sensor -->
+            <div class="bg-slate-900/50 border border-slate-800 rounded-xl p-6">
+              <div class="flex items-start gap-3 mb-3">
+                <div class="w-10 h-10 rounded-lg bg-yellow-500/10 text-yellow-400 flex items-center justify-center flex-shrink-0 text-xl">
+                  ☀️
+                </div>
+                <div class="flex-1">
+                  <h4 class="text-lg font-bold mb-1 text-white">Luminosity Sensor</h4>
+                  <p class="text-xs text-slate-400">tag: <code class="text-cyan-400">luminosity</code></p>
+                </div>
+              </div>
+              <ul class="text-slate-300 text-sm space-y-1">
+                <li>• <strong>Distribution:</strong> uniform(400,100000)</li>
+                <li>• <strong>Update period:</strong> 10s</li>
+                <li>• <strong>Unit:</strong> lumen</li>
+              </ul>
+            </div>
+
+            <!-- Wearable Sensor -->
+            <div class="bg-slate-900/50 border border-slate-800 rounded-xl p-6">
+              <div class="flex items-start gap-3 mb-3">
+                <div class="w-10 h-10 rounded-lg bg-pink-500/10 text-pink-400 flex items-center justify-center flex-shrink-0 text-xl">
+                  ⌚
+                </div>
+                <div class="flex-1">
+                  <h4 class="text-lg font-bold mb-1 text-white">Wearable Sensor</h4>
+                  <p class="text-xs text-slate-400">tag: <code class="text-cyan-400">heart-beat</code></p>
+                </div>
+              </div>
+              <ul class="text-slate-300 text-sm space-y-1">
+                <li>• <strong>Distribution:</strong> normal(65,10)</li>
+                <li>• <strong>Update period:</strong> 10s</li>
+                <li>• <strong>Unit:</strong> beats per minute (bpm)</li>
+              </ul>
+              <p class="text-slate-400 text-xs mt-3">
+                Pre-configured as a smart watch that measures heart rate
+              </p>
+            </div>
+
+            <!-- IP Camera -->
+            <div class="bg-slate-900/50 border border-slate-800 rounded-xl p-6">
+              <div class="flex items-start gap-3 mb-3">
+                <div class="w-10 h-10 rounded-lg bg-purple-500/10 text-purple-400 flex items-center justify-center flex-shrink-0 text-xl">
+                  📹
+                </div>
+                <div class="flex-1">
+                  <h4 class="text-lg font-bold mb-1 text-white">IP Camera</h4>
+                  <p class="text-xs text-slate-400">tag: <code class="text-cyan-400">video</code></p>
+                </div>
+              </div>
+              <ul class="text-slate-300 text-sm space-y-1">
+                <li>• <strong>Distribution:</strong> constant(3)</li>
+                <li>• <strong>Update period:</strong> 1s</li>
+                <li>• <strong>Unit:</strong> megabytes (MB)</li>
+              </ul>
+            </div>
+
+          </div>
+
+          <!-- Sensor Parameters -->
+          <h3 class="text-2xl font-bold mb-4 text-cyan-400">Sensor Configuration Parameters</h3>
+
+          <div class="bg-slate-900/50 border border-slate-800 rounded-xl overflow-hidden mb-6">
+            <table class="w-full text-sm">
+              <thead class="bg-slate-800/50 border-b border-slate-700">
+                <tr>
+                  <th class="px-4 py-3 text-left font-bold text-cyan-400">Parameter</th>
+                  <th class="px-4 py-3 text-left font-bold text-cyan-400">Expected Value</th>
+                  <th class="px-4 py-3 text-left font-bold text-cyan-400">Unit</th>
+                  <th class="px-4 py-3 text-left font-bold text-cyan-400">Description</th>
+                </tr>
+              </thead>
+              <tbody class="text-slate-300">
+                <tr class="border-b border-slate-800">
+                  <td class="px-4 py-3"><code class="text-pink-400">tag</code></td>
+                  <td class="px-4 py-3">String</td>
+                  <td class="px-4 py-3">-</td>
+                  <td class="px-4 py-3">Label identifying the data type</td>
+                </tr>
+                <tr class="border-b border-slate-800">
+                  <td class="px-4 py-3"><code class="text-pink-400">distribution</code></td>
+                  <td class="px-4 py-3">Distribution</td>
+                  <td class="px-4 py-3">-</td>
+                  <td class="px-4 py-3">Statistical distribution for sensor values</td>
+                </tr>
+                <tr class="border-b border-slate-800">
+                  <td class="px-4 py-3"><code class="text-pink-400">updatePeriod</code></td>
+                  <td class="px-4 py-3">Integer</td>
+                  <td class="px-4 py-3">seconds</td>
+                  <td class="px-4 py-3">Interval between measurements</td>
+                </tr>
+                <tr>
+                  <td class="px-4 py-3"><code class="text-pink-400">unit</code></td>
+                  <td class="px-4 py-3">Unit</td>
+                  <td class="px-4 py-3">-</td>
+                  <td class="px-4 py-3">Unit of measurement for the data</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="bg-amber-950/20 border-l-4 border-amber-500 rounded-r-xl p-6">
+            <p class="font-semibold text-amber-300 mb-2">⚙️ Customization</p>
+            <p class="text-slate-300">
+              The behavior of all provided sensors can be modified by changing these configuration
+              parameters. This allows you to model custom sensors or adjust existing ones to match
+              specific experimental requirements or real-world device specifications.
+            </p>
+          </div>
+        </section>
+
+        <!-- Actuators -->
+        <section class="mb-16">
+          <h2 class="text-3xl font-bold mb-6">Actuators</h2>
+
+          <div class="bg-slate-900/50 border border-slate-800 rounded-xl p-6 mb-6">
+            <p class="text-slate-300 leading-relaxed mb-4">
+              Another key element in IoT environments are <strong class="text-white">actuators</strong>,
+              whose objective is to perform actions in the environment. Simcan2Fog includes two types
+              of actuators that can be incorporated into designed environments: automatic irrigation
+              systems and smart bulbs.
+            </p>
+            <p class="text-slate-300 leading-relaxed">
+              Both actuator models have <code class="text-cyan-400 bg-slate-800 px-2 py-1 rounded">ON</code> and
+              <code class="text-cyan-400 bg-slate-800 px-2 py-1 rounded">OFF</code> states that are
+              reflected in the simulator's graphical interface. The base model records the time between
+              each power-on and power-off event, which can be retrieved using OMNeT++ tools for
+              statistical analysis.
+            </p>
+          </div>
+
+          <!-- Actuator Types -->
+          <h3 class="text-2xl font-bold mb-4 text-cyan-400">Available Actuator Types</h3>
+
+          <div class="grid md:grid-cols-2 gap-6 mb-8">
+
+            <!-- Irrigation System -->
+            <div class="bg-slate-900/50 border border-slate-800 rounded-xl p-6">
+              <div class="flex items-start gap-3 mb-3">
+                <div class="w-10 h-10 rounded-lg bg-green-500/10 text-green-400 flex items-center justify-center flex-shrink-0 text-xl">
+                  💦
+                </div>
+                <div class="flex-1">
+                  <h4 class="text-lg font-bold mb-1 text-white">Automatic Irrigation</h4>
+                </div>
+              </div>
+              <ul class="text-slate-300 text-sm space-y-1">
+                <li>• <strong>Consumption rate:</strong> 2 per second</li>
+                <li>• <strong>Unit:</strong> liters (L)</li>
+              </ul>
+              <p class="text-slate-400 text-xs mt-3">
+                Models water distribution system with configurable flow rate
+              </p>
+            </div>
+
+            <!-- Smart Bulb -->
+            <div class="bg-slate-900/50 border border-slate-800 rounded-xl p-6">
+              <div class="flex items-start gap-3 mb-3">
+                <div class="w-10 h-10 rounded-lg bg-yellow-500/10 text-yellow-400 flex items-center justify-center flex-shrink-0 text-xl">
+                  💡
+                </div>
+                <div class="flex-1">
+                  <h4 class="text-lg font-bold mb-1 text-white">Smart Bulb</h4>
+                </div>
+              </div>
+              <ul class="text-slate-300 text-sm space-y-1">
+                <li>• <strong>Consumption rate:</strong> 5 per second</li>
+                <li>• <strong>Unit:</strong> watts (W)</li>
+              </ul>
+              <p class="text-slate-400 text-xs mt-3">
+                Simulates energy consumption of smart lighting devices
+              </p>
+            </div>
+
+          </div>
+
+          <!-- Actuator Parameters -->
+          <h3 class="text-2xl font-bold mb-4 text-cyan-400">Actuator Configuration Parameters</h3>
+
+          <div class="bg-slate-900/50 border border-slate-800 rounded-xl overflow-hidden mb-6">
+            <table class="w-full text-sm">
+              <thead class="bg-slate-800/50 border-b border-slate-700">
+                <tr>
+                  <th class="px-4 py-3 text-left font-bold text-cyan-400">Parameter</th>
+                  <th class="px-4 py-3 text-left font-bold text-cyan-400">Expected Value</th>
+                  <th class="px-4 py-3 text-left font-bold text-cyan-400">Description</th>
+                </tr>
+              </thead>
+              <tbody class="text-slate-300">
+                <tr class="border-b border-slate-800">
+                  <td class="px-4 py-3"><code class="text-pink-400">consumption rate</code></td>
+                  <td class="px-4 py-3">Integer</td>
+                  <td class="px-4 py-3">Consumption of the unit per second</td>
+                </tr>
+                <tr>
+                  <td class="px-4 py-3"><code class="text-pink-400">unit</code></td>
+                  <td class="px-4 py-3">Unit</td>
+                  <td class="px-4 py-3">Unit of the consumed resource</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="bg-green-950/20 border-l-4 border-green-500 rounded-r-xl p-6">
+            <p class="font-semibold text-green-300 mb-2">📊 Statistical Recording</p>
+            <p class="text-slate-300">
+              The base model automatically records ON/OFF duration statistics. This information can
+              be recovered through OMNeT++ statistical analysis tools to study usage patterns,
+              energy consumption, and device lifecycle behavior.
+            </p>
+          </div>
+        </section>
+
+        <!-- Controllers -->
+        <section class="mb-16">
+          <h2 class="text-3xl font-bold mb-6">Controllers</h2>
+
+          <div class="bg-slate-900/50 border border-slate-800 rounded-xl p-6 mb-6">
+            <p class="text-slate-300 leading-relaxed mb-4">
+              Since controllers are an element of particular relevance in IoT environments, Simcan2Fog
+              provides models based on two latest-generation boards from renowned manufacturers:
+              the <strong class="text-white">Arduino UNO R4 WiFi</strong> and the
+              <strong class="text-white">Raspberry Pi 5</strong>.
+            </p>
+            <p class="text-slate-300 leading-relaxed">
+              These have been configured using specifications extracted from technical datasheets
+              and performance benchmarks. Like other IoT components, any commercial computational
+              element or prototype can be represented through parameterization.
+            </p>
+          </div>
+
+          <!-- Controller Specifications -->
+          <h3 class="text-2xl font-bold mb-4 text-cyan-400">Pre-configured Controllers</h3>
+
+          <div class="grid md:grid-cols-2 gap-6 mb-8">
+
+            <!-- Arduino UNO R4 -->
+            <div class="bg-slate-900/50 border border-slate-800 rounded-xl p-6">
+              <div class="flex items-start gap-3 mb-4">
+                <div class="w-10 h-10 rounded-lg bg-cyan-500/10 text-cyan-400 flex items-center justify-center flex-shrink-0 text-xl">
+                  🔧
+                </div>
+                <div class="flex-1">
+                  <h4 class="text-lg font-bold mb-1 text-white">Arduino UNO R4 WiFi</h4>
+                  <p class="text-xs text-slate-400">Entry-level IoT microcontroller</p>
+                </div>
+              </div>
+              <ul class="text-slate-300 text-sm space-y-2">
+                <li>• <strong>CPU cores:</strong> 1</li>
+                <li>• <strong>MIPS:</strong> 35.48</li>
+                <li>• <strong>Storage:</strong> 32 kB (Flash)</li>
+                <li>• <strong>RAM memory:</strong> 32 kB</li>
+                <li>• <strong>Wi-Fi bandwidth:</strong> 150 Mbps</li>
+              </ul>
+            </div>
+
+            <!-- Raspberry Pi 5 -->
+            <div class="bg-slate-900/50 border border-slate-800 rounded-xl p-6">
+              <div class="flex items-start gap-3 mb-4">
+                <div class="w-10 h-10 rounded-lg bg-pink-500/10 text-pink-400 flex items-center justify-center flex-shrink-0 text-xl">
+                  🥧
+                </div>
+                <div class="flex-1">
+                  <h4 class="text-lg font-bold mb-1 text-white">Raspberry Pi 5</h4>
+                  <p class="text-xs text-slate-400">High-performance edge computer</p>
+                </div>
+              </div>
+              <ul class="text-slate-300 text-sm space-y-2">
+                <li>• <strong>CPU cores:</strong> 4</li>
+                <li>• <strong>MIPS:</strong> 20,558.24</li>
+                <li>• <strong>Storage:</strong> 8 GB (Micro SD)</li>
+                <li>• <strong>RAM memory:</strong> 4 GB</li>
+                <li>• <strong>Wi-Fi bandwidth:</strong> 217.7 Mbps</li>
+              </ul>
+            </div>
+
+          </div>
+
+          <div class="bg-slate-900/50 border border-slate-800 rounded-xl p-6 mb-6">
+            <h4 class="text-lg font-bold mb-3 text-white">Controller Responsibilities</h4>
+            <p class="text-slate-300 mb-4">
+              The <code class="text-cyan-400 bg-slate-800 px-2 py-1 rounded">Controller</code> module
+              is responsible for:
+            </p>
+            <ul class="text-slate-300 space-y-2">
+              <li>• <strong class="text-white">Receiving and preprocessing:</strong> Information from local sensors</li>
+              <li>• <strong class="text-white">Running applications:</strong> Selected by the user to process IoT data</li>
+              <li>• <strong class="text-white">Decision making:</strong> When to request service deployment to upper layers</li>
+              <li>• <strong class="text-white">Coordinating responses:</strong> Actuator responses based on processing results</li>
+            </ul>
+          </div>
+
+          <div class="bg-purple-950/20 border-l-4 border-purple-500 rounded-r-xl p-6">
+            <p class="font-semibold text-purple-300 mb-2">🔧 Custom Hardware</p>
+            <p class="text-slate-300">
+              Just as these two specific examples have been configured, parameterization allows
+              representation of any commercial computational element or prototype. You can model
+              custom boards, industrial controllers, or experimental hardware by adjusting
+              CPU cores, MIPS, memory, storage, and network interface parameters.
+            </p>
+          </div>
+        </section>
+
+        <!-- Configuration Example -->
+        <section class="mb-16">
+          <h2 class="text-3xl font-bold mb-6">Configuration Example</h2>
+
+          <p class="text-slate-300 mb-6">
+            Here's a complete example showing how to configure sensors, actuators, and controllers
+            in a smart home scenario:
+          </p>
+
+          <div class="code-block rounded-xl overflow-hidden shadow-2xl">
+            <div class="flex items-center justify-between px-4 py-3 bg-slate-800/50 border-b border-slate-700">
+              <span class="text-xs font-mono text-slate-400">omnetpp.ini</span>
+              <button onclick="copyCode()" class="flex items-center gap-2 text-xs text-slate-400 hover:text-white transition">
+                <span>📋</span> Copy
+              </button>
+            </div>
+            <pre class="p-6 text-sm font-mono overflow-x-auto custom-scrollbar" id="codeBlock"><span class="text-slate-500"># Controller Configuration (Raspberry Pi 5)</span>
+<span class="text-blue-400">*.controller.typename</span> = <span class="text-emerald-400">"Raspberry5"</span>
+<span class="text-blue-400">*.controller.numWlanInterfaces</span> = <span class="text-pink-400">1</span>
+<span class="text-blue-400">*.controller.energyStorage.typename</span> = <span class="text-emerald-400">"IdealEpEnergyStorage"</span>
+
+<span class="text-slate-500"># Sensor Configuration</span>
+<span class="text-blue-400">*.sensor*.model.controllerInterface</span> = <span class="text-emerald-400">"wlan0"</span>
+<span class="text-blue-400">*.sensor*.model.controllerPath</span> = <span class="text-emerald-400">"^.^.controller"</span>
+
+<span class="text-slate-500"># Temperature Sensor</span>
+<span class="text-blue-400">*.sensor1.model.tag</span> = <span class="text-emerald-400">"temp"</span>
+<span class="text-blue-400">*.sensor1.model.distribution</span> = <span class="text-emerald-400">"uniform(20,25)"</span>
+<span class="text-blue-400">*.sensor1.model.updatePeriod</span> = <span class="text-pink-400">10</span><span class="text-emerald-400">s</span>
+<span class="text-blue-400">*.sensor1.model.unit</span> = <span class="text-emerald-400">"celsius"</span>
+
+<span class="text-slate-500"># Luminosity Sensor</span>
+<span class="text-blue-400">*.sensor2.model.tag</span> = <span class="text-emerald-400">"luminosity"</span>
+<span class="text-blue-400">*.sensor2.model.distribution</span> = <span class="text-emerald-400">"uniform(400,100000)"</span>
+<span class="text-blue-400">*.sensor2.model.updatePeriod</span> = <span class="text-pink-400">10</span><span class="text-emerald-400">s</span>
+<span class="text-blue-400">*.sensor2.model.unit</span> = <span class="text-emerald-400">"lumen"</span>
+
+<span class="text-slate-500"># Smart Bulb Actuator</span>
+<span class="text-blue-400">*.lamp*.numApps</span> = <span class="text-pink-400">1</span>
+<span class="text-blue-400">*.lamp*.numWlanInterfaces</span> = <span class="text-pink-400">1</span>
+<span class="text-blue-400">*.lamp*.consumptionRate</span> = <span class="text-pink-400">5</span> <span class="text-slate-500"># watts</span>
+<span class="text-blue-400">*.lamp*.unit</span> = <span class="text-emerald-400">"W"</span>
+
+<span class="text-slate-500"># User/Edge Configuration</span>
+<span class="text-blue-400">*.user.deploymentZone</span> = <span class="text-emerald-400">"local"</span>
+<span class="text-blue-400">*.user.sensors</span> = [<span class="text-emerald-400">"sensor1"</span>, <span class="text-emerald-400">"sensor2"</span>]
+<span class="text-blue-400">*.user.localApps</span> = [{<span class="text-emerald-400">"name"</span>: <span class="text-emerald-400">"LightController"</span>, <span class="text-emerald-400">"type"</span>: <span class="text-emerald-400">"LocalIotApplication"</span>}]</pre>
+          </div>
+        </section>
+
+        <!-- Use Cases -->
+        <section class="mb-16">
+          <h2 class="text-3xl font-bold mb-6">Common Use Cases</h2>
+
+          <div class="space-y-4">
+
+            <div class="bg-slate-900/50 border-l-4 border-orange-500 rounded-r-xl p-6">
+              <div class="flex items-start gap-3">
+                <div class="w-8 h-8 rounded-full bg-orange-600 text-white flex items-center justify-center font-bold flex-shrink-0">1</div>
+                <div class="flex-1">
+                  <h4 class="font-bold text-white mb-2">Smart Home Automation</h4>
+                  <p class="text-slate-300 text-sm">
+                    Temperature/humidity sensors trigger smart bulbs or HVAC systems via controller.
+                    Luminosity sensors adjust lighting based on natural light availability.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div class="bg-slate-900/50 border-l-4 border-green-500 rounded-r-xl p-6">
+              <div class="flex items-start gap-3">
+                <div class="w-8 h-8 rounded-full bg-green-600 text-white flex items-center justify-center font-bold flex-shrink-0">2</div>
+                <div class="flex-1">
+                  <h4 class="font-bold text-white mb-2">Smart Agriculture</h4>
+                  <p class="text-slate-300 text-sm">
+                    Humidity sensors monitor soil moisture and trigger automatic irrigation systems.
+                    Temperature sensors optimize greenhouse climate control.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div class="bg-slate-900/50 border-l-4 border-pink-500 rounded-r-xl p-6">
+              <div class="flex items-start gap-3">
+                <div class="w-8 h-8 rounded-full bg-pink-600 text-white flex items-center justify-center font-bold flex-shrink-0">3</div>
+                <div class="flex-1">
+                  <h4 class="font-bold text-white mb-2">Health Monitoring</h4>
+                  <p class="text-slate-300 text-sm">
+                    Wearable sensors collect heart rate, activity, and biometric data.
+                    Controllers preprocess and send alerts when abnormal patterns detected.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div class="bg-slate-900/50 border-l-4 border-purple-500 rounded-r-xl p-6">
+              <div class="flex items-start gap-3">
+                <div class="w-8 h-8 rounded-full bg-purple-600 text-white flex items-center justify-center font-bold flex-shrink-0">4</div>
+                <div class="flex-1">
+                  <h4 class="font-bold text-white mb-2">Smart Security</h4>
+                  <p class="text-slate-300 text-sm">
+                    IP cameras generate video streams processed by controllers for motion detection.
+                    Results trigger alerts or activate lighting/alarm actuators.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </section>
+
+        <!-- Ready-to-Run Examples -->
+        <section class="mb-16">
+          <h2 class="text-3xl font-bold mb-6">Ready-to-Run Examples</h2>
+          <p class="text-slate-400 mb-6">
+            Simcan2Fog includes several showcase scenarios in the <code class="bg-slate-800 px-2 py-1 rounded text-sm text-cyan-400">showcases/</code> directory:
+          </p>
+
+          <div class="grid md:grid-cols-2 gap-6">
+            <div class="bg-slate-900/50 border border-slate-800 rounded-xl p-6 hover:border-cyan-500/50 transition">
+              <h3 class="text-lg font-bold mb-2">🏠 Smart Home (IoT)</h3>
+              <p class="text-sm text-slate-400 mb-3">
+                Complete smart house with sensors, actuators, and fog gateways. Demonstrates IoT data collection and processing.
+              </p>
+              <code class="text-xs text-cyan-400">showcases/iot/</code>
+            </div>
+
+            <div class="bg-slate-900/50 border border-slate-800 rounded-xl p-6 hover:border-cyan-500/50 transition">
+              <h3 class="text-lg font-bold mb-2">🏢 Data Centre</h3>
+              <p class="text-sm text-slate-400 mb-3">
+                VM provisioning, service deployment, and cloud-to-edge communication patterns.
+              </p>
+              <code class="text-xs text-cyan-400">showcases/Datacentre/</code>
+            </div>
+
+            <div class="bg-slate-900/50 border border-slate-800 rounded-xl p-6 hover:border-cyan-500/50 transition">
+              <h3 class="text-lg font-bold mb-2">🔗 Proxy & DNS</h3>
+              <p class="text-sm text-slate-400 mb-3">
+                Demonstrates proxy module functionality with optional DNS integration for service discovery.
+              </p>
+              <code class="text-xs text-cyan-400">showcases/Proxy/</code>
+            </div>
+
+            <div class="bg-slate-900/50 border border-slate-800 rounded-xl p-6 hover:border-cyan-500/50 transition">
+              <h3 class="text-lg font-bold mb-2">📊 Statistics</h3>
+              <p class="text-sm text-slate-400 mb-3">
+                Statistical capture, event recording, and sequence diagram generation for analysis.
+              </p>
+              <code class="text-xs text-cyan-400">showcases/Statistics/</code>
+            </div>
+          </div>
+        </section>
+
+        <!-- Reference -->
+        <section class="p-8 rounded-2xl bg-cyan-500/5 border border-cyan-500/20 mb-16">
+          <div class="flex gap-6">
+            <div class="hidden sm:flex shrink-0 w-12 h-12 items-center justify-center rounded-full bg-cyan-500 text-white text-2xl">
+              🚀
+            </div>
+            <div>
+              <h3 class="text-2xl font-bold mb-3">Start Building IoT Scenarios</h3>
+              <p class="text-slate-400 mb-6 leading-relaxed">
+                Explore the complete architecture and learn how IoT devices interact with fog nodes
+                and cloud infrastructure in realistic simulation scenarios.
+              </p>
+              <div class="flex flex-wrap gap-4">
+                <a href="architecture.html" class="inline-flex items-center gap-2 font-bold text-cyan-400 hover:text-cyan-300 transition">
+                  Architecture Overview →
+                </a>
+                <a href="fogNodes.html" class="inline-flex items-center gap-2 font-bold text-cyan-400 hover:text-cyan-300 transition">
+                  Fog Nodes →
+                </a>
+                <a href="../../tutorial.html" class="inline-flex items-center gap-2 font-bold text-cyan-400 hover:text-cyan-300 transition">
+                  Get Started →
+                </a>
+              </div>
+            </div>
+          </div>
+        </section>
+
+      </div>
+    </main>
+
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="bg-slate-950 border-t border-slate-800 py-12 text-slate-400 text-center">
+    <div class="max-w-7xl mx-auto px-6">
+      <p class="text-lg">© 2026 Simcan2Fog • Open Source Fog Computing Simulation Framework</p>
+      <p class="mt-2">Built with OMNeT++ 6.3.0 & INET 4.5.4 • Licensed under GPL-3.0</p>
+      <div class="mt-8 flex justify-center gap-12 text-sm">
+        <a href="https://github.com/UlyssesDeAguilar/Simcan2Fog" class="hover:text-cyan-400">GitHub</a>
+        <a href="https://ulyssesdeaguilar.github.io/s2f-ned-docs/" class="hover:text-cyan-400">Documentation</a>
+        <a href="https://github.com/UlyssesDeAguilar/Simcan2Fog/releases" class="hover:text-cyan-400">Releases</a>
+        <a href="https://www.sciencedirect.com/science/article/pii/S2352711025003905" class="hover:text-cyan-400">Paper</a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    function copyCode() {
+      const code = document.getElementById('codeBlock').textContent;
+      navigator.clipboard.writeText(code).then(() => {
+        alert('Code copied to clipboard!');
+      });
+    }
+  </script>
+
+</body>
+</html>
