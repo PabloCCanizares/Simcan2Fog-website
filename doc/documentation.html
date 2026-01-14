@@ -38,11 +38,11 @@
       </div>
      
       <div class="hidden md:flex gap-8 font-medium">
-        <a href="index.html" class="hover:text-cyan-300 transition-colors">Home</a>
-        <a href="features.html" class="hover:text-cyan-300 transition-colors">Features</a>
+        <a href="../index.html" class="hover:text-cyan-300 transition-colors">Home</a>
+        <a href="../features.html" class="hover:text-cyan-300 transition-colors">Features</a>
         <a href="tutorial.html" class="hover:text-cyan-300 transition-colors">Tutorial</a>
         <a href="documentation.html" class="text-cyan-300">Documentation</a>
-        <a href="publications.html" class="hover:text-cyan-300 transition-colors">Publications</a>
+        <a href="../publications.html" class="hover:text-cyan-300 transition-colors">Publications</a>
       </div>
     </div>
   </nav>
@@ -95,22 +95,27 @@
             <h3 class="text-xs font-bold uppercase tracking-wider text-slate-400 mb-3 px-3">Core Concepts</h3>
             <ul class="flex flex-col gap-1">
               <li>
-                <a class="flex items-center gap-3 px-3 py-2 text-sm font-medium hover:bg-slate-800 rounded-lg transition" href="#architecture">
+                <a class="flex items-center gap-3 px-3 py-2 text-sm font-medium hover:bg-slate-800 rounded-lg transition" href="core/architecture.html">
                   <span>🏗️</span>Architecture
                 </a>
               </li>
               <li>
-                <a class="flex items-center gap-3 px-3 py-2 text-sm font-medium hover:bg-slate-800 rounded-lg transition" href="#fog-nodes">
+                <a class="flex items-center gap-3 px-3 py-2 text-sm font-medium hover:bg-slate-800 rounded-lg transition" href="core/fogNodes.html">
                   <span>🌫️</span>Fog Nodes
                 </a>
               </li>
               <li>
-                <a class="flex items-center gap-3 px-3 py-2 text-sm font-medium hover:bg-slate-800 rounded-lg transition" href="#iot-devices">
+                <a class="flex items-center gap-3 px-3 py-2 text-sm font-medium hover:bg-slate-800 rounded-lg transition" href="core/iotDevices.html">
                   <span>💡</span>IoT Devices
                 </a>
               </li>
               <li>
-                <a class="flex items-center gap-3 px-3 py-2 text-sm font-medium hover:bg-slate-800 rounded-lg transition" href="doc/core/messageQueue.html">
+                <a class="flex items-center gap-3 px-3 py-2 text-sm font-medium hover:bg-slate-800 rounded-lg transition" href="core/dns.html">
+                  <span>🌐</span>DNS
+                </a>
+              </li>
+              <li>
+                <a class="flex items-center gap-3 px-3 py-2 text-sm font-medium hover:bg-slate-800 rounded-lg transition" href="core/messageQueue.html">
                   <span>📨</span>Message Queue
                 </a>
               </li>
@@ -154,7 +159,7 @@
                 </a>
               </li>
               <li>
-                <a class="flex items-center gap-3 px-3 py-2 text-sm font-medium hover:bg-slate-800 rounded-lg transition" href="publications.html">
+                <a class="flex items-center gap-3 px-3 py-2 text-sm font-medium hover:bg-slate-800 rounded-lg transition" href="../publications.html">
                   <span>📄</span>Publications
                 </a>
               </li>
@@ -171,7 +176,7 @@
         
         <!-- Breadcrumbs -->
         <nav class="flex items-center gap-2 mb-8 text-sm text-slate-400 font-medium">
-          <a href="index.html" class="hover:text-cyan-400 transition-colors">Home</a>
+          <a href="../index.html" class="hover:text-cyan-400 transition-colors">Home</a>
           <span>›</span>
           <span class="text-slate-100">Documentation</span>
         </nav>
@@ -324,23 +329,23 @@
           </p>
           
           <div class="grid md:grid-cols-2 gap-6">
-            <div class="bg-slate-900/50 border border-slate-800 rounded-xl p-6 hover:border-cyan-500/50 transition">
+            <a href="../showcases/iot.html" class="bg-slate-900/50 border border-slate-800 rounded-xl p-6 hover:border-cyan-500/50 transition cursor-pointer">
               <h3 class="text-lg font-bold mb-2">🏠 Smart Home (IoT)</h3>
               <p class="text-sm text-slate-400 mb-3">
                 Complete smart house with sensors, actuators, and fog gateways. Demonstrates IoT data collection and processing.
               </p>
               <code class="text-xs text-cyan-400">showcases/iot/</code>
-            </div>
+            </a>
 
-            <div class="bg-slate-900/50 border border-slate-800 rounded-xl p-6 hover:border-cyan-500/50 transition">
+            <a href="../showcases/dc.html" class="bg-slate-900/50 border border-slate-800 rounded-xl p-6 hover:border-cyan-500/50 transition cursor-pointer">
               <h3 class="text-lg font-bold mb-2">🏢 Data Centre</h3>
               <p class="text-sm text-slate-400 mb-3">
                 VM provisioning, service deployment, and cloud-to-edge communication patterns.
               </p>
               <code class="text-xs text-cyan-400">showcases/Datacentre/</code>
-            </div>
+            </a>
 
-            <div class="bg-slate-900/50 border border-slate-800 rounded-xl p-6 hover:border-cyan-500/50 transition">
+            <div class="bg-slate-900/50 border border-slate-800 rounded-xl p-6 opacity-60">
               <h3 class="text-lg font-bold mb-2">🔗 Proxy & DNS</h3>
               <p class="text-sm text-slate-400 mb-3">
                 Demonstrates proxy module functionality with optional DNS integration for service discovery.
@@ -348,7 +353,7 @@
               <code class="text-xs text-cyan-400">showcases/Proxy/</code>
             </div>
 
-            <div class="bg-slate-900/50 border border-slate-800 rounded-xl p-6 hover:border-cyan-500/50 transition">
+            <div class="bg-slate-900/50 border border-slate-800 rounded-xl p-6 opacity-60">
               <h3 class="text-lg font-bold mb-2">📊 Statistics</h3>
               <p class="text-sm text-slate-400 mb-3">
                 Statistical capture, event recording, and sequence diagram generation for analysis.

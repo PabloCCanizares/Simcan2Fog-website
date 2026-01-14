@@ -55,8 +55,9 @@
             <h3 class="text-xs font-bold uppercase tracking-wider text-slate-400 mb-3 px-3">Core Concepts</h3>
             <ul class="flex flex-col gap-1">
               <li><a class="flex items-center gap-3 px-3 py-2 text-sm font-medium text-cyan-400 bg-cyan-500/10 rounded-lg border-l-2 border-cyan-500" href="#"><span>🏗️</span>Architecture</a></li>
-              <li><a class="flex items-center gap-3 px-3 py-2 text-sm font-medium hover:bg-slate-800 rounded-lg transition" href="../documentation.html#fog-nodes"><span>🌫️</span>Fog Nodes</a></li>
-              <li><a class="flex items-center gap-3 px-3 py-2 text-sm font-medium hover:bg-slate-800 rounded-lg transition" href="../documentation.html#iot-devices"><span>💡</span>IoT Devices</a></li>
+              <li><a class="flex items-center gap-3 px-3 py-2 text-sm font-medium hover:bg-slate-800 rounded-lg transition" href="fogNodes.html"><span>🌫️</span>Fog Nodes</a></li>
+              <li><a class="flex items-center gap-3 px-3 py-2 text-sm font-medium hover:bg-slate-800 rounded-lg transition" href="iotDevices.html"><span>💡</span>IoT Devices</a></li>
+              <li><a class="flex items-center gap-3 px-3 py-2 text-sm font-medium hover:bg-slate-800 rounded-lg transition" href="dns.html"><span>🌐</span>DNS</a></li>
               <li><a class="flex items-center gap-3 px-3 py-2 text-sm font-medium hover:bg-slate-800 rounded-lg transition" href="messageQueue.html"><span>📨</span>Message Queue</a></li>
             </ul>
           </section>
@@ -97,9 +98,9 @@
         </div>
 
         <!-- Overview -->
-        <section class="mb-16">
+        <section class="mb-16">          
           <h2 class="text-3xl font-bold mb-6">Overview</h2>
-
+          
           <div class="bg-slate-900/50 border border-slate-800 rounded-xl p-6 mb-6">
             <p class="text-slate-300 leading-relaxed mb-4">
               Simcan2Fog implements a <strong class="text-white">hierarchical four-layer architecture</strong> designed to model
@@ -107,11 +108,20 @@
               cloud data centres at the top, with intermediate fog and cloud provider layers that orchestrate
               resource management, task offloading, and service deployment.
             </p>
-            <p class="text-slate-300 leading-relaxed">
+            <!-- <p class="text-slate-300 leading-relaxed">
               Built on <strong class="text-white">OMNeT++</strong> and <strong class="text-white">INET</strong>,
               the platform provides high-fidelity network simulation, detailed hardware modelling, and comprehensive
               cloud computing capabilities inherited from Simcan2Cloud.
-            </p>
+            </p>-->
+          </div>
+          
+           <div class="mb-8 bg-slate-800 border-2 border-dashed border-slate-700 rounded-xl p-6 text-center">
+            <img src="../../images/002-8.png" alt="Global network connections and data centers">
+            <div class="flex flex-col items-center gap-4">            
+              <div>
+                <p class="text-slate-400 font-semibold mb-1">Simcan2Fog Four-Layer Architecture</p>
+              </div>
+            </div>
           </div>
 
           <div class="bg-blue-950/20 border-l-4 border-blue-500 rounded-r-xl p-6">
@@ -127,20 +137,9 @@
 
         <!-- Architecture Diagram Placeholder -->
         <section class="mb-16">
-          <h2 class="text-3xl font-bold mb-6">Architecture Diagram</h2>
-
-          <div class="mb-8 bg-slate-900 border-2 border-dashed border-slate-700 rounded-xl p-12 text-center">
-            <div class="flex flex-col items-center gap-4">
-              <div class="w-20 h-20 rounded-full bg-slate-800 flex items-center justify-center text-4xl">
-                🏗️
-              </div>
-              <div>
-                <p class="text-slate-400 font-semibold mb-1">Simcan2Fog Four-Layer Architecture</p>
-                <p class="text-slate-500 text-sm">Hierarchical view showing IoT → Fog → Cloud Provider → Data Centre layers</p>
-                <p class="text-slate-600 text-xs mt-2">Reference: Figure 1 from SoftwareX publication</p>
-              </div>
-            </div>
-          </div>
+          <h2 class="text-3xl font-bold mb-6">Architecture</h2>
+          
+         
         </section>
 
         <!-- Layer 1: IoT Layer -->

@@ -1,0 +1,690 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>IoT Showcase - Simcan2Fog</title>
+  <meta name="description" content="Smart Home IoT showcase demonstrating sensor integration, edge computing, and wireless communication with IEEE 802.15.4."/>
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: { extend: { colors: { primary: '#0ea5e9', neon: '#22d3ee', bgDark: '#0f172a' } } }
+    }
+  </script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Inter', system-ui, sans-serif; }
+    code, pre { font-family: 'JetBrains Mono', monospace; }
+    .gradient-hero { background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #0ea5e9 100%); }
+    .custom-scrollbar::-webkit-scrollbar { width: 6px; height: 6px; }
+    .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
+    .custom-scrollbar::-webkit-scrollbar-thumb { background: #334155; border-radius: 10px; }
+    .code-block { background: #1e293b; border: 1px solid #334155; }
+  </style>
+</head>
+<body class="bg-slate-950 text-slate-100 antialiased">
+
+  <!-- Animated Background -->
+  <div class="fixed w-full h-full top-0 left-0 -z-10 bg-gradient-to-b from-slate-900 via-slate-950 to-slate-900"></div>
+
+  <!-- NAVIGATION -->
+  <nav class="sticky top-0 z-50 w-full bg-slate-900/80 backdrop-blur-xl border-b border-slate-700/40">
+    <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+      <div class="flex items-center gap-3">
+        <div class="w-11 h-11 rounded-xl bg-gradient-to-br from-cyan-500 to-blue-600 flex items-center justify-center font-bold text-white text-2xl shadow-lg">S2F</div>
+        <span class="text-2xl font-semibold tracking-tight">Simcan2Fog</span>
+      </div>
+
+      <div class="hidden md:flex gap-8 font-medium">
+        <a href="../index.html" class="hover:text-cyan-300 transition-colors">Home</a>
+        <a href="../features.html" class="hover:text-cyan-300 transition-colors">Features</a>
+        <a href="../doc/tutorial.html" class="hover:text-cyan-300 transition-colors">Tutorial</a>
+        <a href="../doc/documentation.html" class="hover:text-cyan-300 transition-colors">Documentation</a>
+        <a href="../publications.html" class="hover:text-cyan-300 transition-colors">Publications</a>
+      </div>
+    </div>
+  </nav>
+
+  <div class="max-w-[1440px] mx-auto flex">
+
+    <!-- SIDEBAR -->
+    <aside class="hidden lg:block w-72 h-[calc(100vh-76px)] sticky top-[76px] border-r border-slate-800 p-6 overflow-y-auto custom-scrollbar">
+      <div class="flex flex-col gap-6">
+        <div>
+          <h3 class="text-xs font-bold uppercase tracking-wider text-slate-400 mb-3">On This Page</h3>
+          <nav class="flex flex-col gap-1">
+            <a class="flex items-center gap-3 px-3 py-2 text-sm font-medium text-cyan-400 bg-cyan-500/10 rounded-lg border-l-2 border-cyan-500" href="#overview">Overview</a>
+            <a class="flex items-center gap-3 px-3 py-2 text-sm font-medium hover:bg-slate-800 rounded-lg transition" href="#architecture">Architecture</a>
+            <a class="flex items-center gap-3 px-3 py-2 text-sm font-medium hover:bg-slate-800 rounded-lg transition" href="#components">Components</a>
+            <a class="flex items-center gap-3 px-3 py-2 text-sm font-medium hover:bg-slate-800 rounded-lg transition" href="#wireless">Wireless Layer</a>
+            <a class="flex items-center gap-3 px-3 py-2 text-sm font-medium hover:bg-slate-800 rounded-lg transition" href="#workflow">Data Flow</a>
+            <a class="flex items-center gap-3 px-3 py-2 text-sm font-medium hover:bg-slate-800 rounded-lg transition" href="#configuration">Configuration</a>
+            <a class="flex items-center gap-3 px-3 py-2 text-sm font-medium hover:bg-slate-800 rounded-lg transition" href="#application">Application</a>
+          </nav>
+        </div>
+
+        <div class="pt-6 border-t border-slate-800">
+          <h3 class="text-xs font-bold uppercase tracking-wider text-slate-400 mb-3">Other Showcases</h3>
+          <nav class="flex flex-col gap-1">
+            <a href="dc.html" class="flex items-center gap-3 px-3 py-2 text-sm font-medium hover:bg-slate-800 rounded-lg transition">
+              <span>🏢</span>Data Centre
+            </a>
+          </nav>
+        </div>
+
+        <div class="pt-6 border-t border-slate-800">
+          <a href="../doc/documentation.html" class="text-sm text-slate-400 hover:text-cyan-400 transition flex items-center gap-2">
+            ← Back to Documentation
+          </a>
+        </div>
+      </div>
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <main class="flex-1 min-w-0 p-6 lg:p-12 overflow-hidden">
+      <div class="max-w-4xl mx-auto">
+
+        <!-- Breadcrumbs -->
+        <nav class="flex items-center gap-2 mb-8 text-sm text-slate-400 font-medium">
+          <a href="../index.html" class="hover:text-cyan-400 transition-colors">Home</a>
+          <span>›</span>
+          <a href="../doc/documentation.html" class="hover:text-cyan-400 transition-colors">Documentation</a>
+          <span>›</span>
+          <span class="text-slate-100">IoT Showcase</span>
+        </nav>
+
+        <!-- Page Header -->
+        <div class="mb-12 border-b border-slate-800 pb-8">
+          <div class="flex items-center gap-4 mb-4">
+            <div class="w-16 h-16 rounded-2xl bg-gradient-to-br from-emerald-500 to-teal-600 flex items-center justify-center text-3xl shadow-xl">
+              🏠
+            </div>
+            <div>
+              <h1 class="text-4xl md:text-5xl font-black tracking-tight">IoT Showcase</h1>
+              <p class="text-slate-400 mt-2">Smart Home Simulation with IEEE 802.15.4</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Overview -->
+        <section id="overview" class="mb-16">
+          <h2 class="text-3xl font-bold mb-6">Overview</h2>
+          <p class="text-slate-300 mb-6 leading-relaxed">
+            The IoT showcase implements a complete <strong class="text-white">Smart Home</strong> simulation demonstrating the integration of IoT devices in a fog computing environment. The scenario models an automated lighting system based on luminosity sensors following the classic <strong class="text-white">Sense-Process-Actuate</strong> pattern.
+          </p>
+
+          <div class="bg-cyan-500/5 border border-cyan-500/20 rounded-xl p-6 mb-6">
+            <h3 class="text-xl font-bold mb-3 text-cyan-400">Key Concept: Edge IoT Control Loop</h3>
+            <p class="text-slate-300 leading-relaxed">
+              This showcase demonstrates a complete IoT control loop where sensors collect environmental data, a local edge controller (Raspberry Pi) processes the information, and actuators respond in real-time—all using standard IEEE 802.15.4 wireless communication.
+            </p>
+          </div>
+
+          <div class="grid md:grid-cols-3 gap-4">
+            <div class="bg-slate-900/50 border border-slate-800 rounded-xl p-6">
+              <h3 class="text-lg font-bold mb-3 text-emerald-400">🔍 Sense</h3>
+              <p class="text-sm text-slate-400">
+                4 luminosity sensors measure ambient light (400-100,000 lumen) every 10 seconds
+              </p>
+            </div>
+
+            <div class="bg-slate-900/50 border border-slate-800 rounded-xl p-6">
+              <h3 class="text-lg font-bold mb-3 text-purple-400">⚙️ Process</h3>
+              <p class="text-sm text-slate-400">
+                Raspberry Pi controller runs LightController app with 100 MIs processing power
+              </p>
+            </div>
+
+            <div class="bg-slate-900/50 border border-slate-800 rounded-xl p-6">
+              <h3 class="text-lg font-bold mb-3 text-blue-400">💡 Actuate</h3>
+              <p class="text-sm text-slate-400">
+                4 smart lamps receive UDP commands to adjust brightness
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <!-- Architecture -->
+        <section id="architecture" class="mb-16">
+          <h2 class="text-3xl font-bold mb-6">System Architecture</h2>
+
+          <div class="code-block rounded-xl p-6 mb-6">
+            <pre class="text-sm font-mono text-slate-300 overflow-x-auto custom-scrollbar">
+<span class="text-slate-500">┌─────────────────────────────────────────────────────────┐</span>
+<span class="text-slate-500">│                  SmartHome Network                      │</span>
+<span class="text-slate-500">├─────────────────────────────────────────────────────────┤</span>
+<span class="text-slate-500">│                                                         │</span>
+<span class="text-slate-500">│  ┌──────────┐              ┌──────────────┐            │</span>
+<span class="text-slate-500">│  │</span> <span class="text-emerald-400">sensor1</span>  <span class="text-slate-500">│──┐           │</span> <span class="text-cyan-400">controller</span>   <span class="text-slate-500">│            │</span>
+<span class="text-slate-500">│  │</span><span class="text-emerald-400">(Luminos)</span><span class="text-slate-500">│  │           │</span> <span class="text-cyan-400">(Raspberry5)</span><span class="text-slate-500">│            │</span>
+<span class="text-slate-500">│  └──────────┘  │           └──────┬───────┘            │</span>
+<span class="text-slate-500">│  ┌──────────┐  │                  │                    │</span>
+<span class="text-slate-500">│  │</span> <span class="text-emerald-400">sensor2</span>  <span class="text-slate-500">│──┤    IEEE 802.15.4 │                    │</span>
+<span class="text-slate-500">│  └──────────┘  │                  │                    │</span>
+<span class="text-slate-500">│  ┌──────────┐  │    ┌─────────────┘                    │</span>
+<span class="text-slate-500">│  │</span> <span class="text-emerald-400">sensor3</span>  <span class="text-slate-500">│──┼────┤                              │</span>
+<span class="text-slate-500">│  └──────────┘  │    │  ┌───────┐  ┌───────┐           │</span>
+<span class="text-slate-500">│  ┌──────────┐  │    │  │</span> <span class="text-blue-400">lamp1</span> <span class="text-slate-500">│  │</span> <span class="text-blue-400">lamp2</span> <span class="text-slate-500">│           │</span>
+<span class="text-slate-500">│  │</span> <span class="text-emerald-400">sensor4</span>  <span class="text-slate-500">│──┘    │  └───────┘  └───────┘           │</span>
+<span class="text-slate-500">│  └──────────┘       │  ┌───────┐  ┌───────┐           │</span>
+<span class="text-slate-500">│                     │  │</span> <span class="text-blue-400">lamp3</span> <span class="text-slate-500">│  │</span> <span class="text-blue-400">lamp4</span> <span class="text-slate-500">│           │</span>
+<span class="text-slate-500">│  ┌──────────┐      │  └───────┘  └───────┘           │</span>
+<span class="text-slate-500">│  │</span>  <span class="text-yellow-400">user</span>    <span class="text-slate-500">│◄─────┘                                 │</span>
+<span class="text-slate-500">│  │</span><span class="text-yellow-400">(EdgeUser)</span><span class="text-slate-500">│  Serial Connection                     │</span>
+<span class="text-slate-500">│  └──────────┘                                         │</span>
+<span class="text-slate-500">│                                                         │</span>
+<span class="text-slate-500">└─────────────────────────────────────────────────────────┘</span></pre>
+          </div>
+
+          <p class="text-slate-400 mb-4 leading-relaxed">
+            The simulation uses a realistic floorplan background image representing a house layout. All IoT devices communicate wirelessly via IEEE 802.15.4 (2.4 GHz), while the EdgeUser connects to the controller via serial communication for application deployment.
+          </p>
+        </section>
+
+        <!-- Components -->
+        <section id="components" class="mb-16">
+          <h2 class="text-3xl font-bold mb-6">Component Description</h2>
+
+          <div class="overflow-x-auto">
+            <table class="w-full text-sm border-collapse">
+              <thead>
+                <tr class="bg-slate-800/50 border-b border-slate-700">
+                  <th class="text-left p-4 font-bold text-cyan-400">Component</th>
+                  <th class="text-left p-4 font-bold text-cyan-400">Type</th>
+                  <th class="text-left p-4 font-bold text-cyan-400">Function</th>
+                </tr>
+              </thead>
+              <tbody class="text-slate-300">
+                <tr class="border-b border-slate-800">
+                  <td class="p-4"><code class="text-cyan-400">controller</code></td>
+                  <td class="p-4"><code class="text-pink-400">Raspberry5</code></td>
+                  <td class="p-4">Central IoT hub - receives sensor data, executes control logic, sends commands to actuators</td>
+                </tr>
+                <tr class="border-b border-slate-800">
+                  <td class="p-4"><code class="text-cyan-400">sensor1-4</code></td>
+                  <td class="p-4"><code class="text-pink-400">LuminositySensor</code></td>
+                  <td class="p-4">Luminosity sensors measuring ambient light (400-100,000 lumen)</td>
+                </tr>
+                <tr class="border-b border-slate-800">
+                  <td class="p-4"><code class="text-cyan-400">lamp1-4</code></td>
+                  <td class="p-4"><code class="text-pink-400">WirelessHost</code></td>
+                  <td class="p-4">Actuators (lamps) receiving UDP commands</td>
+                </tr>
+                <tr class="border-b border-slate-800">
+                  <td class="p-4"><code class="text-cyan-400">user</code></td>
+                  <td class="p-4"><code class="text-pink-400">EdgeUser</code></td>
+                  <td class="p-4">Edge system user deploying local applications</td>
+                </tr>
+                <tr class="border-b border-slate-800">
+                  <td class="p-4"><code class="text-cyan-400">radioMedium</code></td>
+                  <td class="p-4"><code class="text-pink-400">Ieee802154Medium</code></td>
+                  <td class="p-4">Radio propagation medium with breakpoint path loss model</td>
+                </tr>
+                <tr class="border-b border-slate-800">
+                  <td class="p-4"><code class="text-cyan-400">configurator</code></td>
+                  <td class="p-4"><code class="text-pink-400">Ipv4NetworkConfigurator</code></td>
+                  <td class="p-4">Automatic IPv4 network configuration</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- Wireless Layer -->
+        <section id="wireless" class="mb-16">
+          <h2 class="text-3xl font-bold mb-6">Wireless Communication Layer</h2>
+
+          <div class="bg-gradient-to-r from-blue-500/10 to-transparent border border-blue-500/30 rounded-xl p-6 mb-6">
+            <h3 class="text-xl font-bold mb-3 text-blue-400">IEEE 802.15.4 Physical Layer</h3>
+            <p class="text-slate-300 mb-4">
+              The showcase uses industry-standard IEEE 802.15.4 wireless communication, commonly used in Zigbee, Thread, and other IoT protocols.
+            </p>
+
+            <div class="grid md:grid-cols-2 gap-4">
+              <div class="bg-slate-900/50 border border-slate-700 rounded-lg p-4">
+                <h4 class="text-sm font-bold text-emerald-400 mb-2">Radio Specifications</h4>
+                <ul class="text-xs text-slate-400 space-y-1">
+                  <li>• Central Frequency: <span class="text-white">2.45 GHz</span></li>
+                  <li>• Bandwidth: <span class="text-white">2.8 MHz</span></li>
+                  <li>• Modulation: <span class="text-white">DSSS-OQPSK-16</span></li>
+                  <li>• Bitrate: <span class="text-white">250 kbps</span></li>
+                  <li>• TX Power: <span class="text-white">2.24 mW</span></li>
+                </ul>
+              </div>
+
+              <div class="bg-slate-900/50 border border-slate-700 rounded-lg p-4">
+                <h4 class="text-sm font-bold text-purple-400 mb-2">Receiver Sensitivity</h4>
+                <ul class="text-xs text-slate-400 space-y-1">
+                  <li>• Sensitivity: <span class="text-white">-100 dBm</span></li>
+                  <li>• Energy Detection: <span class="text-white">-90 dBm</span></li>
+                  <li>• SNIR Threshold: <span class="text-white">-8 dB</span></li>
+                  <li>• Background Noise: <span class="text-white">-110 dBm</span></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <!-- MAC Parameters -->
+          <div class="mb-6">
+            <h3 class="text-xl font-bold mb-4 text-cyan-400">MAC Layer Parameters</h3>
+            <div class="code-block rounded-xl overflow-hidden">
+              <div class="flex items-center justify-between px-4 py-3 bg-slate-800/50 border-b border-slate-700">
+                <span class="text-xs font-mono text-slate-400">IEEE 802.15.4 MAC Configuration</span>
+              </div>
+              <div class="p-6 grid md:grid-cols-2 gap-4 text-sm">
+                <div>
+                  <p class="text-slate-400 mb-1">Header length: <span class="text-cyan-400">72 bits</span></p>
+                  <p class="text-slate-400 mb-1">MTU: <span class="text-cyan-400">118 bytes</span></p>
+                  <p class="text-slate-400 mb-1">CCA detection: <span class="text-cyan-400">128 µs</span></p>
+                  <p class="text-slate-400 mb-1">Turnaround time: <span class="text-cyan-400">192 µs</span></p>
+                  <p class="text-slate-400 mb-1">ACK wait: <span class="text-cyan-400">560 µs</span></p>
+                </div>
+                <div>
+                  <p class="text-slate-400 mb-1">macMaxCSMABackoffs: <span class="text-cyan-400">4</span></p>
+                  <p class="text-slate-400 mb-1">macMinBE: <span class="text-cyan-400">3</span></p>
+                  <p class="text-slate-400 mb-1">macMaxBE: <span class="text-cyan-400">5</span></p>
+                  <p class="text-slate-400 mb-1">macMaxFrameRetries: <span class="text-cyan-400">3</span></p>
+                  <p class="text-slate-400 mb-1">Backoff method: <span class="text-cyan-400">exponential</span></p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Energy Model -->
+          <div class="mb-6">
+            <h3 class="text-xl font-bold mb-4 text-cyan-400">Energy Consumption Model</h3>
+            <p class="text-slate-400 mb-4">
+              The simulation includes a detailed state-based energy consumption model:
+            </p>
+            <div class="overflow-x-auto">
+              <table class="w-full text-sm border-collapse">
+                <thead>
+                  <tr class="bg-slate-800/50 border-b border-slate-700">
+                    <th class="text-left p-3 font-bold text-cyan-400">State</th>
+                    <th class="text-left p-3 font-bold text-cyan-400">Power Consumption</th>
+                  </tr>
+                </thead>
+                <tbody class="text-slate-300">
+                  <tr class="border-b border-slate-800"><td class="p-3">Off</td><td class="p-3"><code class="text-emerald-400">0 W</code></td></tr>
+                  <tr class="border-b border-slate-800"><td class="p-3">Sleep</td><td class="p-3"><code class="text-emerald-400">1 µW</code></td></tr>
+                  <tr class="border-b border-slate-800"><td class="p-3">Switching</td><td class="p-3"><code class="text-yellow-400">25 mW</code></td></tr>
+                  <tr class="border-b border-slate-800"><td class="p-3">Receiver Idle</td><td class="p-3"><code class="text-emerald-400">5 µW</code></td></tr>
+                  <tr class="border-b border-slate-800"><td class="p-3">Receiver Busy</td><td class="p-3"><code class="text-yellow-400">100 µW</code></td></tr>
+                  <tr class="border-b border-slate-800"><td class="p-3">Receiver Receiving</td><td class="p-3"><code class="text-orange-400">50 mW</code></td></tr>
+                  <tr class="border-b border-slate-800"><td class="p-3">Transmitter Idle</td><td class="p-3"><code class="text-yellow-400">5 mW</code></td></tr>
+                  <tr class="border-b border-slate-800"><td class="p-3">Transmitter Transmitting</td><td class="p-3"><code class="text-red-400">75 mW</code></td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- Data Flow -->
+        <section id="workflow" class="mb-16">
+          <h2 class="text-3xl font-bold mb-6">Data Flow: Sense-Process-Actuate</h2>
+
+          <div class="space-y-4">
+            <!-- Step 1 -->
+            <div class="bg-slate-900/50 border-l-4 border-emerald-500 rounded-r-xl p-6">
+              <div class="flex items-start gap-4">
+                <div class="flex-shrink-0 w-8 h-8 rounded-full bg-emerald-600 text-white flex items-center justify-center font-bold text-sm">1</div>
+                <div>
+                  <h3 class="text-lg font-bold mb-2 text-emerald-400">SENSE - Data Collection</h3>
+                  <p class="text-sm text-slate-300 mb-2">
+                    Luminosity sensors measure ambient light levels every <strong class="text-white">10 seconds</strong>:
+                  </p>
+                  <ul class="text-sm text-slate-400 space-y-1">
+                    <li>• Measurement range: <code class="text-cyan-400">uniform(400, 100000) lumen</code></li>
+                    <li>• Message length: <code class="text-cyan-400">20 bytes</code></li>
+                    <li>• Destination: <code class="text-cyan-400">controller:1000 (UDP)</code></li>
+                    <li>• Transport: <code class="text-cyan-400">IEEE 802.15.4 wireless</code></li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+
+            <!-- Step 2 -->
+            <div class="bg-slate-900/50 border-l-4 border-purple-500 rounded-r-xl p-6">
+              <div class="flex items-start gap-4">
+                <div class="flex-shrink-0 w-8 h-8 rounded-full bg-purple-600 text-white flex items-center justify-center font-bold text-sm">2</div>
+                <div>
+                  <h3 class="text-lg font-bold mb-2 text-purple-400">PROCESS - Edge Computing</h3>
+                  <p class="text-sm text-slate-300 mb-2">
+                    Raspberry5 controller executes LightController application:
+                  </p>
+                  <ul class="text-sm text-slate-400 space-y-1">
+                    <li>• Listening port: <code class="text-cyan-400">1000 (UDP)</code></li>
+                    <li>• Processing power: <code class="text-cyan-400">100 MIs</code></li>
+                    <li>• Pings threshold: <code class="text-cyan-400">5</code></li>
+                    <li>• Decision logic: Evaluate luminosity data and determine lamp actions</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+
+            <!-- Step 3 -->
+            <div class="bg-slate-900/50 border-l-4 border-blue-500 rounded-r-xl p-6">
+              <div class="flex items-start gap-4">
+                <div class="flex-shrink-0 w-8 h-8 rounded-full bg-blue-600 text-white flex items-center justify-center font-bold text-sm">3</div>
+                <div>
+                  <h3 class="text-lg font-bold mb-2 text-blue-400">ACTUATE - Control Action</h3>
+                  <p class="text-sm text-slate-300 mb-2">
+                    Controller sends UDP commands to smart lamps:
+                  </p>
+                  <ul class="text-sm text-slate-400 space-y-1">
+                    <li>• Target: <code class="text-cyan-400">lamp*:1000 (UDP)</code></li>
+                    <li>• Actions: <code class="text-cyan-400">ON / OFF / DIM</code></li>
+                    <li>• Transport: <code class="text-cyan-400">IEEE 802.15.4 wireless</code></li>
+                    <li>• Lamp implementation: <code class="text-cyan-400">UdpSink</code> receiver</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Protocol Stack -->
+          <div class="mt-8 bg-slate-900/50 border border-slate-800 rounded-xl p-6">
+            <h3 class="text-lg font-bold mb-4 text-cyan-400">Protocol Stack</h3>
+            <div class="code-block rounded-lg p-4">
+              <pre class="text-sm font-mono text-slate-300"><span class="text-emerald-400">┌─────────────────────────────────┐</span>
+<span class="text-emerald-400">│</span>     <span class="text-white">Application Layer</span>       <span class="text-emerald-400">│</span>
+<span class="text-emerald-400">│</span> • LightController (LocalIoT)  <span class="text-emerald-400">│</span>
+<span class="text-emerald-400">│</span> • UdpSink (INET)              <span class="text-emerald-400">│</span>
+<span class="text-cyan-400">├─────────────────────────────────┤</span>
+<span class="text-cyan-400">│</span>      <span class="text-white">Transport Layer</span>         <span class="text-cyan-400">│</span>
+<span class="text-cyan-400">│</span> • UDP (port 1000)             <span class="text-cyan-400">│</span>
+<span class="text-blue-400">├─────────────────────────────────┤</span>
+<span class="text-blue-400">│</span>       <span class="text-white">Network Layer</span>          <span class="text-blue-400">│</span>
+<span class="text-blue-400">│</span> • IPv4                        <span class="text-blue-400">│</span>
+<span class="text-blue-400">│</span> • GlobalArp                   <span class="text-blue-400">│</span>
+<span class="text-purple-400">├─────────────────────────────────┤</span>
+<span class="text-purple-400">│</span>      <span class="text-white">Data Link Layer</span>         <span class="text-purple-400">│</span>
+<span class="text-purple-400">│</span> • IEEE 802.15.4 MAC           <span class="text-purple-400">│</span>
+<span class="text-purple-400">│</span> • Exponential backoff         <span class="text-purple-400">│</span>
+<span class="text-pink-400">├─────────────────────────────────┤</span>
+<span class="text-pink-400">│</span>      <span class="text-white">Physical Layer</span>          <span class="text-pink-400">│</span>
+<span class="text-pink-400">│</span> • IEEE 802.15.4 Radio         <span class="text-pink-400">│</span>
+<span class="text-pink-400">│</span> • 2.45 GHz ISM band           <span class="text-pink-400">│</span>
+<span class="text-pink-400">└─────────────────────────────────┘</span></pre>
+            </div>
+          </div>
+        </section>
+
+        <!-- Configuration -->
+        <section id="configuration" class="mb-16">
+          <h2 class="text-3xl font-bold mb-6">Configuration Example</h2>
+
+          <div class="code-block rounded-xl overflow-hidden shadow-2xl">
+            <div class="flex items-center justify-between px-4 py-3 bg-slate-800/50 border-b border-slate-700">
+              <span class="text-xs font-mono text-slate-400">showcases/iot/omnetpp.ini</span>
+              <button onclick="copyCode()" class="flex items-center gap-2 text-xs text-slate-400 hover:text-white transition">
+                <span>📋</span> Copy
+              </button>
+            </div>
+            <pre class="p-6 text-sm font-mono overflow-x-auto custom-scrollbar" id="codeBlock"><span class="text-slate-500"># Network Configuration</span>
+<span class="text-blue-400">network</span> = <span class="text-emerald-400">SmartHome</span>
+<span class="text-blue-400">sim-time-limit</span> = <span class="text-pink-400">1h</span>
+<span class="text-blue-400">simtime-resolution</span> = <span class="text-emerald-400">ps</span>
+
+<span class="text-slate-500"># Radio Medium Configuration</span>
+<span class="text-blue-400">*.radioMedium.backgroundNoise.power</span> = <span class="text-pink-400">-110dBm</span>
+
+<span class="text-slate-500"># Controller Configuration (Raspberry5)</span>
+<span class="text-blue-400">*.controller.numWlanInterfaces</span> = <span class="text-pink-400">1</span>
+<span class="text-blue-400">*.controller.energyStorage.typename</span> = <span class="text-emerald-400">"IdealEpEnergyStorage"</span>
+<span class="text-blue-400">*.controller.wlan[0].typename</span> = <span class="text-emerald-400">"Ieee802154NarrowbandInterface"</span>
+
+<span class="text-slate-500"># Sensor Configuration</span>
+<span class="text-blue-400">*.sensor*.model.controllerInterface</span> = <span class="text-emerald-400">"wlan0"</span>
+<span class="text-blue-400">*.sensor*.model.controllerPath</span> = <span class="text-emerald-400">"^.^.controller"</span>
+<span class="text-blue-400">*.sensor*.model.tag</span> = <span class="text-emerald-400">"luminosity"</span>
+<span class="text-blue-400">*.sensor*.model.value</span> = <span class="text-emerald-400">uniform(400, 100000)</span> <span class="text-slate-500"># lumen</span>
+<span class="text-blue-400">*.sensor*.model.unit</span> = <span class="text-emerald-400">"lumen"</span>
+<span class="text-blue-400">*.sensor*.model.updatePeriod</span> = <span class="text-pink-400">10s</span>
+<span class="text-blue-400">*.sensor*.model.messageLength</span> = <span class="text-pink-400">20B</span>
+<span class="text-blue-400">*.sensor*.model.destPort</span> = <span class="text-pink-400">1000</span>
+<span class="text-blue-400">*.sensor*.numWlanInterfaces</span> = <span class="text-pink-400">1</span>
+<span class="text-blue-400">*.sensor*.wlan[0].typename</span> = <span class="text-emerald-400">"Ieee802154NarrowbandInterface"</span>
+
+<span class="text-slate-500"># Actuator Configuration (Lamps)</span>
+<span class="text-blue-400">*.lamp*.numApps</span> = <span class="text-pink-400">1</span>
+<span class="text-blue-400">*.lamp*.app[0].typename</span> = <span class="text-emerald-400">"UdpSink"</span>
+<span class="text-blue-400">*.lamp*.app[0].localPort</span> = <span class="text-pink-400">1000</span>
+<span class="text-blue-400">*.lamp*.numWlanInterfaces</span> = <span class="text-pink-400">1</span>
+<span class="text-blue-400">*.lamp*.wlan[0].typename</span> = <span class="text-emerald-400">"Ieee802154NarrowbandInterface"</span>
+
+<span class="text-slate-500"># Edge User Configuration</span>
+<span class="text-blue-400">*.user.deploymentZone</span> = <span class="text-emerald-400">"local"</span>
+<span class="text-blue-400">*.user.sensors</span> = <span class="text-emerald-400">["sensor1", "sensor2", "sensor3", "sensor4"]</span>
+<span class="text-blue-400">*.user.localApps</span> = <span class="text-emerald-400">[{"name": "MyApp", "type": "LightController"}]</span>
+<span class="text-blue-400">*.user.vms</span> = <span class="text-emerald-400">[]</span>
+<span class="text-blue-400">*.user.remoteApps</span> = <span class="text-emerald-400">[]</span>
+
+<span class="text-slate-500"># Network Settings</span>
+<span class="text-blue-400">**.arp.typename</span> = <span class="text-emerald-400">"GlobalArp"</span></pre>
+          </div>
+        </section>
+
+        <!-- Application -->
+        <section id="application" class="mb-16">
+          <h2 class="text-3xl font-bold mb-6">LightController Application</h2>
+
+          <div class="bg-slate-900/50 border border-slate-800 rounded-xl p-6 mb-6">
+            <h3 class="text-xl font-bold mb-4 text-cyan-400">Application Definition (apps.json)</h3>
+            <div class="code-block rounded-lg overflow-hidden">
+              <pre class="p-4 text-sm font-mono overflow-x-auto custom-scrollbar"><span class="text-slate-500">{</span>
+  <span class="text-blue-400">"name"</span>: <span class="text-emerald-400">"LightController"</span>,
+  <span class="text-blue-400">"model"</span>: <span class="text-emerald-400">"LocalIotApplication"</span>,
+  <span class="text-blue-400">"package"</span>: <span class="text-emerald-400">"s2f.apps.iot"</span>,
+  <span class="text-blue-400">"parameters"</span>: <span class="text-slate-500">{</span>
+    <span class="text-blue-400">"processingMIs"</span>: <span class="text-emerald-400">"100"</span>,
+    <span class="text-blue-400">"listeningPort"</span>: <span class="text-emerald-400">"1000"</span>,
+    <span class="text-blue-400">"pingsThreshold"</span>: <span class="text-emerald-400">"5"</span>
+  <span class="text-slate-500">}</span>
+<span class="text-slate-500">}</span></pre>
+            </div>
+          </div>
+
+          <div class="grid md:grid-cols-3 gap-4">
+            <div class="bg-slate-900/50 border border-slate-700 rounded-lg p-4">
+              <h4 class="text-sm font-bold text-emerald-400 mb-2">processingMIs</h4>
+              <p class="text-xs text-slate-400">
+                <span class="text-white">100</span> million instructions to process each sensor event
+              </p>
+            </div>
+            <div class="bg-slate-900/50 border border-slate-700 rounded-lg p-4">
+              <h4 class="text-sm font-bold text-purple-400 mb-2">listeningPort</h4>
+              <p class="text-xs text-slate-400">
+                UDP port <span class="text-white">1000</span> for receiving sensor data
+              </p>
+            </div>
+            <div class="bg-slate-900/50 border border-slate-700 rounded-lg p-4">
+              <h4 class="text-sm font-bold text-blue-400 mb-2">pingsThreshold</h4>
+              <p class="text-xs text-slate-400">
+                Threshold of <span class="text-white">5</span> pings to trigger actions
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <!-- What to Observe -->
+        <section class="p-8 rounded-2xl bg-cyan-500/5 border border-cyan-500/20 mb-16">
+          <div class="flex gap-6">
+            <div class="hidden sm:flex shrink-0 w-12 h-12 items-center justify-center rounded-full bg-cyan-500 text-white text-2xl">
+              🔍
+            </div>
+            <div>
+              <h3 class="text-2xl font-bold mb-3">What to Observe During Execution</h3>
+              <p class="text-slate-400 mb-4 leading-relaxed">
+                Monitor these key behaviors to verify the showcase is working correctly:
+              </p>
+              <ul class="space-y-2 text-slate-300">
+                <li class="flex items-start gap-2">
+                  <span class="text-cyan-400">•</span>
+                  <span>IEEE 802.15.4 wireless frames between sensors and controller at 2.45 GHz</span>
+                </li>
+                <li class="flex items-start gap-2">
+                  <span class="text-cyan-400">•</span>
+                  <span>UDP packets to port <code class="text-pink-400">1000</code> containing luminosity data every <code class="text-pink-400">10 seconds</code></span>
+                </li>
+                <li class="flex items-start gap-2">
+                  <span class="text-cyan-400">•</span>
+                  <span>LightController processing events with <code class="text-pink-400">100 MIs</code> computation</span>
+                </li>
+                <li class="flex items-start gap-2">
+                  <span class="text-cyan-400">•</span>
+                  <span>Control commands from controller to lamps based on threshold logic</span>
+                </li>
+                <li class="flex items-start gap-2">
+                  <span class="text-cyan-400">•</span>
+                  <span>MAC layer ACKs and exponential backoff behavior during contention</span>
+                </li>
+                <li class="flex items-start gap-2">
+                  <span class="text-cyan-400">•</span>
+                  <span>Energy consumption transitions across different radio states</span>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </section>
+
+        <!-- Performance Metrics -->
+        <section class="p-8 rounded-2xl bg-blue-500/5 border border-blue-500/20 mb-16">
+          <div class="flex gap-6">
+            <div class="hidden sm:flex shrink-0 w-12 h-12 items-center justify-center rounded-full bg-blue-500 text-white text-2xl">
+              📊
+            </div>
+            <div>
+              <h3 class="text-2xl font-bold mb-3">Expected Performance Metrics</h3>
+              <div class="grid md:grid-cols-2 gap-6 text-slate-300">
+                <div>
+                  <h4 class="font-bold text-cyan-400 mb-2">Latency (Sensor → Lamp)</h4>
+                  <ul class="text-sm space-y-1">
+                    <li>• Theoretical minimum: <span class="text-white">~2 ms</span></li>
+                    <li>• With MAC contention: <span class="text-white">5-20 ms</span></li>
+                    <li>• Frame transmission: <span class="text-white">~832 µs per hop</span></li>
+                  </ul>
+                </div>
+                <div>
+                  <h4 class="font-bold text-cyan-400 mb-2">Throughput</h4>
+                  <ul class="text-sm space-y-1">
+                    <li>• Channel capacity: <span class="text-white">250 kbps</span></li>
+                    <li>• MAC efficiency: <span class="text-white">60-70%</span></li>
+                    <li>• Effective throughput: <span class="text-white">~150-175 kbps</span></li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Design Rationale -->
+        <section class="p-8 rounded-2xl bg-purple-500/5 border border-purple-500/20 mb-16">
+          <div class="flex gap-6">
+            <div class="hidden sm:flex shrink-0 w-12 h-12 items-center justify-center rounded-full bg-purple-500 text-white text-2xl">
+              💡
+            </div>
+            <div>
+              <h3 class="text-2xl font-bold mb-4">Design Rationale</h3>
+              <p class="text-slate-400 mb-6 leading-relaxed">
+                This showcase demonstrates a realistic IoT deployment with several key design decisions:
+              </p>
+              <div class="grid md:grid-cols-2 gap-6">
+                <div>
+                  <h4 class="text-sm font-bold text-emerald-400 mb-3">Physical Layer Realism</h4>
+                  <p class="text-xs text-slate-400">
+                    Uses industry-standard IEEE 802.15.4 with accurate radio parameters, MAC behavior, and energy consumption modeling based on real hardware specifications.
+                  </p>
+                </div>
+                <div>
+                  <h4 class="text-sm font-bold text-purple-400 mb-3">Edge Computing Pattern</h4>
+                  <p class="text-xs text-slate-400">
+                    Demonstrates the Sense-Process-Actuate pattern with local edge processing on the Raspberry Pi controller, minimizing cloud dependencies.
+                  </p>
+                </div>
+                <div>
+                  <h4 class="text-sm font-bold text-blue-400 mb-3">Modular Architecture</h4>
+                  <p class="text-xs text-slate-400">
+                    Clean separation between sensors, controller logic, and actuators allows easy extension with additional device types and control algorithms.
+                  </p>
+                </div>
+                <div>
+                  <h4 class="text-sm font-bold text-yellow-400 mb-3">Visual Feedback</h4>
+                  <p class="text-xs text-slate-400">
+                    Includes data link visualization and statistics tracking to help understand network behavior and debug communication patterns.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Next Steps -->
+        <section class="p-8 rounded-2xl bg-gradient-to-br from-cyan-500/10 to-purple-500/10 border border-cyan-500/30">
+          <h3 class="text-2xl font-bold mb-4">Extension Ideas</h3>
+          <p class="text-slate-300 mb-6 leading-relaxed">
+            The IoT showcase can be extended in multiple directions:
+          </p>
+          <div class="grid md:grid-cols-2 gap-4 mb-6">
+            <div class="bg-slate-900/50 border border-slate-700 rounded-lg p-4">
+              <h4 class="text-sm font-bold text-emerald-400 mb-2">Additional Sensors</h4>
+              <p class="text-xs text-slate-400">Add temperature, humidity, motion, or wearable sensors to create richer scenarios</p>
+            </div>
+            <div class="bg-slate-900/50 border border-slate-700 rounded-lg p-4">
+              <h4 class="text-sm font-bold text-purple-400 mb-2">Cloud Integration</h4>
+              <p class="text-xs text-slate-400">Connect to remote services for data analytics and machine learning</p>
+            </div>
+            <div class="bg-slate-900/50 border border-slate-700 rounded-lg p-4">
+              <h4 class="text-sm font-bold text-blue-400 mb-2">Mobility</h4>
+              <p class="text-xs text-slate-400">Simulate mobile devices like smartphones or wearables moving through the space</p>
+            </div>
+            <div class="bg-slate-900/50 border border-slate-700 rounded-lg p-4">
+              <h4 class="text-sm font-bold text-yellow-400 mb-2">Failure Scenarios</h4>
+              <p class="text-xs text-slate-400">Test resilience with network failures, battery depletion, or sensor malfunctions</p>
+            </div>
+          </div>
+          <div class="flex flex-wrap gap-4">
+            <a href="../doc/core/iotDevices.html" class="inline-flex items-center gap-2 font-bold text-cyan-400 hover:text-cyan-300 transition">
+              IoT Devices Documentation →
+            </a>
+            <a href="../doc/core/architecture.html" class="inline-flex items-center gap-2 font-bold text-cyan-400 hover:text-cyan-300 transition">
+              Architecture Overview →
+            </a>
+            <a href="../doc/tutorial.html" class="inline-flex items-center gap-2 font-bold text-cyan-400 hover:text-cyan-300 transition">
+              Get Started →
+            </a>
+          </div>
+        </section>
+
+      </div>
+    </main>
+
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="bg-slate-950 border-t border-slate-800 py-12 text-slate-400 text-center">
+    <div class="max-w-7xl mx-auto px-6">
+      <p class="text-lg">© 2026 Simcan2Fog • Open Source Fog Computing Simulation Framework</p>
+      <p class="mt-2">Built with OMNeT++ 6.3.0 & INET 4.5.4 • Licensed under GPL-3.0</p>
+      <div class="mt-8 flex justify-center gap-12 text-sm">
+        <a href="https://github.com/UlyssesDeAguilar/Simcan2Fog" class="hover:text-cyan-400">GitHub</a>
+        <a href="https://ulyssesdeaguilar.github.io/s2f-ned-docs/" class="hover:text-cyan-400">Documentation</a>
+        <a href="https://github.com/UlyssesDeAguilar/Simcan2Fog/releases" class="hover:text-cyan-400">Releases</a>
+        <a href="https://www.sciencedirect.com/science/article/pii/S2352711025003905" class="hover:text-cyan-400">Paper</a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    function copyCode() {
+      const code = document.getElementById('codeBlock').textContent;
+      navigator.clipboard.writeText(code).then(() => {
+        alert('Code copied to clipboard!');
+      });
+    }
+  </script>
+
+</body>
+</html>
