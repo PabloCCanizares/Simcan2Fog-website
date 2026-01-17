@@ -1,2 +1,21 @@
 
 /old
+
+# Node modules
+node_modules/
+
+# Build files
+.DS_Store
+*.log
+npm-debug.log*
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Temporary files
+.tmp/
+temp/

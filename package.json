@@ -1,0 +1,12 @@
+{
+  "name": "simcan2fog-website",
+  "version": "1.0.0",
+  "description": "Official website for Simcan2Fog - Fog Computing Simulation Framework",
+  "scripts": {
+    "build:css": "tailwindcss -i ./src/input.css -o ./css/tailwind.min.css --minify",
+    "watch:css": "tailwindcss -i ./src/input.css -o ./css/tailwind.min.css --watch"
+  },
+  "devDependencies": {
+    "tailwindcss": "^3.4.1"
+  }
+}

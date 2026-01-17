@@ -5,37 +5,66 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Simcan2Fog • Simulate the Future of Fog Computing</title>
   <meta name="description" content="Discrete-event simulation platform for fog, edge and cloud environments – built on OMNeT++ and INET. Official publication: SoftwareX (2025)."/>
- 
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script>
-    tailwind.config = {
-      darkMode: 'class',
-      theme: { extend: { colors: { primary: '#0ea5e9', neon: '#22d3ee', bgDark: '#0f172a' } } }
-    }
+
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://ulyssesdeaguilar.github.io/Simcan2Fog-website/">
+  <meta property="og:title" content="Simcan2Fog - Fog Computing Simulation Framework">
+  <meta property="og:description" content="Open-source discrete-event simulation platform for fog, edge and cloud computing built on OMNeT++ and INET. Published in SoftwareX (2025).">
+  <meta property="og:image" content="https://ulyssesdeaguilar.github.io/Simcan2Fog-website/logo_v2.png">
+
+  <!-- Twitter -->
+  <meta property="twitter:card" content="summary_large_image">
+  <meta property="twitter:url" content="https://ulyssesdeaguilar.github.io/Simcan2Fog-website/">
+  <meta property="twitter:title" content="Simcan2Fog - Fog Computing Simulation Framework">
+  <meta property="twitter:description" content="Open-source discrete-event simulation platform for fog, edge and cloud computing built on OMNeT++ and INET. Published in SoftwareX (2025).">
+  <meta property="twitter:image" content="https://ulyssesdeaguilar.github.io/Simcan2Fog-website/logo_v2.png">
+
+  <!-- Canonical URL -->
+  <link rel="canonical" href="https://ulyssesdeaguilar.github.io/Simcan2Fog-website/">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="logo_v2.png">
+
+  <!-- Schema.org for Research Software -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "Simcan2Fog",
+    "applicationCategory": "Scientific Software",
+    "operatingSystem": "Linux, macOS, Windows",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "USD"
+    },
+    "description": "Discrete-event simulation framework for modeling and analyzing Fog, Edge and Cloud computing environments",
+    "softwareVersion": "1.2.0",
+    "datePublished": "2025-01-01",
+    "author": {
+      "@type": "Organization",
+      "name": "Universidad Complutense de Madrid"
+    },
+    "citation": "https://doi.org/10.1016/j.softx.2025.102424",
+    "license": "https://www.gnu.org/licenses/gpl-3.0.html",
+    "codeRepository": "https://github.com/UlyssesDeAguilar/Simcan2Fog"
+  }
   </script>
+
+  <!-- Preconnect to Google Fonts for faster loading -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <!-- Tailwind CSS (compiled) -->
+  <link rel="stylesheet" href="css/tailwind.min.css">
+
+  <!-- Google Fonts with display swap for better performance -->
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-  <style>
-    body { font-family: 'Inter', system-ui, sans-serif; }
-    .gradient-hero { background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #0ea5e9 100%); }
-    .glass { background: rgba(30,41,59,0.55); backdrop-filter: blur(12px); border: 1px solid rgba(255,255,255,0.12); }
-    .carousel { position: relative; overflow: hidden; width: 100%; height: 100%; border-radius: 1.5rem; }
-    .carousel-track { display: flex; transition: transform 0.7s cubic-bezier(0.34, 1.56, 0.64, 1); height: 100%; }
-    .carousel-slide { min-width: 100%; height: 100%; flex-shrink: 0; position: relative; display: flex; flex-direction: column; }
-    .carousel-slide img { width: 100%; height: 100%; object-fit: cover; position: absolute; top: 0; left: 0; }
-    .carousel-caption-box { position: absolute; bottom: 0; left: 0; right: 0; background: linear-gradient(to top, #0f172a 0%, rgba(15, 23, 42, 0.9) 70%, transparent 100%); padding: 4rem 1.5rem 1.5rem; z-index: 10; }
-    @media (min-width: 768px) { .carousel-caption-box { padding: 4rem 5rem 1.5rem; } }
-    .carousel-btn { pointer-events: all; position: absolute; top: 50%; transform: translateY(-50%); width: 52px; height: 52px; background: rgba(0,0,0,0.55); backdrop-filter: blur(10px); border-radius: 9999px; color: white; font-size: 1.6rem; display: flex; align-items: center; justify-content: center; transition: all 0.3s; border: 1px solid rgba(255,255,255,0.25); }
-    .carousel-btn:hover { background: rgba(14,165,233,0.75); transform: translateY(-50%) scale(1.12); }
-    .carousel-btn.prev { left: 20px; } .carousel-btn.next { right: 20px; }
-    .carousel-dots { position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%); display: flex; gap: 14px; }
-    .carousel-dot { width: 14px; height: 14px; border-radius: 50%; background: rgba(255,255,255,0.45); cursor: pointer; transition: all 0.35s; }
-    .carousel-dot.active { background: #22d3ee; transform: scale(1.4); box-shadow: 0 0 12px #22d3ee80; }
-    .feature-card { 
-      background: rgba(30,41,59,0.65); 
-      backdrop-filter: blur(10px); 
-      border: 1px solid rgba(34,211,238,0.25);
-    }
-  </style>
+
+  <!-- Plausible Analytics (privacy-friendly, lightweight) -->
+  <!-- Replace 'your-domain.com' with your actual domain when deploying -->
+  <script defer data-domain="ulyssesdeaguilar.github.io" src="https://plausible.io/js/script.js"></script>
 </head>
 <body class="bg-slate-950 text-slate-100 antialiased">
 
@@ -46,13 +75,34 @@
         <div class="w-11 h-11 rounded-xl bg-gradient-to-br from-cyan-500 to-blue-600 flex items-center justify-center font-bold text-white text-2xl shadow-lg">S2F</div>
         <span class="text-2xl font-semibold tracking-tight">Simcan2Fog</span>
       </div>
-     
+
+      <!-- Desktop Navigation -->
       <div class="hidden md:flex gap-8 font-medium">
         <a href="index.html" class="hover:text-cyan-300 transition-colors">Home</a>
         <a href="features.html" class="hover:text-cyan-300 transition-colors">Features</a>
+        <a href="comparison.html" class="hover:text-cyan-300 transition-colors">Comparison</a>
         <a href="doc/tutorial.html" class="hover:text-cyan-300 transition-colors">Tutorial</a>
         <a href="doc/documentation.html" class="hover:text-cyan-300 transition-colors">Documentation</a>
         <a href="publications.html" class="hover:text-cyan-300 transition-colors">Publications</a>
+      </div>
+
+      <!-- Mobile Menu Button -->
+      <button id="mobileMenuBtn" class="md:hidden text-white p-2 hover:bg-slate-800 rounded-lg transition-colors" aria-label="Toggle menu">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+        </svg>
+      </button>
+    </div>
+
+    <!-- Mobile Menu -->
+    <div id="mobileMenu" class="hidden md:hidden bg-slate-900/95 backdrop-blur-xl border-t border-slate-700/40">
+      <div class="px-6 py-4 flex flex-col gap-4 font-medium">
+        <a href="index.html" class="hover:text-cyan-300 transition-colors py-2">Home</a>
+        <a href="features.html" class="hover:text-cyan-300 transition-colors py-2">Features</a>
+        <a href="comparison.html" class="hover:text-cyan-300 transition-colors py-2">Comparison</a>
+        <a href="doc/tutorial.html" class="hover:text-cyan-300 transition-colors py-2">Tutorial</a>
+        <a href="doc/documentation.html" class="hover:text-cyan-300 transition-colors py-2">Documentation</a>
+        <a href="publications.html" class="hover:text-cyan-300 transition-colors py-2">Publications</a>
       </div>
     </div>
   </nav>
@@ -94,35 +144,50 @@
         <div class="carousel" id="carousel">
           <div class="carousel-track" id="track">
             <div class="carousel-slide">
-              <img src="images/001bis.jpg" alt="Global network connections and data centers">
+              <picture>
+                <source srcset="images/001bis.webp" type="image/webp">
+                <img src="images/001bis.jpg" alt="Global network connections and data centers" loading="lazy">
+              </picture>
               <div class="carousel-caption-box">
                 <h3 class="text-xl md:text-2xl font-bold text-white mb-2">OMNeT++ Integration</h3>
                 <p class="text-slate-200 text-sm md:text-base">Built on the powerful OMNeT++ discrete-event simulation framework with full GUI support</p>
               </div>
             </div>
             <div class="carousel-slide">
-              <img src="images/002.jpg" alt="Abstract network topology visualization">
+              <picture>
+                <source srcset="images/002.webp" type="image/webp">
+                <img src="images/002.jpg" alt="Abstract network topology visualization" loading="lazy">
+              </picture>
               <div class="carousel-caption-box">
                 <h3 class="text-xl md:text-2xl font-bold text-white mb-2">Fog Computing Architecture</h3>
                 <p class="text-slate-200 text-sm md:text-base">Model hierarchical fog nodes, edge devices and cloud data centers in multi-tier systems</p>
               </div>
             </div>
             <div class="carousel-slide">
-              <img src="images/003bis.jpg" alt="IoT devices and smart technology">
+              <picture>
+                <source srcset="images/003bis.webp" type="image/webp">
+                <img src="images/003bis.jpg" alt="IoT devices and smart technology" loading="lazy">
+              </picture>
               <div class="carousel-caption-box">
                 <h3 class="text-xl md:text-2xl font-bold text-white mb-2">IoT & Smart Environments</h3>
                 <p class="text-slate-200 text-sm md:text-base">Simulate sensors, actuators, smart homes and IoT gateways with realistic behavior</p>
               </div>
             </div>
             <div class="carousel-slide">
-              <img src="images/004bis.jpg" alt="Cloud computing infrastructure with servers">
+              <picture>
+                <source srcset="images/004bis.webp" type="image/webp">
+                <img src="images/004bis.jpg" alt="Cloud computing infrastructure with servers" loading="lazy">
+              </picture>
               <div class="carousel-caption-box">
                 <h3 class="text-xl md:text-2xl font-bold text-white mb-2">Task Offloading & Orchestration</h3>
                 <p class="text-slate-200 text-sm md:text-base">Dynamic workload placement, container/VM simulation and intelligent orchestration policies</p>
               </div>
             </div>
             <div class="carousel-slide">
-              <img src="images/005.jpg" alt="Network simulation and data processing">
+              <picture>
+                <source srcset="images/005.webp" type="image/webp">
+                <img src="images/005.jpg" alt="Network simulation and data processing" loading="lazy">
+              </picture>
               <div class="carousel-caption-box">
                 <h3 class="text-xl md:text-2xl font-bold text-white mb-2">Detailed Performance Metrics</h3>
                 <p class="text-slate-200 text-sm md:text-base">Comprehensive analysis of latency, resource usage, energy consumption and QoS parameters</p>
@@ -303,6 +368,24 @@
       </div>
     </div>
   </footer>
+
+  <!-- MOBILE MENU JAVASCRIPT -->
+  <script>
+    // Mobile menu toggle
+    const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+    const mobileMenu = document.getElementById('mobileMenu');
+
+    mobileMenuBtn.addEventListener('click', () => {
+      mobileMenu.classList.toggle('hidden');
+    });
+
+    // Close mobile menu when clicking outside
+    document.addEventListener('click', (e) => {
+      if (!mobileMenuBtn.contains(e.target) && !mobileMenu.contains(e.target)) {
+        mobileMenu.classList.add('hidden');
+      }
+    });
+  </script>
 
   <!-- CAROUSEL JAVASCRIPT -->
   <script>

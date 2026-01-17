@@ -30,12 +30,31 @@
         <span class="text-2xl font-semibold tracking-tight">Simcan2Fog</span>
       </div>
 
+      <!-- Desktop Navigation -->
       <div class="hidden md:flex gap-8 font-medium">
         <a href="index.html" class="hover:text-cyan-300 transition-colors">Home</a>
         <a href="features.html" class="hover:text-cyan-300 transition-colors">Features</a>
         <a href="doc/tutorial.html" class="hover:text-cyan-300 transition-colors">Tutorial</a>
         <a href="doc/documentation.html" class="hover:text-cyan-300 transition-colors">Documentation</a>
         <a href="publications.html" class="text-cyan-300">Publications</a>
+      </div>
+
+      <!-- Mobile Menu Button -->
+      <button id="mobileMenuBtn" class="md:hidden text-white p-2 hover:bg-slate-800 rounded-lg transition-colors" aria-label="Toggle menu">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+        </svg>
+      </button>
+    </div>
+
+    <!-- Mobile Menu -->
+    <div id="mobileMenu" class="hidden md:hidden bg-slate-900/95 backdrop-blur-xl border-t border-slate-700/40">
+      <div class="px-6 py-4 flex flex-col gap-4 font-medium">
+        <a href="index.html" class="hover:text-cyan-300 transition-colors py-2">Home</a>
+        <a href="features.html" class="hover:text-cyan-300 transition-colors py-2">Features</a>
+        <a href="doc/tutorial.html" class="hover:text-cyan-300 transition-colors py-2">Tutorial</a>
+        <a href="doc/documentation.html" class="hover:text-cyan-300 transition-colors py-2">Documentation</a>
+        <a href="publications.html" class="text-cyan-300 py-2">Publications</a>
       </div>
     </div>
   </nav>
@@ -291,6 +310,21 @@
   </footer>
 
   <script>
+    // Mobile menu
+    const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+    const mobileMenu = document.getElementById('mobileMenu');
+
+    mobileMenuBtn.addEventListener('click', () => {
+      mobileMenu.classList.toggle('hidden');
+    });
+
+    document.addEventListener('click', (e) => {
+      if (!mobileMenuBtn.contains(e.target) && !mobileMenu.contains(e.target)) {
+        mobileMenu.classList.add('hidden');
+      }
+    });
+
+    // BibTeX copy
     function copyBibtex() {
       const bibtexText = `@article{deaguilar2025,
   title = {Simcan2Fog: A discrete-event platform for the
