@@ -92,176 +92,207 @@
 
   <!-- FEATURES CONTENT -->
   <section class="py-20 bg-slate-900/50">
-    <div class="max-w-5xl mx-auto px-6">
-      
-      <div class="space-y-6 text-lg leading-relaxed">
-        
-        <div class="flex gap-4">
-          <div class="text-cyan-400 text-2xl flex-shrink-0">•</div>
-          <p>
-            Based on <strong>100% open source software</strong> (GPL-3.0 license) offering unrestricted extensibility and modification
-          </p>
+    <div class="max-w-7xl mx-auto px-6">
+
+      <!-- Category Navigation -->
+      <div class="flex flex-wrap justify-center gap-4 mb-16">
+        <a href="#core-framework" class="px-6 py-3 bg-slate-800/50 hover:bg-slate-800 border border-slate-700 hover:border-cyan-500/50 rounded-xl font-semibold transition-all">
+          🏗️ Core Framework
+        </a>
+        <a href="#networking" class="px-6 py-3 bg-slate-800/50 hover:bg-slate-800 border border-slate-700 hover:border-cyan-500/50 rounded-xl font-semibold transition-all">
+          📡 Networking
+        </a>
+        <a href="#iot-fog" class="px-6 py-3 bg-slate-800/50 hover:bg-slate-800 border border-slate-700 hover:border-cyan-500/50 rounded-xl font-semibold transition-all">
+          🌫️ IoT & Fog
+        </a>
+        <a href="#cloud-infra" class="px-6 py-3 bg-slate-800/50 hover:bg-slate-800 border border-slate-700 hover:border-cyan-500/50 rounded-xl font-semibold transition-all">
+          ☁️ Cloud & Infrastructure
+        </a>
+        <a href="#performance" class="px-6 py-3 bg-slate-800/50 hover:bg-slate-800 border border-slate-700 hover:border-cyan-500/50 rounded-xl font-semibold transition-all">
+          📊 Performance & Tools
+        </a>
+      </div>
+
+      <div class="space-y-20">
+
+        <!-- CATEGORY 1: Core Framework -->
+        <div id="core-framework">
+          <div class="flex items-center gap-4 mb-8">
+            <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-blue-500 to-cyan-600 flex items-center justify-center text-3xl">
+              🏗️
+            </div>
+            <h2 class="text-3xl font-bold">Core Framework</h2>
+          </div>
+
+          <div class="grid md:grid-cols-2 gap-6">
+            <div class="bg-slate-800/30 border border-slate-700/50 rounded-xl p-6 hover:border-cyan-500/30 transition-all">
+              <h3 class="font-bold text-lg mb-3 text-cyan-400">100% Open Source</h3>
+              <p class="text-slate-300 leading-relaxed">Based on <strong>GPL-3.0 license</strong> offering unrestricted extensibility and modification for research and commercial use.</p>
+            </div>
+
+            <div class="bg-slate-800/30 border border-slate-700/50 rounded-xl p-6 hover:border-cyan-500/30 transition-all">
+              <h3 class="font-bold text-lg mb-3 text-cyan-400">Built on OMNeT++ & INET</h3>
+              <p class="text-slate-300 leading-relaxed">Leverages <strong>OMNeT++ 6.3.0 and INET 4.5.4</strong> – widely adopted frameworks for discrete-event simulation and network protocol modelling.</p>
+            </div>
+
+            <div class="bg-slate-800/30 border border-slate-700/50 rounded-xl p-6 hover:border-cyan-500/30 transition-all">
+              <h3 class="font-bold text-lg mb-3 text-cyan-400">Modular Architecture</h3>
+              <p class="text-slate-300 leading-relaxed">Features <strong>modular and extensible architecture</strong> with clearly defined APIs enabling easy implementation of custom fog strategies and algorithms.</p>
+            </div>
+
+            <div class="bg-slate-800/30 border border-slate-700/50 rounded-xl p-6 hover:border-cyan-500/30 transition-all">
+              <h3 class="font-bold text-lg mb-3 text-cyan-400">Flexible Configuration</h3>
+              <p class="text-slate-300 leading-relaxed">Configure through <strong>NED language and INI files</strong> or interactively via graphical editor for rapid prototyping and experimentation.</p>
+            </div>
+          </div>
         </div>
 
-        <div class="flex gap-4">
-          <div class="text-cyan-400 text-2xl flex-shrink-0">•</div>
-          <p>
-            Built on <strong>OMNeT++ 6.3.0 and INET 4.5.4</strong> – widely adopted frameworks for discrete-event simulation and network protocol modelling, respectively
-          </p>
+        <!-- CATEGORY 2: Networking & Communication -->
+        <div id="networking">
+          <div class="flex items-center gap-4 mb-8">
+            <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-purple-500 to-pink-600 flex items-center justify-center text-3xl">
+              📡
+            </div>
+            <h2 class="text-3xl font-bold">Networking & Communication</h2>
+          </div>
+
+          <div class="grid md:grid-cols-2 gap-6">
+            <div class="bg-slate-800/30 border border-slate-700/50 rounded-xl p-6 hover:border-cyan-500/30 transition-all">
+              <h3 class="font-bold text-lg mb-3 text-cyan-400">Detailed Network Models</h3>
+              <p class="text-slate-300 leading-relaxed">Provides <strong>highly detailed communication network models</strong> including topology management, collision detection, TCP/UDP protocols, and traffic control through INET.</p>
+            </div>
+
+            <div class="bg-slate-800/30 border border-slate-700/50 rounded-xl p-6 hover:border-cyan-500/30 transition-all">
+              <h3 class="font-bold text-lg mb-3 text-cyan-400">DNS Service Discovery</h3>
+              <p class="text-slate-300 leading-relaxed">Implements <strong><a href="doc/core/dns.html" class="text-cyan-400 hover:text-cyan-300 underline">DNS-based service discovery</a></strong> (RFC 1034/1035 compliant) supporting A, CNAME, NS, and MX records.</p>
+            </div>
+
+            <div class="bg-slate-800/30 border border-slate-700/50 rounded-xl p-6 hover:border-cyan-500/30 transition-all">
+              <h3 class="font-bold text-lg mb-3 text-cyan-400">Message Queue Infrastructure</h3>
+              <p class="text-slate-300 leading-relaxed">Features a <strong><a href="doc/core/messageQueue.html" class="text-cyan-400 hover:text-cyan-300 underline">message queue infrastructure</a></strong> inspired by RabbitMQ and MQTT for topic-based pub/sub communication.</p>
+            </div>
+
+            <div class="bg-slate-800/30 border border-slate-700/50 rounded-xl p-6 hover:border-cyan-500/30 transition-all">
+              <h3 class="font-bold text-lg mb-3 text-cyan-400">Wireless & Wired Support</h3>
+              <p class="text-slate-300 leading-relaxed">Supports both <strong>Wi-Fi (IEEE 802.11) and wired networking</strong>, with flexibility to integrate alternative radio stacks like IEEE 802.15.4 (ZigBee).</p>
+            </div>
+
+            <div class="bg-slate-800/30 border border-slate-700/50 rounded-xl p-6 hover:border-cyan-500/30 transition-all">
+              <h3 class="font-bold text-lg mb-3 text-cyan-400">Network Latency Modelling</h3>
+              <p class="text-slate-300 leading-relaxed">Supports <strong>network latency modelling</strong> with configurable delay distributions (truncated normal, uniform) for local, MAN, and backbone segments.</p>
+            </div>
+          </div>
         </div>
 
-        <div class="flex gap-4">
-          <div class="text-cyan-400 text-2xl flex-shrink-0">•</div>
-          <p>
-            Provides <strong>highly detailed communication network models</strong> including topology management, collision detection, transport protocols (TCP/UDP), and traffic control mechanisms through INET integration
-          </p>
+        <!-- CATEGORY 3: IoT & Fog Computing -->
+        <div id="iot-fog">
+          <div class="flex items-center gap-4 mb-8">
+            <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-emerald-500 to-teal-600 flex items-center justify-center text-3xl">
+              🌫️
+            </div>
+            <h2 class="text-3xl font-bold">IoT & Fog Computing</h2>
+          </div>
+
+          <div class="grid md:grid-cols-2 gap-6">
+            <div class="bg-slate-800/30 border border-slate-700/50 rounded-xl p-6 hover:border-cyan-500/30 transition-all">
+              <h3 class="font-bold text-lg mb-3 text-cyan-400">Hierarchical Fog Architectures</h3>
+              <p class="text-slate-300 leading-relaxed">Supports <strong><a href="doc/core/architecture.html" class="text-cyan-400 hover:text-cyan-300 underline">hierarchical fog architectures</a></strong> with multiple fog tiers, edge devices, and geographically distributed data centres.</p>
+            </div>
+
+            <div class="bg-slate-800/30 border border-slate-700/50 rounded-xl p-6 hover:border-cyan-500/30 transition-all">
+              <h3 class="font-bold text-lg mb-3 text-cyan-400">Comprehensive IoT Device Modelling</h3>
+              <p class="text-slate-300 leading-relaxed">Includes comprehensive <strong><a href="doc/core/iotDevices.html" class="text-cyan-400 hover:text-cyan-300 underline">IoT device modelling</a></strong> – sensors, actuators, controllers with configurable measurement periods and units.</p>
+            </div>
+
+            <div class="bg-slate-800/30 border border-slate-700/50 rounded-xl p-6 hover:border-cyan-500/30 transition-all">
+              <h3 class="font-bold text-lg mb-3 text-cyan-400">Realistic IoT Scenarios</h3>
+              <p class="text-slate-300 leading-relaxed">Can simulate <strong>realistic IoT scenarios</strong> including smart homes, smart farming, smart cities, and industrial IoT deployments with hundreds of devices.</p>
+            </div>
+
+            <div class="bg-slate-800/30 border border-slate-700/50 rounded-xl p-6 hover:border-cyan-500/30 transition-all">
+              <h3 class="font-bold text-lg mb-3 text-cyan-400">Dynamic Task Offloading</h3>
+              <p class="text-slate-300 leading-relaxed">Supports <strong>dynamic task offloading and orchestration</strong> with configurable placement policies (first-fit, best-fit, zone-aware) and automatic fog-to-cloud escalation.</p>
+            </div>
+
+            <div class="bg-slate-800/30 border border-slate-700/50 rounded-xl p-6 hover:border-cyan-500/30 transition-all">
+              <h3 class="font-bold text-lg mb-3 text-cyan-400">Ready-to-Run Showcases</h3>
+              <p class="text-slate-300 leading-relaxed">Includes <strong>ready-to-run showcases</strong> demonstrating smart home environments, IoT deployments, data centre configurations, and fog node meshes.</p>
+            </div>
+          </div>
         </div>
 
-        <div class="flex gap-4">
-          <div class="text-cyan-400 text-2xl flex-shrink-0">•</div>
-          <p>
-            Supports <strong><a href="doc/core/architecture.html" class="text-cyan-400 hover:text-cyan-300 underline">hierarchical fog architectures</a></strong> with multiple fog tiers, edge devices, and geographically distributed data centres
-          </p>
+        <!-- CATEGORY 4: Cloud & Infrastructure -->
+        <div id="cloud-infra">
+          <div class="flex items-center gap-4 mb-8">
+            <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-orange-500 to-red-600 flex items-center justify-center text-3xl">
+              ☁️
+            </div>
+            <h2 class="text-3xl font-bold">Cloud & Infrastructure</h2>
+          </div>
+
+          <div class="grid md:grid-cols-2 gap-6">
+            <div class="bg-slate-800/30 border border-slate-700/50 rounded-xl p-6 hover:border-cyan-500/30 transition-all">
+              <h3 class="font-bold text-lg mb-3 text-cyan-400">Cloud Computing Capabilities</h3>
+              <p class="text-slate-300 leading-relaxed">Inherits <strong>cloud computing capabilities from Simcan2Cloud</strong> including VM/container simulation, data centre operations, and SLA management.</p>
+            </div>
+
+            <div class="bg-slate-800/30 border border-slate-700/50 rounded-xl p-6 hover:border-cyan-500/30 transition-all">
+              <h3 class="font-bold text-lg mb-3 text-cyan-400">Detailed Hardware Specifications</h3>
+              <p class="text-slate-300 leading-relaxed">Models <strong>detailed hardware specifications</strong> at component level – CPU cores, frequency, scheduler types, MIPS, memory capacity, storage, and I/O throughput.</p>
+            </div>
+          </div>
         </div>
 
-        <div class="flex gap-4">
-          <div class="text-cyan-400 text-2xl flex-shrink-0">•</div>
-          <p>
-            Includes comprehensive <strong><a href="doc/core/iotDevices.html" class="text-cyan-400 hover:text-cyan-300 underline">IoT device modelling</a></strong> – sensors, actuators, controllers with configurable measurement periods, values, and units
-          </p>
-        </div>
+        <!-- CATEGORY 5: Performance & Tools -->
+        <div id="performance">
+          <div class="flex items-center gap-4 mb-8">
+            <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-green-500 to-lime-600 flex items-center justify-center text-3xl">
+              📊
+            </div>
+            <h2 class="text-3xl font-bold">Performance & Tools</h2>
+          </div>
 
-        <div class="flex gap-4">
-          <div class="text-cyan-400 text-2xl flex-shrink-0">•</div>
-          <p>
-            Implements <strong><a href="doc/core/dns.html" class="text-cyan-400 hover:text-cyan-300 underline">DNS-based service discovery</a></strong> with hierarchical resolution (RFC 1034/1035 compliant) supporting A, CNAME, NS, and MX record types
-          </p>
-        </div>
+          <div class="grid md:grid-cols-2 gap-6">
+            <div class="bg-slate-800/30 border border-slate-700/50 rounded-xl p-6 hover:border-cyan-500/30 transition-all">
+              <h3 class="font-bold text-lg mb-3 text-cyan-400">Comprehensive Metrics</h3>
+              <p class="text-slate-300 leading-relaxed">Provides <strong>comprehensive performance metrics</strong> including end-to-end latency, resource utilisation, energy consumption, QoS parameters, and service response times.</p>
+            </div>
 
-        <div class="flex gap-4">
-          <div class="text-cyan-400 text-2xl flex-shrink-0">•</div>
-          <p>
-            Features a <strong><a href="doc/core/messageQueue.html" class="text-cyan-400 hover:text-cyan-300 underline">message queue infrastructure</a></strong> inspired by RabbitMQ and MQTT, enabling topic-based publish/subscribe communication across all fog layers
-          </p>
-        </div>
+            <div class="bg-slate-800/30 border border-slate-700/50 rounded-xl p-6 hover:border-cyan-500/30 transition-all">
+              <h3 class="font-bold text-lg mb-3 text-cyan-400">Rich Graphical Interface</h3>
+              <p class="text-slate-300 leading-relaxed">Includes a <strong>rich GUI</strong> with interactive topology editor, real-time network visualisation, and integrated debugging tools through OMNeT++ IDE.</p>
+            </div>
 
-        <div class="flex gap-4">
-          <div class="text-cyan-400 text-2xl flex-shrink-0">•</div>
-          <p>
-            Inherits <strong>cloud computing capabilities from Simcan2Cloud</strong> including virtualisation (VM/container simulation), data centre operations, SLA management, and cloud provider orchestration policies
-          </p>
-        </div>
+            <div class="bg-slate-800/30 border border-slate-700/50 rounded-xl p-6 hover:border-cyan-500/30 transition-all">
+              <h3 class="font-bold text-lg mb-3 text-cyan-400">Detailed Statistics</h3>
+              <p class="text-slate-300 leading-relaxed">Generates <strong>detailed simulation statistics</strong> with automatic recording of vectors and scalars, exportable to CSV/JSON for external analysis tools.</p>
+            </div>
 
-        <div class="flex gap-4">
-          <div class="text-cyan-400 text-2xl flex-shrink-0">•</div>
-          <p>
-            Models <strong>detailed hardware specifications</strong> at the component level – CPU cores, core frequency, scheduler types, MIPS, memory capacity, storage size, and I/O throughput
-          </p>
-        </div>
+            <div class="bg-slate-800/30 border border-slate-700/50 rounded-xl p-6 hover:border-cyan-500/30 transition-all">
+              <h3 class="font-bold text-lg mb-3 text-cyan-400">Efficient Resource Usage</h3>
+              <p class="text-slate-300 leading-relaxed">Can run simulations on a <strong>single workstation</strong> with moderate resource usage (under 1 GB RAM for 100+ devices) or scale to larger environments.</p>
+            </div>
 
-        <div class="flex gap-4">
-          <div class="text-cyan-400 text-2xl flex-shrink-0">•</div>
-          <p>
-            Supports <strong>dynamic task offloading and orchestration</strong> with configurable placement policies (first-fit, best-fit, zone-aware) and automatic fog-to-cloud escalation
-          </p>
-        </div>
+            <div class="bg-slate-800/30 border border-slate-700/50 rounded-xl p-6 hover:border-cyan-500/30 transition-all">
+              <h3 class="font-bold text-lg mb-3 text-cyan-400">Stable Performance</h3>
+              <p class="text-slate-300 leading-relaxed">Maintains <strong>stable performance</strong> with approximately 3.1–3.35 × 10⁵ events/s throughput for medium to large-scale scenarios.</p>
+            </div>
 
-        <div class="flex gap-4">
-          <div class="text-cyan-400 text-2xl flex-shrink-0">•</div>
-          <p>
-            Provides <strong>comprehensive performance metrics</strong> including end-to-end latency, resource utilisation, energy consumption, QoS parameters, and service response times
-          </p>
-        </div>
+            <div class="bg-slate-800/30 border border-slate-700/50 rounded-xl p-6 hover:border-cyan-500/30 transition-all">
+              <h3 class="font-bold text-lg mb-3 text-cyan-400">Peer-Reviewed & Validated</h3>
+              <p class="text-slate-300 leading-relaxed">Validated through <strong>peer-reviewed publication in SoftwareX (2025)</strong> with reproducible results available via Zenodo.</p>
+            </div>
 
-        <div class="flex gap-4">
-          <div class="text-cyan-400 text-2xl flex-shrink-0">•</div>
-          <p>
-            Includes a <strong>rich graphical user interface (GUI)</strong> with interactive topology editor, real-time network visualisation, and integrated debugging tools through OMNeT++ IDE
-          </p>
-        </div>
+            <div class="bg-slate-800/30 border border-slate-700/50 rounded-xl p-6 hover:border-cyan-500/30 transition-all">
+              <h3 class="font-bold text-lg mb-3 text-cyan-400">Comprehensive Documentation</h3>
+              <p class="text-slate-300 leading-relaxed">Supported by <strong>comprehensive documentation</strong> including NED reference, installation guides, configuration examples, and API documentation.</p>
+            </div>
 
-        <div class="flex gap-4">
-          <div class="text-cyan-400 text-2xl flex-shrink-0">•</div>
-          <p>
-            Can simulate <strong>realistic IoT scenarios</strong> including smart homes, smart farming, smart cities, and industrial IoT deployments with hundreds of devices
-          </p>
-        </div>
-
-        <div class="flex gap-4">
-          <div class="text-cyan-400 text-2xl flex-shrink-0">•</div>
-          <p>
-            Supports <strong>network latency modelling</strong> with configurable delay distributions (truncated normal, uniform) for local, MAN, and backbone network segments
-          </p>
-        </div>
-
-        <div class="flex gap-4">
-          <div class="text-cyan-400 text-2xl flex-shrink-0">•</div>
-          <p>
-            Features <strong>modular and extensible architecture</strong> with clearly defined APIs enabling easy implementation of custom fog strategies, devices, and algorithms
-          </p>
-        </div>
-
-        <div class="flex gap-4">
-          <div class="text-cyan-400 text-2xl flex-shrink-0">•</div>
-          <p>
-            Allows <strong>configuration through NED language and INI files</strong> or interactively via graphical editor for rapid prototyping and experimentation
-          </p>
-        </div>
-
-        <div class="flex gap-4">
-          <div class="text-cyan-400 text-2xl flex-shrink-0">•</div>
-          <p>
-            Generates <strong>detailed simulation statistics</strong> with automatic recording of vectors and scalars, exportable to CSV/JSON for external analysis tools
-          </p>
-        </div>
-
-        <div class="flex gap-4">
-          <div class="text-cyan-400 text-2xl flex-shrink-0">•</div>
-          <p>
-            Can run simulations on a <strong>single workstation</strong> with moderate resource usage (under 1 GB RAM for 100+ devices) or scale to larger environments
-          </p>
-        </div>
-
-        <div class="flex gap-4">
-          <div class="text-cyan-400 text-2xl flex-shrink-0">•</div>
-          <p>
-            Maintains <strong>stable performance</strong> with approximately 3.1–3.35 × 10⁵ events/s throughput for medium to large-scale scenarios
-          </p>
-        </div>
-
-        <div class="flex gap-4">
-          <div class="text-cyan-400 text-2xl flex-shrink-0">•</div>
-          <p>
-            Supports both <strong>wireless (Wi-Fi, IEEE 802.11) and wired networking</strong>, with the flexibility to integrate alternative radio stacks like IEEE 802.15.4 (ZigBee)
-          </p>
-        </div>
-
-        <div class="flex gap-4">
-          <div class="text-cyan-400 text-2xl flex-shrink-0">•</div>
-          <p>
-            Includes <strong>ready-to-run showcases</strong> demonstrating smart home environments, IoT deployments, data centre configurations, and fog node meshes
-          </p>
-        </div>
-
-        <div class="flex gap-4">
-          <div class="text-cyan-400 text-2xl flex-shrink-0">•</div>
-          <p>
-            Validated through <strong>peer-reviewed publication in SoftwareX (2025)</strong> with reproducible results available via Zenodo
-          </p>
-        </div>
-
-        <div class="flex gap-4">
-          <div class="text-cyan-400 text-2xl flex-shrink-0">•</div>
-          <p>
-            Supported by <strong>comprehensive documentation</strong> including NED reference, installation guides, configuration examples, and API documentation
-          </p>
-        </div>
-
-        <div class="flex gap-4">
-          <div class="text-cyan-400 text-2xl flex-shrink-0">•</div>
-          <p>
-            Backed by a <strong>growing international research community</strong> with active development, support channels, and contributions via GitHub
-          </p>
+            <div class="bg-slate-800/30 border border-slate-700/50 rounded-xl p-6 hover:border-cyan-500/30 transition-all">
+              <h3 class="font-bold text-lg mb-3 text-cyan-400">Active Community</h3>
+              <p class="text-slate-300 leading-relaxed">Backed by a <strong>growing international research community</strong> with active development, support channels, and contributions via GitHub.</p>
+            </div>
+          </div>
         </div>
 
       </div>
