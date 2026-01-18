@@ -6,7 +6,73 @@
   <title>Simcan2Fog Documentation - NED Reference, API Docs & Configuration Guide</title>
   <meta name="description" content="Comprehensive Simcan2Fog documentation: NED API reference, fog nodes, IoT devices, DNS, message queue, architecture guide, configuration examples, and showcases for fog computing simulation."/>
   <meta name="keywords" content="Simcan2Fog documentation, NED reference, fog node documentation, IoT device API, message queue guide, DNS configuration, architecture overview"/>
- 
+
+  <!-- Schema.org FAQPage -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "What is Simcan2Fog?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Simcan2Fog is an open-source discrete-event simulation framework for modeling fog, edge, and cloud computing environments. It extends OMNeT++ and INET with fog-specific modules including hierarchical fog architectures, task offloading, DNS service discovery, and MQTT-style message queues."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What are the system requirements for Simcan2Fog?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Simcan2Fog requires OMNeT++ 6.3.0 (or higher in the 6.x series) and INET 4.5.4. It runs on Linux, macOS, and Windows. You'll need a C++17-compatible compiler, at least 8 GB RAM, and 2 GB disk space for the complete installation."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How is Simcan2Fog different from iFogSim?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Unlike iFogSim (CloudSim-based), Simcan2Fog is built on OMNeT++ and INET, providing full network stack simulation with realistic protocols (IEEE 802.15.4, WiFi, Ethernet, 5G). It includes native DNS service discovery, MQTT-style message queues, and supports both event-driven and GUI-based simulation workflows."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How do I install Simcan2Fog?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "First, install OMNeT++ 6.3.0 and INET 4.5.4. Then clone the Simcan2Fog repository from GitHub, import it into the OMNeT++ IDE, and build the project. The complete step-by-step tutorial is available at the installation guide."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Where can I find example simulations?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Simcan2Fog includes ready-to-run showcases in the showcases/ directory: Smart Home IoT (sensors, actuators, fog gateways), Data Centre (VM provisioning, cloud integration), Proxy & DNS, and Statistics examples. Each includes complete configuration files and documentation."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How do I cite Simcan2Fog in my research?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Cite the SoftwareX publication: Ulysses de Aguilar, Pablo C. Cañizares, Alberto Núñez. (2025). Simcan2Fog: A discrete-event platform for the modelling and simulation of Fog computing environments. SoftwareX, Volume 32, 102424. DOI: 10.1016/j.softx.2025.102424"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Can I use Simcan2Fog for commercial projects?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Simcan2Fog is licensed under GPL-3.0. You can use it for research and commercial projects, but any modifications or derivative works must also be released under GPL-3.0. OMNeT++ Academic Public License applies if you're using the academic version of OMNeT++."
+        }
+      }
+    ]
+  }
+  </script>
+
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
     tailwind.config = {
@@ -80,13 +146,18 @@
                 </a>
               </li>
               <li>
-                <a class="flex items-center gap-3 px-3 py-2 text-sm font-medium hover:bg-slate-800 rounded-lg transition" href="#installation">
+                <a class="flex items-center gap-3 px-3 py-2 text-sm font-medium hover:bg-slate-800 rounded-lg transition" href="tutorial.html#installation">
                   <span>📦</span>Installation
                 </a>
               </li>
               <li>
-                <a class="flex items-center gap-3 px-3 py-2 text-sm font-medium hover:bg-slate-800 rounded-lg transition" href="#first-steps">
+                <a class="flex items-center gap-3 px-3 py-2 text-sm font-medium hover:bg-slate-800 rounded-lg transition" href="tutorial.html#finish">
                   <span>▶️</span>First Steps
+                </a>
+              </li>
+              <li>
+                <a class="flex items-center gap-3 px-3 py-2 text-sm font-medium hover:bg-slate-800 rounded-lg transition" href="#faq">
+                  <span>❓</span>FAQ
                 </a>
               </li>
             </ul>
@@ -405,6 +476,116 @@
           </div>
         </section>
 
+        <!-- Divider -->
+        <div class="my-16 border-t border-slate-700"></div>
+
+        <!-- FAQ Section -->
+        <section id="faq" class="mb-16">
+          <div class="text-center mb-12">
+            <div class="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-gradient-to-br from-purple-500 to-pink-600 mb-4">
+              <span class="text-3xl">❓</span>
+            </div>
+            <h2 class="text-4xl font-bold mb-4">Frequently Asked Questions</h2>
+            <p class="text-lg text-slate-400 max-w-2xl mx-auto">Common questions about Simcan2Fog installation, usage, and features.</p>
+          </div>
+
+          <div class="space-y-4">
+
+            <!-- FAQ 1 -->
+            <details class="group bg-slate-900/50 border border-slate-800 rounded-xl overflow-hidden hover:border-cyan-500/30 transition">
+              <summary class="px-6 py-5 font-semibold text-lg cursor-pointer flex items-center justify-between group-open:border-b group-open:border-slate-800 group-open:bg-slate-800/50 transition">
+                <span>What is Simcan2Fog?</span>
+                <span class="text-cyan-400 group-open:rotate-180 transition-transform">▼</span>
+              </summary>
+              <div class="px-6 py-5 text-slate-300 leading-relaxed">
+                Simcan2Fog is an open-source discrete-event simulation framework for modeling fog, edge, and cloud computing environments. It extends OMNeT++ and INET with fog-specific modules including hierarchical fog architectures, task offloading, DNS service discovery, and MQTT-style message queues.
+              </div>
+            </details>
+
+            <!-- FAQ 2 -->
+            <details class="group bg-slate-900/50 border border-slate-800 rounded-xl overflow-hidden hover:border-cyan-500/30 transition">
+              <summary class="px-6 py-5 font-semibold text-lg cursor-pointer flex items-center justify-between group-open:border-b group-open:border-slate-800 group-open:bg-slate-800/50 transition">
+                <span>What are the system requirements for Simcan2Fog?</span>
+                <span class="text-cyan-400 group-open:rotate-180 transition-transform">▼</span>
+              </summary>
+              <div class="px-6 py-5 text-slate-300 leading-relaxed">
+                Simcan2Fog requires <strong>OMNeT++ 6.3.0</strong> (or higher in the 6.x series) and <strong>INET 4.5.4</strong>. It runs on Linux, macOS, and Windows. You'll need a C++17-compatible compiler, at least 8 GB RAM, and 2 GB disk space for the complete installation.
+              </div>
+            </details>
+
+            <!-- FAQ 3 -->
+            <details class="group bg-slate-900/50 border border-slate-800 rounded-xl overflow-hidden hover:border-cyan-500/30 transition">
+              <summary class="px-6 py-5 font-semibold text-lg cursor-pointer flex items-center justify-between group-open:border-b group-open:border-slate-800 group-open:bg-slate-800/50 transition">
+                <span>How is Simcan2Fog different from iFogSim?</span>
+                <span class="text-cyan-400 group-open:rotate-180 transition-transform">▼</span>
+              </summary>
+              <div class="px-6 py-5 text-slate-300 leading-relaxed">
+                Unlike iFogSim (CloudSim-based), Simcan2Fog is built on <strong>OMNeT++</strong> and <strong>INET</strong>, providing full network stack simulation with realistic protocols (IEEE 802.15.4, WiFi, Ethernet, 5G). It includes native DNS service discovery, MQTT-style message queues, and supports both event-driven and GUI-based simulation workflows. See our <a href="../comparison.html" class="text-cyan-400 hover:text-cyan-300 underline">detailed comparison table</a> for more information.
+              </div>
+            </details>
+
+            <!-- FAQ 4 -->
+            <details class="group bg-slate-900/50 border border-slate-800 rounded-xl overflow-hidden hover:border-cyan-500/30 transition">
+              <summary class="px-6 py-5 font-semibold text-lg cursor-pointer flex items-center justify-between group-open:border-b group-open:border-slate-800 group-open:bg-slate-800/50 transition">
+                <span>How do I install Simcan2Fog?</span>
+                <span class="text-cyan-400 group-open:rotate-180 transition-transform">▼</span>
+              </summary>
+              <div class="px-6 py-5 text-slate-300 leading-relaxed">
+                First, install <strong>OMNeT++ 6.3.0</strong> and <strong>INET 4.5.4</strong>. Then clone the Simcan2Fog repository from GitHub, import it into the OMNeT++ IDE, and build the project. The complete step-by-step tutorial is available at our <a href="tutorial.html" class="text-cyan-400 hover:text-cyan-300 underline">installation guide</a>. Alternatively, try our <a href="instant-s2f.html" class="text-cyan-400 hover:text-cyan-300 underline">Instant Simcan2Fog</a> pre-configured VM for immediate use.
+              </div>
+            </details>
+
+            <!-- FAQ 5 -->
+            <details class="group bg-slate-900/50 border border-slate-800 rounded-xl overflow-hidden hover:border-cyan-500/30 transition">
+              <summary class="px-6 py-5 font-semibold text-lg cursor-pointer flex items-center justify-between group-open:border-b group-open:border-slate-800 group-open:bg-slate-800/50 transition">
+                <span>Where can I find example simulations?</span>
+                <span class="text-cyan-400 group-open:rotate-180 transition-transform">▼</span>
+              </summary>
+              <div class="px-6 py-5 text-slate-300 leading-relaxed">
+                Simcan2Fog includes ready-to-run showcases in the <code class="bg-slate-800 px-2 py-1 rounded text-sm text-cyan-400">showcases/</code> directory:
+                <ul class="mt-3 space-y-2 ml-4">
+                  <li>• <a href="../showcases/iot.html" class="text-cyan-400 hover:text-cyan-300 underline">Smart Home IoT</a> - sensors, actuators, fog gateways</li>
+                  <li>• <a href="../showcases/dc.html" class="text-cyan-400 hover:text-cyan-300 underline">Data Centre</a> - VM provisioning, cloud integration</li>
+                  <li>• Proxy & DNS - service discovery demonstration</li>
+                  <li>• Statistics - result analysis examples</li>
+                </ul>
+                Each includes complete configuration files and documentation.
+              </div>
+            </details>
+
+            <!-- FAQ 6 -->
+            <details class="group bg-slate-900/50 border border-slate-800 rounded-xl overflow-hidden hover:border-cyan-500/30 transition">
+              <summary class="px-6 py-5 font-semibold text-lg cursor-pointer flex items-center justify-between group-open:border-b group-open:border-slate-800 group-open:bg-slate-800/50 transition">
+                <span>How do I cite Simcan2Fog in my research?</span>
+                <span class="text-cyan-400 group-open:rotate-180 transition-transform">▼</span>
+              </summary>
+              <div class="px-6 py-5 text-slate-300 leading-relaxed">
+                Cite the SoftwareX publication:<br/><br/>
+                <div class="bg-slate-950 p-4 rounded-lg border border-slate-700 font-mono text-sm">
+                  Ulysses de Aguilar, Pablo C. Cañizares, Alberto Núñez. (2025).<br/>
+                  Simcan2Fog: A discrete-event platform for the modelling and simulation of Fog computing environments.<br/>
+                  <em>SoftwareX</em>, Volume 32, 102424.<br/>
+                  DOI: <a href="https://doi.org/10.1016/j.softx.2025.102424" target="_blank" class="text-cyan-400 hover:text-cyan-300">10.1016/j.softx.2025.102424</a>
+                </div>
+                <br/>
+                Find BibTeX and other citation formats on our <a href="../publications.html" class="text-cyan-400 hover:text-cyan-300 underline">publications page</a>.
+              </div>
+            </details>
+
+            <!-- FAQ 7 -->
+            <details class="group bg-slate-900/50 border border-slate-800 rounded-xl overflow-hidden hover:border-cyan-500/30 transition">
+              <summary class="px-6 py-5 font-semibold text-lg cursor-pointer flex items-center justify-between group-open:border-b group-open:border-slate-800 group-open:bg-slate-800/50 transition">
+                <span>Can I use Simcan2Fog for commercial projects?</span>
+                <span class="text-cyan-400 group-open:rotate-180 transition-transform">▼</span>
+              </summary>
+              <div class="px-6 py-5 text-slate-300 leading-relaxed">
+                Simcan2Fog is licensed under <strong>GPL-3.0</strong>. You can use it for research and commercial projects, but any modifications or derivative works must also be released under GPL-3.0. Note that the <strong>OMNeT++ Academic Public License</strong> applies if you're using the academic version of OMNeT++. For commercial OMNeT++ licensing, please consult the <a href="https://omnetpp.org/intro/license" target="_blank" class="text-cyan-400 hover:text-cyan-300 underline">OMNeT++ license page</a>.
+              </div>
+            </details>
+
+          </div>
+        </section>
+
       </div>
     </main>
 
@@ -418,6 +599,7 @@
           <li><a class="hover:text-cyan-400 border-l-2 border-transparent hover:border-cyan-400 pl-4 transition" href="#configuration">Configuration</a></li>
           <li><a class="hover:text-cyan-400 border-l-2 border-transparent hover:border-cyan-400 pl-4 transition" href="#architecture">Key Concepts</a></li>
           <li><a class="hover:text-cyan-400 border-l-2 border-transparent hover:border-cyan-400 pl-4 transition" href="#examples">Examples</a></li>
+          <li><a class="hover:text-cyan-400 border-l-2 border-transparent hover:border-cyan-400 pl-4 transition" href="#faq">FAQ</a></li>
         </ul>
       </nav>
       
