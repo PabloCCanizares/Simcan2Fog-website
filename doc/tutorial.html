@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Simcan2Fog Tutorial - Install OMNeT++, INET & Run Your First Fog Simulation</title>
   <meta name="description" content="Complete installation guide for Simcan2Fog: Install OMNeT++ 6.3.0, INET 4.5.4, clone repository, build project, and run your first fog computing simulation in 10 minutes."/>
-  <meta name="keywords" content="Simcan2Fog tutorial, OMNeT++ installation, INET setup, fog simulation guide, getting started, quick start, installation guide, first simulation"/>
+  <meta name="keywords" content="Simcan2Fog tutorial, OMNeT++ installation, INET setup, fog simulation guide, quick start guide, installation steps, first simulation"/>
  
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
@@ -60,12 +60,32 @@
   <!-- TUTORIAL CONTENT -->
   <section class="py-20">
     <div class="max-w-5xl mx-auto px-6">
-      
+
+      <!-- Breadcrumbs -->
+      <nav class="flex items-center gap-2 mb-8 text-sm text-slate-400 font-medium" aria-label="Breadcrumb">
+        <ol itemscope itemtype="https://schema.org/BreadcrumbList" class="flex items-center gap-2">
+          <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+            <a itemprop="item" href="../index.html" class="hover:text-cyan-400 transition-colors">
+              <span itemprop="name">Home</span>
+            </a>
+            <meta itemprop="position" content="1" />
+          </li>
+          <span>›</span>
+          <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+            <span itemprop="name" class="text-slate-100">Tutorial</span>
+            <meta itemprop="position" content="2" />
+          </li>
+        </ol>
+      </nav>
+
       <!-- Introduction -->
       <div class="mb-16">
         <p class="text-lg leading-relaxed mb-6">
-          Below, we give a brief tutorial-style introduction on how to get started with installing and using Simcan2Fog. 
+          Below, we give a brief tutorial-style introduction on how to get started with installing and using Simcan2Fog.
           For other tutorial-style introductions on how to use Simcan2Fog as well as more in-depth information, please refer to the <a href="../publications.html" class="text-cyan-400 hover:underline">publications page</a>.
+        </p>
+        <p class="text-lg leading-relaxed text-slate-300">
+          After completing this tutorial, explore our <a href="../showcases/iot.html" class="text-cyan-400 hover:text-cyan-300 underline font-semibold">IoT smart home showcase</a> or the <a href="../showcases/dc.html" class="text-cyan-400 hover:text-cyan-300 underline font-semibold">data center showcase</a> to see complete simulation examples.
         </p>
       </div>
 

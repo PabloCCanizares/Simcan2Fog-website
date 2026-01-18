@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Data Center Cloud Simulation - Simcan2Fog VM & Container Showcase</title>
   <meta name="description" content="Cloud data center showcase: VM provisioning, container deployment, service orchestration, fog-to-cloud integration, and MQTT-style message queue for Simcan2Fog fog computing framework."/>
-  <meta name="keywords" content="data center simulation, VM provisioning, container orchestration, cloud computing example, fog-cloud integration, message queue, service deployment, hypervisor simulation"/>
+  <meta name="keywords" content="data center simulation, VM provisioning, container orchestration, cloud computing example, fog-cloud integration, message queue broker, hypervisor simulation"/>
 
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
@@ -89,12 +89,27 @@
       <div class="max-w-4xl mx-auto">
 
         <!-- Breadcrumbs -->
-        <nav class="flex items-center gap-2 mb-8 text-sm text-slate-400 font-medium">
-          <a href="../index.html" class="hover:text-cyan-400 transition-colors">Home</a>
-          <span>›</span>
-          <a href="../doc/documentation.html" class="hover:text-cyan-400 transition-colors">Documentation</a>
-          <span>›</span>
-          <span class="text-slate-100">Data Centre Showcase</span>
+        <nav class="flex items-center gap-2 mb-8 text-sm text-slate-400 font-medium" aria-label="Breadcrumb">
+          <ol itemscope itemtype="https://schema.org/BreadcrumbList" class="flex items-center gap-2">
+            <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+              <a itemprop="item" href="../index.html" class="hover:text-cyan-400 transition-colors">
+                <span itemprop="name">Home</span>
+              </a>
+              <meta itemprop="position" content="1" />
+            </li>
+            <span>›</span>
+            <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+              <a itemprop="item" href="../doc/documentation.html" class="hover:text-cyan-400 transition-colors">
+                <span itemprop="name">Documentation</span>
+              </a>
+              <meta itemprop="position" content="2" />
+            </li>
+            <span>›</span>
+            <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+              <span itemprop="name" class="text-slate-100">Data Centre Showcase</span>
+              <meta itemprop="position" content="3" />
+            </li>
+          </ol>
         </nav>
 
         <!-- Page Header -->

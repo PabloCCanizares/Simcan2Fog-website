@@ -67,6 +67,22 @@
   <!-- HERO SECTION -->
   <section class="gradient-hero pt-32 pb-16">
     <div class="max-w-4xl mx-auto px-6 text-center">
+      <!-- Breadcrumbs -->
+      <nav class="flex items-center gap-2 mb-8 text-sm text-slate-400 font-medium max-w-4xl mx-auto px-6" aria-label="Breadcrumb">
+        <ol itemscope itemtype="https://schema.org/BreadcrumbList" class="flex items-center gap-2">
+          <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+            <a itemprop="item" href="index.html" class="hover:text-cyan-400 transition-colors">
+              <span itemprop="name">Home</span>
+            </a>
+            <meta itemprop="position" content="1" />
+          </li>
+          <span>›</span>
+          <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+            <span itemprop="name" class="text-slate-100">Features</span>
+            <meta itemprop="position" content="2" />
+          </li>
+        </ol>
+      </nav>
       <h1 class="text-5xl md:text-6xl font-extrabold mb-6">Features</h1>
       <p class="text-xl text-slate-200">
         The open source discrete-event simulation platform for fog, edge and cloud computing
@@ -104,28 +120,28 @@
         <div class="flex gap-4">
           <div class="text-cyan-400 text-2xl flex-shrink-0">•</div>
           <p>
-            Supports <strong>hierarchical fog architectures</strong> with multiple fog tiers, edge devices, and geographically distributed data centres
+            Supports <strong><a href="doc/core/architecture.html" class="text-cyan-400 hover:text-cyan-300 underline">hierarchical fog architectures</a></strong> with multiple fog tiers, edge devices, and geographically distributed data centres
           </p>
         </div>
 
         <div class="flex gap-4">
           <div class="text-cyan-400 text-2xl flex-shrink-0">•</div>
           <p>
-            Includes comprehensive <strong>IoT device modelling</strong> – sensors, actuators, controllers with configurable measurement periods, values, and units
+            Includes comprehensive <strong><a href="doc/core/iotDevices.html" class="text-cyan-400 hover:text-cyan-300 underline">IoT device modelling</a></strong> – sensors, actuators, controllers with configurable measurement periods, values, and units
           </p>
         </div>
 
         <div class="flex gap-4">
           <div class="text-cyan-400 text-2xl flex-shrink-0">•</div>
           <p>
-            Implements <strong>DNS-based service discovery</strong> with hierarchical resolution (RFC 1034/1035 compliant) supporting A, CNAME, NS, and MX record types
+            Implements <strong><a href="doc/core/dns.html" class="text-cyan-400 hover:text-cyan-300 underline">DNS-based service discovery</a></strong> with hierarchical resolution (RFC 1034/1035 compliant) supporting A, CNAME, NS, and MX record types
           </p>
         </div>
 
         <div class="flex gap-4">
           <div class="text-cyan-400 text-2xl flex-shrink-0">•</div>
           <p>
-            Features a <strong>message queue infrastructure</strong> inspired by RabbitMQ and MQTT, enabling topic-based publish/subscribe communication across all fog layers
+            Features a <strong><a href="doc/core/messageQueue.html" class="text-cyan-400 hover:text-cyan-300 underline">message queue infrastructure</a></strong> inspired by RabbitMQ and MQTT, enabling topic-based publish/subscribe communication across all fog layers
           </p>
         </div>
 

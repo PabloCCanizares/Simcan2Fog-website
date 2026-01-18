@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Simcan2Fog Documentation - NED Reference, API Docs & Configuration Guide</title>
   <meta name="description" content="Comprehensive Simcan2Fog documentation: NED API reference, fog nodes, IoT devices, DNS, message queue, architecture guide, configuration examples, and showcases for fog computing simulation."/>
-  <meta name="keywords" content="Simcan2Fog docs, NED documentation, API reference, fog node configuration, IoT device setup, omnetpp.ini, simulation examples, architecture documentation"/>
+  <meta name="keywords" content="Simcan2Fog documentation, NED reference, fog node documentation, IoT device API, message queue guide, DNS configuration, architecture overview"/>
  
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
@@ -177,10 +177,20 @@
       <div class="max-w-4xl mx-auto">
         
         <!-- Breadcrumbs -->
-        <nav class="flex items-center gap-2 mb-8 text-sm text-slate-400 font-medium">
-          <a href="../index.html" class="hover:text-cyan-400 transition-colors">Home</a>
-          <span>›</span>
-          <span class="text-slate-100">Documentation</span>
+        <nav class="flex items-center gap-2 mb-8 text-sm text-slate-400 font-medium" aria-label="Breadcrumb">
+          <ol itemscope itemtype="https://schema.org/BreadcrumbList" class="flex items-center gap-2">
+            <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+              <a itemprop="item" href="../index.html" class="hover:text-cyan-400 transition-colors">
+                <span itemprop="name">Home</span>
+              </a>
+              <meta itemprop="position" content="1" />
+            </li>
+            <span>›</span>
+            <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+              <span itemprop="name" class="text-slate-100">Documentation</span>
+              <meta itemprop="position" content="2" />
+            </li>
+          </ol>
         </nav>
 
         <!-- Page Header -->
@@ -321,6 +331,10 @@
             </div>
 
           </div>
+
+          <p class="text-slate-300 mt-6 text-center">
+            See these concepts in action: <a href="../showcases/iot.html" class="text-cyan-400 hover:text-cyan-300 underline">IoT Showcase</a> demonstrates sensor-actuator patterns with <a href="core/iotDevices.html" class="text-cyan-400 hover:text-cyan-300 underline">IoT devices</a>, while the <a href="../showcases/dc.html" class="text-cyan-400 hover:text-cyan-300 underline">Data Centre Showcase</a> shows VM provisioning with the <a href="core/messageQueue.html" class="text-cyan-400 hover:text-cyan-300 underline">message queue</a>.
+          </p>
         </section>
 
         <!-- Showcases -->

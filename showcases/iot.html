@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Smart Home IoT Simulation - Simcan2Fog Showcase with IEEE 802.15.4</title>
   <meta name="description" content="Complete smart home IoT showcase: temperature sensors, motion detectors, actuators, fog gateway with IEEE 802.15.4 wireless. Real-world fog computing example for Simcan2Fog."/>
-  <meta name="keywords" content="IoT simulation, smart home example, IEEE 802.15.4, fog gateway, temperature sensor, motion detector, edge computing showcase, wireless sensor network"/>
+  <meta name="keywords" content="IoT simulation example, smart home simulation, IEEE 802.15.4, wireless sensor network, luminosity sensor, fog gateway, edge computing showcase"/>
 
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
@@ -89,12 +89,27 @@
       <div class="max-w-4xl mx-auto">
 
         <!-- Breadcrumbs -->
-        <nav class="flex items-center gap-2 mb-8 text-sm text-slate-400 font-medium">
-          <a href="../index.html" class="hover:text-cyan-400 transition-colors">Home</a>
-          <span>›</span>
-          <a href="../doc/documentation.html" class="hover:text-cyan-400 transition-colors">Documentation</a>
-          <span>›</span>
-          <span class="text-slate-100">IoT Showcase</span>
+        <nav class="flex items-center gap-2 mb-8 text-sm text-slate-400 font-medium" aria-label="Breadcrumb">
+          <ol itemscope itemtype="https://schema.org/BreadcrumbList" class="flex items-center gap-2">
+            <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+              <a itemprop="item" href="../index.html" class="hover:text-cyan-400 transition-colors">
+                <span itemprop="name">Home</span>
+              </a>
+              <meta itemprop="position" content="1" />
+            </li>
+            <span>›</span>
+            <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+              <a itemprop="item" href="../doc/documentation.html" class="hover:text-cyan-400 transition-colors">
+                <span itemprop="name">Documentation</span>
+              </a>
+              <meta itemprop="position" content="2" />
+            </li>
+            <span>›</span>
+            <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+              <span itemprop="name" class="text-slate-100">IoT Showcase</span>
+              <meta itemprop="position" content="3" />
+            </li>
+          </ol>
         </nav>
 
         <!-- Page Header -->
