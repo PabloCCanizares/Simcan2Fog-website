@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Video Tutorial - Simcan2Fog</title>
+  <meta name="description" content="Watch the complete video tutorial to get started with Simcan2Fog fog computing simulation"/>
+
+  <!-- Tailwind CSS -->
+  <link rel="stylesheet" href="../css/tailwind.min.css">
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+  <style>
+    body { font-family: 'Inter', system-ui, sans-serif; }
+    .gradient-hero { background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #0ea5e9 100%); }
+    .video-container {
+      position: relative;
+      padding-bottom: 56.25%; /* 16:9 aspect ratio */
+      height: 0;
+      overflow: hidden;
+      max-width: 100%;
+      background: #000;
+      border-radius: 1rem;
+    }
+    .video-container iframe {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      border: 0;
+    }
+  </style>
+</head>
+<body class="bg-slate-950 text-slate-100 antialiased">
+
+  <!-- NAVIGATION -->
+  <nav class="fixed top-0 w-full z-50 bg-slate-900/80 backdrop-blur-xl border-b border-slate-700/40">
+    <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+      <div class="flex items-center gap-3">
+        <div class="w-11 h-11 rounded-xl bg-gradient-to-br from-cyan-500 to-blue-600 flex items-center justify-center font-bold text-white text-2xl shadow-lg">S2F</div>
+        <span class="text-2xl font-semibold tracking-tight">Simcan2Fog</span>
+      </div>
+
+      <div class="hidden md:flex gap-8 font-medium">
+        <a href="../index.html" class="hover:text-cyan-300 transition-colors">Home</a>
+        <a href="../features.html" class="hover:text-cyan-300 transition-colors">Features</a>
+        <a href="../comparison.html" class="hover:text-cyan-300 transition-colors">Comparison</a>
+        <a href="tutorial.html" class="text-cyan-300">Tutorial</a>
+        <a href="documentation.html" class="hover:text-cyan-300 transition-colors">Documentation</a>
+        <a href="../publications.html" class="hover:text-cyan-300 transition-colors">Publications</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section class="gradient-hero pt-32 pb-16">
+    <div class="max-w-4xl mx-auto px-6 text-center">
+      <h1 class="text-5xl md:text-6xl font-extrabold mb-6">📹 Video Tutorial</h1>
+      <p class="text-xl text-slate-200">
+        Learn Simcan2Fog in 5 minutes - from installation to your first simulation
+      </p>
+    </div>
+  </section>
+
+  <!-- VIDEO SECTION -->
+  <section class="py-20 bg-slate-900/50">
+    <div class="max-w-5xl mx-auto px-6">
+
+      <!-- Main Video -->
+      <div class="mb-12">
+        <div class="video-container shadow-2xl">
+          <!-- REPLACE THIS WITH YOUR YOUTUBE VIDEO ID -->
+          <iframe
+            src="https://www.youtube.com/embed/YOUR_VIDEO_ID_HERE"
+            title="Simcan2Fog Tutorial Video"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowfullscreen>
+          </iframe>
+        </div>
+      </div>
+
+      <!-- Video Info -->
+      <div class="bg-slate-800/50 border border-cyan-500/30 rounded-xl p-8 mb-12">
+        <h2 class="text-3xl font-bold mb-4">What You'll Learn</h2>
+        <div class="grid md:grid-cols-2 gap-6">
+          <div>
+            <h3 class="text-xl font-semibold text-cyan-400 mb-3">📦 Installation</h3>
+            <ul class="space-y-2 text-slate-300">
+              <li>• Installing OMNeT++ 6.3.0</li>
+              <li>• Setting up INET 4.5.4</li>
+              <li>• Cloning and building Simcan2Fog</li>
+            </ul>
+          </div>
+          <div>
+            <h3 class="text-xl font-semibold text-cyan-400 mb-3">🚀 First Simulation</h3>
+            <ul class="space-y-2 text-slate-300">
+              <li>• Running the IoT showcase</li>
+              <li>• Understanding the GUI</li>
+              <li>• Inspecting messages and nodes</li>
+            </ul>
+          </div>
+          <div>
+            <h3 class="text-xl font-semibold text-cyan-400 mb-3">📊 Analysis</h3>
+            <ul class="space-y-2 text-slate-300">
+              <li>• Viewing simulation results</li>
+              <li>• Plotting latency and energy</li>
+              <li>• Exporting data for research</li>
+            </ul>
+          </div>
+          <div>
+            <h3 class="text-xl font-semibold text-cyan-400 mb-3">📚 Next Steps</h3>
+            <ul class="space-y-2 text-slate-300">
+              <li>• Exploring other showcases</li>
+              <li>• Reading NED documentation</li>
+              <li>• Creating custom scenarios</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- Chapters -->
+      <div class="bg-slate-900/50 border border-slate-700 rounded-xl p-8 mb-12">
+        <h3 class="text-2xl font-bold mb-6">📑 Video Chapters</h3>
+        <div class="space-y-3">
+          <div class="flex items-center gap-4 p-3 bg-slate-800/50 rounded-lg hover:bg-slate-800 transition cursor-pointer">
+            <span class="text-cyan-400 font-mono font-semibold">0:00</span>
+            <span>Introduction to Simcan2Fog</span>
+          </div>
+          <div class="flex items-center gap-4 p-3 bg-slate-800/50 rounded-lg hover:bg-slate-800 transition cursor-pointer">
+            <span class="text-cyan-400 font-mono font-semibold">0:30</span>
+            <span>Installing OMNeT++, INET, and Simcan2Fog</span>
+          </div>
+          <div class="flex items-center gap-4 p-3 bg-slate-800/50 rounded-lg hover:bg-slate-800 transition cursor-pointer">
+            <span class="text-cyan-400 font-mono font-semibold">2:00</span>
+            <span>Running the Smart Home IoT Example</span>
+          </div>
+          <div class="flex items-center gap-4 p-3 bg-slate-800/50 rounded-lg hover:bg-slate-800 transition cursor-pointer">
+            <span class="text-cyan-400 font-mono font-semibold">4:00</span>
+            <span>Analyzing Simulation Results</span>
+          </div>
+          <div class="flex items-center gap-4 p-3 bg-slate-800/50 rounded-lg hover:bg-slate-800 transition cursor-pointer">
+            <span class="text-cyan-400 font-mono font-semibold">4:45</span>
+            <span>Next Steps & Resources</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Resources -->
+      <div class="grid md:grid-cols-2 gap-8">
+        <div class="bg-gradient-to-br from-blue-500/10 to-cyan-500/10 border border-blue-500/30 rounded-xl p-8">
+          <h3 class="text-2xl font-bold mb-4">📚 Written Tutorial</h3>
+          <p class="text-slate-300 mb-6">
+            Prefer reading? Check out our step-by-step written guide with screenshots and detailed explanations.
+          </p>
+          <a href="tutorial.html" class="inline-block px-6 py-3 bg-blue-600 hover:bg-blue-700 rounded-lg font-semibold transition">
+            Read Tutorial →
+          </a>
+        </div>
+
+        <div class="bg-gradient-to-br from-purple-500/10 to-pink-500/10 border border-purple-500/30 rounded-xl p-8">
+          <h3 class="text-2xl font-bold mb-4">📖 Full Documentation</h3>
+          <p class="text-slate-300 mb-6">
+            Dive deep into the NED reference, module descriptions, and configuration options.
+          </p>
+          <a href="https://ulyssesdeaguilar.github.io/s2f-ned-docs/" target="_blank" rel="noopener noreferrer" class="inline-block px-6 py-3 bg-purple-600 hover:bg-purple-700 rounded-lg font-semibold transition">
+            Browse Docs →
+          </a>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="py-16 bg-slate-900/80">
+    <div class="max-w-4xl mx-auto px-6 text-center">
+      <h2 class="text-4xl font-bold mb-6">Ready to Start?</h2>
+      <p class="text-xl text-slate-300 mb-8">
+        Clone the repository and run your first simulation in minutes
+      </p>
+      <div class="flex flex-wrap justify-center gap-4">
+        <a href="https://github.com/UlyssesDeAguilar/Simcan2Fog" target="_blank" rel="noopener noreferrer" class="px-8 py-4 bg-gradient-to-r from-cyan-500 to-blue-600 rounded-xl font-bold text-lg hover:scale-105 transition">
+          Clone on GitHub →
+        </a>
+        <a href="documentation.html" class="px-8 py-4 border-2 border-cyan-500 rounded-xl font-bold text-lg hover:bg-cyan-950/50 transition">
+          View Documentation →
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="bg-slate-950 border-t border-slate-800 py-12 text-slate-400 text-center">
+    <div class="max-w-7xl mx-auto px-6">
+      <p class="text-lg">© 2026 Simcan2Fog • Open Source Fog Computing Simulation Framework</p>
+      <p class="mt-2">Built with OMNeT++ 6.3.0 & INET 4.5.4 • Licensed under GPL-3.0</p>
+      <div class="mt-8 flex justify-center gap-12 text-sm">
+        <a href="https://github.com/UlyssesDeAguilar/Simcan2Fog" class="hover:text-cyan-400" target="_blank" rel="noopener noreferrer">GitHub</a>
+        <a href="https://ulyssesdeaguilar.github.io/s2f-ned-docs/" class="hover:text-cyan-400" target="_blank" rel="noopener noreferrer">Documentation</a>
+        <a href="https://github.com/UlyssesDeAguilar/Simcan2Fog/releases" class="hover:text-cyan-400" target="_blank" rel="noopener noreferrer">Releases</a>
+        <a href="https://www.sciencedirect.com/science/article/pii/S2352711025003905" class="hover:text-cyan-400" target="_blank" rel="noopener noreferrer">Paper</a>
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>
