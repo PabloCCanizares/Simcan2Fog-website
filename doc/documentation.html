@@ -365,12 +365,12 @@
             <div class="bg-slate-900/50 border border-slate-800 rounded-xl p-6">
               <h3 class="text-xl font-bold mb-3 text-cyan-400">🏗️ Four-Layer Architecture</h3>
               <p class="text-slate-400 mb-4">
-                Simcan2Fog implements a hierarchical four-layer architecture:
+                Simcan2Fog implements a <a href="core/architecture.html" class="text-cyan-400 hover:text-cyan-300 underline font-semibold">hierarchical four-layer architecture</a>:
               </p>
               <ul class="space-y-2 text-slate-300">
-                <li><strong class="text-white">IoT Layer:</strong> Sensors, actuators, controllers and edge users</li>
-                <li><strong class="text-white">Fog Layer:</strong> Interconnected fog nodes with routing and virtualization</li>
-                <li><strong class="text-white">Cloud Provider Layer:</strong> Resource orchestration and VM placement policies</li>
+                <li><strong class="text-white">IoT Layer:</strong> <a href="core/iotDevices.html" class="text-cyan-400 hover:text-cyan-300 underline">Sensors, actuators, controllers</a> and edge users (see <a href="../showcases/iot.html" class="text-cyan-400 hover:text-cyan-300 underline">IoT Showcase</a>)</li>
+                <li><strong class="text-white">Fog Layer:</strong> Interconnected <a href="core/fogNodes.html" class="text-cyan-400 hover:text-cyan-300 underline">fog nodes</a> with routing and virtualization</li>
+                <li><strong class="text-white">Cloud Provider Layer:</strong> Resource orchestration and VM placement policies (see <a href="../showcases/dc.html" class="text-cyan-400 hover:text-cyan-300 underline">Data Centre Showcase</a>)</li>
                 <li><strong class="text-white">Data Centre Layer:</strong> Compute and storage nodes with hypervisors</li>
               </ul>
             </div>
@@ -379,13 +379,13 @@
             <div class="bg-slate-900/50 border border-slate-800 rounded-xl p-6" id="fog-nodes">
               <h3 class="text-xl font-bold mb-3 text-cyan-400">🌫️ Fog Nodes</h3>
               <p class="text-slate-400 mb-4">
-                Fog nodes are compute-capable devices positioned between IoT devices and cloud data centers. They provide:
+                <a href="core/fogNodes.html" class="text-cyan-400 hover:text-cyan-300 underline font-semibold">Fog nodes</a> are compute-capable devices positioned between <a href="core/iotDevices.html" class="text-cyan-400 hover:text-cyan-300 underline">IoT devices</a> and cloud data centers. They provide:
               </p>
               <ul class="space-y-2 text-slate-300">
                 <li>• Local processing to reduce latency</li>
                 <li>• Resource management and virtualization</li>
                 <li>• Dynamic task offloading decisions</li>
-                <li>• Mesh networking capabilities</li>
+                <li>• Mesh networking capabilities using <a href="core/dns.html" class="text-cyan-400 hover:text-cyan-300 underline">DNS</a> for service discovery</li>
               </ul>
             </div>
 
@@ -393,11 +393,11 @@
             <div class="bg-slate-900/50 border border-slate-800 rounded-xl p-6" id="message-queue">
               <h3 class="text-xl font-bold mb-3 text-cyan-400">📨 Message Queue & DNS</h3>
               <p class="text-slate-400 mb-4">
-                Simcan2Fog includes infrastructure services for seamless communication:
+                Simcan2Fog includes infrastructure services for seamless communication across all layers of the <a href="core/architecture.html" class="text-cyan-400 hover:text-cyan-300 underline">architecture</a>:
               </p>
               <ul class="space-y-2 text-slate-300">
-                <li><strong class="text-white">Message Queue:</strong> Topic-based publish/subscribe inspired by RabbitMQ and MQTT</li>
-                <li><strong class="text-white">DNS:</strong> Hierarchical name resolution supporting A, CNAME, NS, and MX records</li>
+                <li><strong class="text-white">Message Queue:</strong> Topic-based <a href="core/messageQueue.html" class="text-cyan-400 hover:text-cyan-300 underline">publish/subscribe infrastructure</a> inspired by RabbitMQ and MQTT (used in <a href="../showcases/dc.html" class="text-cyan-400 hover:text-cyan-300 underline">Data Centre Showcase</a>)</li>
+                <li><strong class="text-white">DNS:</strong> <a href="core/dns.html" class="text-cyan-400 hover:text-cyan-300 underline">Hierarchical name resolution</a> supporting A, CNAME, NS, and MX records (RFC 1034/1035 compliant)</li>
               </ul>
             </div>
 

@@ -3,9 +3,9 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Simcan2Fog vs iFogSim vs EdgeCloudSim - Fog Computing Simulator Comparison</title>
-  <meta name="description" content="Detailed comparison of fog computing simulators: Simcan2Fog vs iFogSim vs EdgeCloudSim vs FogNetSim++. Features, network simulation, IoT support, and performance metrics."/>
-  <meta name="keywords" content="fog computing comparison, iFogSim vs Simcan2Fog, EdgeCloudSim comparison, FogNetSim++ alternative, best fog simulator, OMNeT++ fog framework, INET-based simulator"/>
+  <title>Simcan2Fog vs iFogSim vs iFogSim2 vs EdgeCloudSim - Fog Computing Simulator Comparison</title>
+  <meta name="description" content="Detailed comparison of fog computing simulators: Simcan2Fog vs iFogSim vs iFogSim2 vs EdgeCloudSim vs FogNetSim++. Features, network simulation, IoT support, and performance metrics."/>
+  <meta name="keywords" content="fog computing comparison, iFogSim vs Simcan2Fog, iFogSim2 comparison, EdgeCloudSim comparison, FogNetSim++ alternative, best fog simulator, OMNeT++ fog framework, INET-based simulator"/>
 
   <!-- Open Graph / Facebook -->
   <meta property="og:type" content="website">
@@ -129,10 +129,11 @@
                   <span class="text-xs font-normal text-slate-400">(This project)</span>
                 </div>
               </th>
-              <th class="p-4 font-bold text-slate-200 min-w-[180px]">iFogSim</th>
-              <th class="p-4 font-bold text-slate-200 min-w-[180px]">EdgeCloudSim</th>
-              <th class="p-4 font-bold text-slate-200 min-w-[180px]">FogNetSim++</th>
-              <th class="p-4 font-bold text-slate-200 min-w-[180px]">MyiFogSim</th>
+              <th class="p-4 font-bold text-slate-200 min-w-[160px]">iFogSim</th>
+              <th class="p-4 font-bold text-slate-200 min-w-[160px]">iFogSim2</th>
+              <th class="p-4 font-bold text-slate-200 min-w-[160px]">EdgeCloudSim</th>
+              <th class="p-4 font-bold text-slate-200 min-w-[160px]">FogNetSim++</th>
+              <th class="p-4 font-bold text-slate-200 min-w-[160px]">MyiFogSim</th>
             </tr>
           </thead>
           <tbody class="text-slate-300">
@@ -141,6 +142,7 @@
             <tr class="border-b border-slate-800 hover:bg-slate-800/30 transition">
               <td class="p-4 font-semibold sticky left-0 bg-slate-900/80">Base Platform</td>
               <td class="p-4 text-center"><span class="text-cyan-400 font-semibold">OMNeT++ & INET</span></td>
+              <td class="p-4 text-center">CloudSim</td>
               <td class="p-4 text-center">CloudSim</td>
               <td class="p-4 text-center">CloudSim</td>
               <td class="p-4 text-center">OMNeT++</td>
@@ -152,6 +154,7 @@
               <td class="p-4 font-semibold sticky left-0 bg-slate-900/80">License</td>
               <td class="p-4 text-center"><span class="text-green-400">✓</span> GPL-3.0</td>
               <td class="p-4 text-center"><span class="text-green-400">✓</span> MIT</td>
+              <td class="p-4 text-center"><span class="text-green-400">✓</span> MIT</td>
               <td class="p-4 text-center"><span class="text-green-400">✓</span> GPL-3.0</td>
               <td class="p-4 text-center"><span class="text-green-400">✓</span> GPL-2.0</td>
               <td class="p-4 text-center"><span class="text-green-400">✓</span> MIT</td>
@@ -162,6 +165,7 @@
               <td class="p-4 font-semibold sticky left-0 bg-slate-900/80">Graphical Interface (GUI)</td>
               <td class="p-4 text-center"><span class="text-green-400 text-xl">✓</span></td>
               <td class="p-4 text-center"><span class="text-red-400">✗</span></td>
+              <td class="p-4 text-center"><span class="text-green-400 text-xl">✓</span></td>
               <td class="p-4 text-center"><span class="text-red-400">✗</span></td>
               <td class="p-4 text-center"><span class="text-green-400 text-xl">✓</span></td>
               <td class="p-4 text-center"><span class="text-yellow-400">~</span> Limited</td>
@@ -171,6 +175,7 @@
             <tr class="border-b border-slate-800 hover:bg-slate-800/30 transition">
               <td class="p-4 font-semibold sticky left-0 bg-slate-900/80">Detailed Network Simulation</td>
               <td class="p-4 text-center"><span class="text-green-400 text-xl">✓</span> INET 4.5.4</td>
+              <td class="p-4 text-center"><span class="text-yellow-400">~</span> Basic</td>
               <td class="p-4 text-center"><span class="text-yellow-400">~</span> Basic</td>
               <td class="p-4 text-center"><span class="text-yellow-400">~</span> Basic</td>
               <td class="p-4 text-center"><span class="text-green-400 text-xl">✓</span> INET</td>
@@ -185,12 +190,14 @@
               <td class="p-4 text-center"><span class="text-green-400">✓</span></td>
               <td class="p-4 text-center"><span class="text-green-400">✓</span></td>
               <td class="p-4 text-center"><span class="text-green-400">✓</span></td>
+              <td class="p-4 text-center"><span class="text-green-400">✓</span></td>
             </tr>
 
             <!-- DNS -->
             <tr class="border-b border-slate-800 hover:bg-slate-800/30 transition">
               <td class="p-4 font-semibold sticky left-0 bg-slate-900/80">DNS Support</td>
               <td class="p-4 text-center"><span class="text-green-400 text-xl">✓</span> RFC 1034/1035</td>
+              <td class="p-4 text-center"><span class="text-red-400">✗</span></td>
               <td class="p-4 text-center"><span class="text-red-400">✗</span></td>
               <td class="p-4 text-center"><span class="text-red-400">✗</span></td>
               <td class="p-4 text-center"><span class="text-red-400">✗</span></td>
@@ -202,6 +209,7 @@
               <td class="p-4 font-semibold sticky left-0 bg-slate-900/80">Message Queue / Pub-Sub</td>
               <td class="p-4 text-center"><span class="text-green-400 text-xl">✓</span> MQTT-style</td>
               <td class="p-4 text-center"><span class="text-red-400">✗</span></td>
+              <td class="p-4 text-center"><span class="text-yellow-400">~</span> MQTT</td>
               <td class="p-4 text-center"><span class="text-red-400">✗</span></td>
               <td class="p-4 text-center"><span class="text-red-400">✗</span></td>
               <td class="p-4 text-center"><span class="text-red-400">✗</span></td>
@@ -213,18 +221,9 @@
               <td class="p-4 text-center"><span class="text-green-400">✓</span> WiFi, 802.15.4</td>
               <td class="p-4 text-center"><span class="text-yellow-400">~</span> Abstract</td>
               <td class="p-4 text-center"><span class="text-yellow-400">~</span> Abstract</td>
+              <td class="p-4 text-center"><span class="text-yellow-400">~</span> Abstract</td>
               <td class="p-4 text-center"><span class="text-green-400">✓</span> WiFi</td>
               <td class="p-4 text-center"><span class="text-yellow-400">~</span> Abstract</td>
-            </tr>
-
-            <!-- Energy Model -->
-            <tr class="border-b border-slate-800 hover:bg-slate-800/30 transition">
-              <td class="p-4 font-semibold sticky left-0 bg-slate-900/80">Energy Consumption Model</td>
-              <td class="p-4 text-center"><span class="text-green-400 text-xl">✓</span> Detailed</td>
-              <td class="p-4 text-center"><span class="text-green-400">✓</span></td>
-              <td class="p-4 text-center"><span class="text-green-400">✓</span></td>
-              <td class="p-4 text-center"><span class="text-green-400">✓</span></td>
-              <td class="p-4 text-center"><span class="text-green-400">✓</span></td>
             </tr>
 
             <!-- Virtualization -->
@@ -232,6 +231,7 @@
               <td class="p-4 font-semibold sticky left-0 bg-slate-900/80">VM / Container Support</td>
               <td class="p-4 text-center"><span class="text-green-400 text-xl">✓</span> VMs & Containers</td>
               <td class="p-4 text-center"><span class="text-yellow-400">~</span> Basic</td>
+              <td class="p-4 text-center"><span class="text-green-400">✓</span> Enhanced</td>
               <td class="p-4 text-center"><span class="text-green-400">✓</span></td>
               <td class="p-4 text-center"><span class="text-red-400">✗</span></td>
               <td class="p-4 text-center"><span class="text-yellow-400">~</span> Basic</td>
@@ -244,6 +244,7 @@
               <td class="p-4 text-center"><span class="text-yellow-400">~</span> Basic</td>
               <td class="p-4 text-center"><span class="text-green-400">✓</span></td>
               <td class="p-4 text-center"><span class="text-green-400">✓</span></td>
+              <td class="p-4 text-center"><span class="text-green-400">✓</span></td>
               <td class="p-4 text-center"><span class="text-yellow-400">~</span> Basic</td>
             </tr>
 
@@ -251,6 +252,7 @@
             <tr class="border-b border-slate-800 hover:bg-slate-800/30 transition">
               <td class="p-4 font-semibold sticky left-0 bg-slate-900/80">Task Offloading Policies</td>
               <td class="p-4 text-center"><span class="text-green-400 text-xl">✓</span> Multiple</td>
+              <td class="p-4 text-center"><span class="text-green-400">✓</span></td>
               <td class="p-4 text-center"><span class="text-green-400">✓</span></td>
               <td class="p-4 text-center"><span class="text-green-400">✓</span></td>
               <td class="p-4 text-center"><span class="text-yellow-400">~</span> Limited</td>
@@ -262,6 +264,7 @@
               <td class="p-4 font-semibold sticky left-0 bg-slate-900/80">Peer-Reviewed Publication</td>
               <td class="p-4 text-center"><span class="text-green-400 text-xl">✓</span> <a href="https://doi.org/10.1016/j.softx.2025.102424" class="text-cyan-400 hover:underline" target="_blank" rel="noopener noreferrer">SoftwareX 2025</a></td>
               <td class="p-4 text-center"><span class="text-green-400">✓</span> JSS 2017</td>
+              <td class="p-4 text-center"><span class="text-green-400">✓</span> SCC 2022</td>
               <td class="p-4 text-center"><span class="text-green-400">✓</span> FGCS 2017</td>
               <td class="p-4 text-center"><span class="text-green-400">✓</span> Electronics 2020</td>
               <td class="p-4 text-center"><span class="text-green-400">✓</span> SCC 2019</td>
@@ -272,6 +275,7 @@
               <td class="p-4 font-semibold sticky left-0 bg-slate-900/80">Active Development (2024-2025)</td>
               <td class="p-4 text-center"><span class="text-green-400 text-xl">✓</span> Yes</td>
               <td class="p-4 text-center"><span class="text-yellow-400">~</span> Limited</td>
+              <td class="p-4 text-center"><span class="text-green-400">✓</span> Yes</td>
               <td class="p-4 text-center"><span class="text-yellow-400">~</span> Limited</td>
               <td class="p-4 text-center"><span class="text-red-400">✗</span> No</td>
               <td class="p-4 text-center"><span class="text-yellow-400">~</span> Limited</td>
@@ -281,6 +285,7 @@
             <tr class="border-b border-slate-800 hover:bg-slate-800/30 transition">
               <td class="p-4 font-semibold sticky left-0 bg-slate-900/80">Comprehensive Documentation</td>
               <td class="p-4 text-center"><span class="text-green-400 text-xl">✓</span> <a href="https://ulyssesdeaguilar.github.io/s2f-ned-docs/" class="text-cyan-400 hover:underline" target="_blank" rel="noopener noreferrer">Full NED docs</a></td>
+              <td class="p-4 text-center"><span class="text-green-400">✓</span></td>
               <td class="p-4 text-center"><span class="text-green-400">✓</span></td>
               <td class="p-4 text-center"><span class="text-green-400">✓</span></td>
               <td class="p-4 text-center"><span class="text-yellow-400">~</span> Moderate</td>
@@ -385,6 +390,13 @@
             <h4 class="font-bold text-slate-300 mb-2">iFogSim</h4>
             <p class="text-slate-400 mb-2">
               Gupta, H., Vahid Dastjerdi, A., Ghosh, S. K., & Buyya, R. (2017). iFogSim: A toolkit for modeling and simulation of resource management techniques in the Internet of Things, Edge and Fog computing environments. <em>Software: Practice and Experience</em>, 47(9), 1275-1296.
+            </p>
+          </div>
+
+          <div>
+            <h4 class="font-bold text-slate-300 mb-2">iFogSim2</h4>
+            <p class="text-slate-400 mb-2">
+              Mahmud, R., Pallewatta, S., Goudarzi, M., & Buyya, R. (2022). iFogSim2: An Extended iFogSim Simulator for Mobility, Clustering, and Microservice Management in Edge and Fog Computing Environments. <em>Journal of Systems and Software</em>, 190, 111351.
             </p>
           </div>
 
