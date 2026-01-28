@@ -11,7 +11,7 @@ Disallow: /.git/
 Disallow: /old/
 
 # Sitemap location
-Sitemap: https://ulyssesdeaguilar.github.io/Simcan2Fog-website/sitemap.xml
+Sitemap: https://pabloccanizares.github.io/Simcan2Fog-website/sitemap.xml
 
 # Crawl-delay for polite bots (optional, 1 second)
 Crawl-delay: 1
