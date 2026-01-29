@@ -7,12 +7,5 @@ Allow: /
 # Sitemap location
 Sitemap: https://pabloccanizares.github.io/Simcan2Fog-website/sitemap.xml
 
-# Disallow specific directories
-Disallow: /node_modules/
-Disallow: /src/
-Disallow: /.git/
-Disallow: /old/
-
-
 # Crawl-delay for polite bots (optional, 1 second)
 Crawl-delay: 1
