@@ -103,4 +103,47 @@
     <priority>0.8</priority>
   </url>
 
+  <url>
+    <loc>https://pabloccanizares.github.io/Simcan2Fog-website/showcases/proxy.html</loc>
+    <lastmod>2026-06-03</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>https://pabloccanizares.github.io/Simcan2Fog-website/showcases/stats.html</loc>
+    <lastmod>2026-06-03</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- New Core Concepts -->
+  <url>
+    <loc>https://pabloccanizares.github.io/Simcan2Fog-website/doc/core/datacentre.html</loc>
+    <lastmod>2026-06-03</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <url>
+    <loc>https://pabloccanizares.github.io/Simcan2Fog-website/doc/core/edgeuser.html</loc>
+    <lastmod>2026-06-03</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <url>
+    <loc>https://pabloccanizares.github.io/Simcan2Fog-website/doc/core/queueClient.html</loc>
+    <lastmod>2026-06-03</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <url>
+    <loc>https://pabloccanizares.github.io/Simcan2Fog-website/doc/core/appProxy.html</loc>
+    <lastmod>2026-06-03</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
 </urlset>

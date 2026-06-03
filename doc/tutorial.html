@@ -7,18 +7,11 @@
   <meta name="description" content="Step-by-step installation guide for Simcan2Fog on Ubuntu: Install OMNeT++ 6.3.0, INET 4.5.4, clone repository, build project, and run your first fog computing simulation in 10 minutes."/>
   <meta name="keywords" content="Simcan2Fog tutorial, OMNeT++ installation, INET setup, fog simulation guide, quick start guide, installation steps, first simulation"/>
  
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script>
-    tailwind.config = {
-      darkMode: 'class',
-      theme: { extend: { colors: { primary: '#0ea5e9', neon: '#22d3ee', bgDark: '#0f172a' } } }
-    }
-  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="../css/tailwind.min.css">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
   <style>
-    body { font-family: 'Inter', system-ui, sans-serif; }
-    code, pre { font-family: 'JetBrains Mono', monospace; }
-    .gradient-hero { background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #0ea5e9 100%); }
     .step-box { background: rgba(30,41,59,0.5); border-left: 4px solid #22d3ee; }
     pre { background: rgba(15, 23, 42, 0.8); border: 1px solid rgba(34, 211, 238, 0.3); }
   </style>
@@ -289,22 +282,22 @@
         <div class="bg-slate-800/50 border border-slate-700 rounded-xl p-6">
           <h3 class="text-2xl font-bold mb-4 text-cyan-300">Available Showcases:</h3>
           <div class="space-y-4">
-            <div>
+            <a href="../showcases/dc.html" class="block hover:bg-slate-700/30 rounded-lg p-2 -mx-2 transition">
               <h4 class="font-bold text-lg text-white mb-2">🏢 Datacentre</h4>
               <p class="text-slate-300">Shows how users request cloud VMs, deploy services, and how local applications communicate with cloud services.</p>
-            </div>
-            <div>
+            </a>
+            <a href="../showcases/iot.html" class="block hover:bg-slate-700/30 rounded-lg p-2 -mx-2 transition">
               <h4 class="font-bold text-lg text-white mb-2">🏠 IoT (Smart Home)</h4>
               <p class="text-slate-300">Quick configuration and topology for IoT models. Models a complete smart house with sensors, actuators, and controllers.</p>
-            </div>
-            <div>
+            </a>
+            <a href="../showcases/proxy.html" class="block hover:bg-slate-700/30 rounded-lg p-2 -mx-2 transition">
               <h4 class="font-bold text-lg text-white mb-2">🔗 Proxy</h4>
               <p class="text-slate-300">Explores the Proxy module, a key component of the framework. Includes optional DNS integration.</p>
-            </div>
-            <div>
+            </a>
+            <a href="../showcases/stats.html" class="block hover:bg-slate-700/30 rounded-lg p-2 -mx-2 transition">
               <h4 class="font-bold text-lg text-white mb-2">📊 Statistics</h4>
               <p class="text-slate-300">Demonstrates how to configure simulations for statistical and event capture. Generate sequence charts to visualize interactions.</p>
-            </div>
+            </a>
           </div>
         </div>
       </div>

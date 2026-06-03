@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>AppProxy & ServiceTable - Simcan2Fog Documentation</title>
+  <meta name="description" content="AppProxy and ServiceTable documentation: application-layer gateway, TCP port 443, RestfulRequest routing, service endpoint registration, load balancing in Simcan2Fog."/>
+  <meta name="keywords" content="app proxy, service table, reverse proxy, service discovery, load balancing, fog proxy, application gateway"/>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../css/tailwind.min.css">
+  <style>
+    .custom-scrollbar::-webkit-scrollbar { width: 6px; height: 6px; }
+    .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
+    .custom-scrollbar::-webkit-scrollbar-thumb { background: #334155; border-radius: 10px; }
+    .code-block { background: #1e293b; border: 1px solid #334155; }
+  </style>
+</head>
+<body class="bg-slate-950 text-slate-100 antialiased">
+
+  <div class="fixed w-full h-full top-0 left-0 -z-10 bg-gradient-to-b from-slate-900 via-slate-950 to-slate-900"></div>
+
+  <nav class="sticky top-0 z-50 w-full bg-slate-900/80 backdrop-blur-xl border-b border-slate-700/40">
+    <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+      <div class="flex items-center gap-3">
+        <div class="w-11 h-11 rounded-xl bg-gradient-to-br from-cyan-500 to-blue-600 flex items-center justify-center font-bold text-white text-2xl shadow-lg">S2F</div>
+        <span class="text-2xl font-semibold tracking-tight">Simcan2Fog</span>
+      </div>
+      <div class="hidden md:flex gap-8 font-medium">
+        <a href="../../index.html" class="hover:text-cyan-300 transition-colors">Home</a>
+        <a href="../../features.html" class="hover:text-cyan-300 transition-colors">Features</a>
+        <a href="../../comparison.html" class="hover:text-cyan-300 transition-colors">Comparison</a>
+        <a href="../tutorial.html" class="hover:text-cyan-300 transition-colors">Tutorial</a>
+        <a href="../documentation.html" class="text-cyan-300">Documentation</a>
+        <a href="../../publications.html" class="hover:text-cyan-300 transition-colors">Publications</a>
+      </div>
+    </div>
+  </nav>
+
+  <div class="max-w-[1440px] mx-auto flex">
+
+    <aside class="hidden lg:block w-72 h-[calc(100vh-76px)] sticky top-[76px] border-r border-slate-800 p-6 overflow-y-auto custom-scrollbar">
+      <div class="flex flex-col gap-6">
+        <nav class="flex flex-col gap-6">
+          <section>
+            <h3 class="text-xs font-bold uppercase tracking-wider text-slate-400 mb-3 px-3">Core Concepts</h3>
+            <ul class="flex flex-col gap-1">
+              <li><a class="flex items-center gap-3 px-3 py-2 text-sm font-medium hover:bg-slate-800 rounded-lg transition" href="architecture.html"><span>🏗️</span>Architecture</a></li>
+              <li><a class="flex items-center gap-3 px-3 py-2 text-sm font-medium hover:bg-slate-800 rounded-lg transition" href="fogNodes.html"><span>🌫️</span>Fog Nodes</a></li>
+              <li><a class="flex items-center gap-3 px-3 py-2 text-sm font-medium hover:bg-slate-800 rounded-lg transition" href="iotDevices.html"><span>💡</span>IoT Devices</a></li>
+              <li><a class="flex items-center gap-3 px-3 py-2 text-sm font-medium hover:bg-slate-800 rounded-lg transition" href="datacentre.html"><span>🏢</span>DataCentre & Cloud</a></li>
+              <li><a class="flex items-center gap-3 px-3 py-2 text-sm font-medium hover:bg-slate-800 rounded-lg transition" href="edgeuser.html"><span>👤</span>EdgeUser & EdgeTile</a></li>
+            </ul>
+          </section>
+          <section>
+            <h3 class="text-xs font-bold uppercase tracking-wider text-slate-400 mb-3 px-3">Services & Networking</h3>
+            <ul class="flex flex-col gap-1">
+              <li><a class="flex items-center gap-3 px-3 py-2 text-sm font-medium hover:bg-slate-800 rounded-lg transition" href="dns.html"><span>🌐</span>DNS</a></li>
+              <li><a class="flex items-center gap-3 px-3 py-2 text-sm font-medium hover:bg-slate-800 rounded-lg transition" href="messageQueue.html"><span>📨</span>Message Queue</a></li>
+              <li><a class="flex items-center gap-3 px-3 py-2 text-sm font-medium hover:bg-slate-800 rounded-lg transition" href="queueClient.html"><span>🔌</span>Queue Client</a></li>
+              <li><a class="flex items-center gap-3 px-3 py-2 text-sm font-medium text-cyan-400 bg-cyan-500/10 rounded-lg border-l-2 border-cyan-500" href="#"><span>🔀</span>AppProxy</a></li>
+            </ul>
+          </section>
+        </nav>
+        <div class="pt-6 border-t border-slate-800">
+          <a href="../documentation.html" class="text-sm text-slate-400 hover:text-cyan-400 transition flex items-center gap-2">← Back to Documentation</a>
+        </div>
+      </div>
+    </aside>
+
+    <main class="flex-1 min-w-0 p-6 lg:p-12 overflow-hidden">
+      <div class="max-w-4xl mx-auto">
+
+        <nav class="flex items-center gap-2 mb-8 text-sm text-slate-400 font-medium" aria-label="Breadcrumb">
+          <ol itemscope itemtype="https://schema.org/BreadcrumbList" class="flex items-center gap-2">
+            <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+              <a itemprop="item" href="../../index.html" class="hover:text-cyan-400 transition-colors"><span itemprop="name">Home</span></a><meta itemprop="position" content="1" />
+            </li>
+            <span>›</span>
+            <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+              <a itemprop="item" href="../documentation.html" class="hover:text-cyan-400 transition-colors"><span itemprop="name">Documentation</span></a><meta itemprop="position" content="2" />
+            </li>
+            <span>›</span>
+            <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+              <span itemprop="name" class="text-slate-100">AppProxy & ServiceTable</span><meta itemprop="position" content="3" />
+            </li>
+          </ol>
+        </nav>
+
+        <div class="mb-12 border-b border-slate-800 pb-8">
+          <div class="flex items-center gap-3 mb-4">
+            <div class="w-14 h-14 rounded-xl bg-gradient-to-br from-red-500/20 to-orange-600/20 flex items-center justify-center text-3xl border border-red-500/30">🔀</div>
+            <div>
+              <h1 class="text-4xl md:text-5xl font-black tracking-tight">AppProxy & ServiceTable</h1>
+              <p class="text-slate-400 mt-1">Application-layer gateway and service endpoint registry</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- AppProxy -->
+        <section class="mb-16">
+          <h2 class="text-3xl font-bold mb-6">AppProxy</h2>
+          <div class="bg-slate-900/50 border border-slate-800 rounded-xl p-6 mb-6">
+            <p class="text-slate-300 leading-relaxed">
+              The <strong class="text-white">AppProxy</strong> is an application-layer gateway present inside every FogNode and DataCentre. It accepts TCP connections on <strong class="text-white">port 443</strong>, extracts service names from <code class="bg-slate-800 px-2 py-1 rounded text-sm text-pink-400">RestfulRequest</code> host headers, queries the ServiceTable, and routes traffic to the appropriate backend.
+            </p>
+          </div>
+
+          <div class="grid md:grid-cols-2 gap-6 mb-6">
+            <div class="bg-slate-900/50 border border-slate-800 rounded-xl p-6">
+              <h3 class="text-lg font-bold mb-3 text-emerald-400">PASSTHROUGH (Client)</h3>
+              <p class="text-sm text-slate-400">Outgoing connections initiated by the local node to remote services. The proxy creates an outbound TCP session on behalf of the hosted application.</p>
+            </div>
+            <div class="bg-slate-900/50 border border-slate-800 rounded-xl p-6">
+              <h3 class="text-lg font-bold mb-3 text-purple-400">EDGE (Server)</h3>
+              <p class="text-sm text-slate-400">Incoming connections from remote clients. The proxy accepts the connection, resolves the service via ServiceTable, and forwards to the local backend application.</p>
+            </div>
+          </div>
+
+          <h3 class="text-xl font-bold mb-4 text-cyan-400">Session Lifecycle</h3>
+          <div class="space-y-4 mb-6">
+            <div class="bg-slate-900/50 border-l-4 border-cyan-500 rounded-r-xl p-6">
+              <div class="flex items-start gap-4">
+                <div class="flex-shrink-0 w-8 h-8 rounded-full bg-cyan-600 text-white flex items-center justify-center font-bold text-sm">1</div>
+                <div>
+                  <h4 class="text-lg font-bold mb-1 text-cyan-400">INIT</h4>
+                  <p class="text-sm text-slate-300">TCP connection accepted on port 443. Waiting for first request to determine target service.</p>
+                </div>
+              </div>
+            </div>
+            <div class="bg-slate-900/50 border-l-4 border-yellow-500 rounded-r-xl p-6">
+              <div class="flex items-start gap-4">
+                <div class="flex-shrink-0 w-8 h-8 rounded-full bg-yellow-600 text-white flex items-center justify-center font-bold text-sm">2</div>
+                <div>
+                  <h4 class="text-lg font-bold mb-1 text-yellow-400">PENDING</h4>
+                  <p class="text-sm text-slate-300">Service name extracted from host header. ServiceTable queried via selectIp(). Backend TCP connection being established.</p>
+                </div>
+              </div>
+            </div>
+            <div class="bg-slate-900/50 border-l-4 border-emerald-500 rounded-r-xl p-6">
+              <div class="flex items-start gap-4">
+                <div class="flex-shrink-0 w-8 h-8 rounded-full bg-emerald-600 text-white flex items-center justify-center font-bold text-sm">3</div>
+                <div>
+                  <h4 class="text-lg font-bold mb-1 text-emerald-400">ESTABLISHED</h4>
+                  <p class="text-sm text-slate-300">Backend connected. Bidirectional data flow between client and backend through the proxy.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ServiceTable -->
+        <section class="mb-16">
+          <h2 class="text-3xl font-bold mb-6">ServiceTable</h2>
+          <div class="bg-slate-900/50 border border-slate-800 rounded-xl p-6 mb-6">
+            <p class="text-slate-300 leading-relaxed">
+              The <strong class="text-white">ServiceTable</strong> is a passive module with <strong class="text-white">no gates</strong> - it exposes only a C++ API. It maintains a map of service names to vectors of <code class="bg-slate-800 px-2 py-1 rounded text-sm text-pink-400">ServiceEntry</code> (IP + port packed in a 64-bit value).
+            </p>
+          </div>
+
+          <div class="space-y-4 mb-6">
+            <div class="bg-slate-900/50 border-l-4 border-emerald-500 rounded-r-xl p-6">
+              <h4 class="font-bold text-white mb-2">Registration</h4>
+              <p class="text-slate-300 text-sm">Services register via <code class="text-pink-400">ProxyServiceRequest(REGISTER)</code>. Each registration adds an IP:port entry to the service name's endpoint list.</p>
+            </div>
+            <div class="bg-slate-900/50 border-l-4 border-purple-500 rounded-r-xl p-6">
+              <h4 class="font-bold text-white mb-2">Load Balancing via selectIp()</h4>
+              <p class="text-slate-300 text-sm">When multiple endpoints exist, <code class="text-pink-400">selectIp()</code> performs uniform random selection across available entries. No TTL or expiry - entries persist until explicitly unregistered.</p>
+            </div>
+            <div class="bg-slate-900/50 border-l-4 border-cyan-500 rounded-r-xl p-6">
+              <h4 class="font-bold text-white mb-2">Domain Suffix Stripping</h4>
+              <p class="text-slate-300 text-sm">Incoming service names have the configured domain suffix (default: <code class="text-cyan-400">"localdomain"</code>) stripped before lookup. This allows both <code class="text-cyan-400">myservice</code> and <code class="text-cyan-400">myservice.localdomain</code> to resolve to the same endpoints.</p>
+            </div>
+          </div>
+        </section>
+
+        <!-- DNS vs ServiceTable -->
+        <section class="mb-16">
+          <h2 class="text-3xl font-bold mb-6">DNS vs ServiceTable</h2>
+          <div class="overflow-x-auto">
+            <table class="w-full text-sm border-collapse">
+              <thead>
+                <tr class="bg-slate-800/50 border-b border-slate-700">
+                  <th class="text-left p-4 font-bold text-cyan-400">Aspect</th>
+                  <th class="text-left p-4 font-bold text-cyan-400">DNS</th>
+                  <th class="text-left p-4 font-bold text-cyan-400">ServiceTable</th>
+                </tr>
+              </thead>
+              <tbody class="text-slate-300">
+                <tr class="border-b border-slate-800"><td class="p-4">Layer</td><td class="p-4">Network</td><td class="p-4">Application</td></tr>
+                <tr class="border-b border-slate-800"><td class="p-4">Resolves</td><td class="p-4">Domains → IP addresses</td><td class="p-4">Service names → IP:port endpoints</td></tr>
+                <tr class="border-b border-slate-800"><td class="p-4">Protocol</td><td class="p-4">UDP (standard DNS)</td><td class="p-4">C++ API (no network traffic)</td></tr>
+                <tr class="border-b border-slate-800"><td class="p-4">Scope</td><td class="p-4">Global (across network)</td><td class="p-4">Local (per node)</td></tr>
+                <tr class="border-b border-slate-800"><td class="p-4">TTL</td><td class="p-4">Yes (record expiry)</td><td class="p-4">No (persistent entries)</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- Key Parameters -->
+        <section class="mb-16">
+          <h2 class="text-3xl font-bold mb-6">Key Parameters</h2>
+          <div class="code-block rounded-xl overflow-hidden">
+            <pre class="p-6 text-sm font-mono overflow-x-auto custom-scrollbar"><span class="text-slate-500"># AppProxy</span>
+<span class="text-blue-400">*.node.proxy.localPort</span> = <span class="text-pink-400">443</span>
+<span class="text-blue-400">*.node.proxy.serviceTablePath</span> = <span class="text-emerald-400">"^.serviceTable"</span>
+
+<span class="text-slate-500"># ServiceTable</span>
+<span class="text-blue-400">*.node.serviceTable.domain</span> = <span class="text-emerald-400">"localdomain"</span></pre>
+          </div>
+        </section>
+
+        <!-- Reference -->
+        <section class="p-8 rounded-2xl bg-cyan-500/5 border border-cyan-500/20 mb-16">
+          <div class="flex gap-6">
+            <div class="hidden sm:flex shrink-0 w-12 h-12 items-center justify-center rounded-full bg-cyan-500 text-white text-2xl">📚</div>
+            <div>
+              <h3 class="text-2xl font-bold mb-3">Learn More</h3>
+              <p class="text-slate-400 mb-6 leading-relaxed">See AppProxy in action in the Proxy & DNS showcase.</p>
+              <div class="flex flex-wrap gap-4">
+                <a href="../../showcases/proxy.html" class="inline-flex items-center gap-2 font-bold text-cyan-400 hover:text-cyan-300 transition">Proxy & DNS Showcase →</a>
+                <a href="dns.html" class="inline-flex items-center gap-2 font-bold text-cyan-400 hover:text-cyan-300 transition">DNS Documentation →</a>
+              </div>
+            </div>
+          </div>
+        </section>
+
+      </div>
+    </main>
+  </div>
+
+  <footer class="bg-slate-950 border-t border-slate-800 py-12 text-slate-400 text-center">
+    <div class="max-w-7xl mx-auto px-6">
+      <p class="text-lg">© 2026 Simcan2Fog • Open Source Fog Computing Simulation Framework</p>
+      <p class="mt-2">Built with OMNeT++ 6.3.0 & INET 4.5.4 • Licensed under GPL-3.0</p>
+      <div class="mt-8 flex justify-center gap-12 text-sm">
+        <a href="https://github.com/UlyssesDeAguilar/Simcan2Fog" class="hover:text-cyan-400">GitHub</a>
+        <a href="https://ulyssesdeaguilar.github.io/s2f-ned-docs/" class="hover:text-cyan-400">Documentation</a>
+        <a href="https://github.com/UlyssesDeAguilar/Simcan2Fog/releases" class="hover:text-cyan-400">Releases</a>
+        <a href="https://www.sciencedirect.com/science/article/pii/S2352711025003905" class="hover:text-cyan-400">Paper</a>
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>

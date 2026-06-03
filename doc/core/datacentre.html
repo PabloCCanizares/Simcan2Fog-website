@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>DataCentre & Cloud Provider - Simcan2Fog Documentation</title>
+  <meta name="description" content="DataCentre and CloudProvider documentation: blade arrays, ResourceManager, NodeDb, best-fit VM placement, zone-aware orchestration in Simcan2Fog fog computing framework."/>
+  <meta name="keywords" content="data centre simulation, cloud provider, VM placement, blade server, fog cloud orchestration, resource management, NodeDb"/>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../css/tailwind.min.css">
+  <style>
+    .custom-scrollbar::-webkit-scrollbar { width: 6px; height: 6px; }
+    .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
+    .custom-scrollbar::-webkit-scrollbar-thumb { background: #334155; border-radius: 10px; }
+    .code-block { background: #1e293b; border: 1px solid #334155; }
+  </style>
+</head>
+<body class="bg-slate-950 text-slate-100 antialiased">
+
+  <div class="fixed w-full h-full top-0 left-0 -z-10 bg-gradient-to-b from-slate-900 via-slate-950 to-slate-900"></div>
+
+  <!-- NAVIGATION -->
+  <nav class="sticky top-0 z-50 w-full bg-slate-900/80 backdrop-blur-xl border-b border-slate-700/40">
+    <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+      <div class="flex items-center gap-3">
+        <div class="w-11 h-11 rounded-xl bg-gradient-to-br from-cyan-500 to-blue-600 flex items-center justify-center font-bold text-white text-2xl shadow-lg">S2F</div>
+        <span class="text-2xl font-semibold tracking-tight">Simcan2Fog</span>
+      </div>
+      <div class="hidden md:flex gap-8 font-medium">
+        <a href="../../index.html" class="hover:text-cyan-300 transition-colors">Home</a>
+        <a href="../../features.html" class="hover:text-cyan-300 transition-colors">Features</a>
+        <a href="../../comparison.html" class="hover:text-cyan-300 transition-colors">Comparison</a>
+        <a href="../tutorial.html" class="hover:text-cyan-300 transition-colors">Tutorial</a>
+        <a href="../documentation.html" class="text-cyan-300">Documentation</a>
+        <a href="../../publications.html" class="hover:text-cyan-300 transition-colors">Publications</a>
+      </div>
+    </div>
+  </nav>
+
+  <div class="max-w-[1440px] mx-auto flex">
+
+    <!-- SIDEBAR -->
+    <aside class="hidden lg:block w-72 h-[calc(100vh-76px)] sticky top-[76px] border-r border-slate-800 p-6 overflow-y-auto custom-scrollbar">
+      <div class="flex flex-col gap-6">
+        <nav class="flex flex-col gap-6">
+          <section>
+            <h3 class="text-xs font-bold uppercase tracking-wider text-slate-400 mb-3 px-3">Core Concepts</h3>
+            <ul class="flex flex-col gap-1">
+              <li><a class="flex items-center gap-3 px-3 py-2 text-sm font-medium hover:bg-slate-800 rounded-lg transition" href="architecture.html"><span>🏗️</span>Architecture</a></li>
+              <li><a class="flex items-center gap-3 px-3 py-2 text-sm font-medium hover:bg-slate-800 rounded-lg transition" href="fogNodes.html"><span>🌫️</span>Fog Nodes</a></li>
+              <li><a class="flex items-center gap-3 px-3 py-2 text-sm font-medium hover:bg-slate-800 rounded-lg transition" href="iotDevices.html"><span>💡</span>IoT Devices</a></li>
+              <li><a class="flex items-center gap-3 px-3 py-2 text-sm font-medium text-cyan-400 bg-cyan-500/10 rounded-lg border-l-2 border-cyan-500" href="#"><span>🏢</span>DataCentre & Cloud</a></li>
+              <li><a class="flex items-center gap-3 px-3 py-2 text-sm font-medium hover:bg-slate-800 rounded-lg transition" href="edgeuser.html"><span>👤</span>EdgeUser & EdgeTile</a></li>
+            </ul>
+          </section>
+          <section>
+            <h3 class="text-xs font-bold uppercase tracking-wider text-slate-400 mb-3 px-3">Services & Networking</h3>
+            <ul class="flex flex-col gap-1">
+              <li><a class="flex items-center gap-3 px-3 py-2 text-sm font-medium hover:bg-slate-800 rounded-lg transition" href="dns.html"><span>🌐</span>DNS</a></li>
+              <li><a class="flex items-center gap-3 px-3 py-2 text-sm font-medium hover:bg-slate-800 rounded-lg transition" href="messageQueue.html"><span>📨</span>Message Queue</a></li>
+              <li><a class="flex items-center gap-3 px-3 py-2 text-sm font-medium hover:bg-slate-800 rounded-lg transition" href="queueClient.html"><span>🔌</span>Queue Client</a></li>
+              <li><a class="flex items-center gap-3 px-3 py-2 text-sm font-medium hover:bg-slate-800 rounded-lg transition" href="appProxy.html"><span>🔀</span>AppProxy</a></li>
+            </ul>
+          </section>
+        </nav>
+        <div class="pt-6 border-t border-slate-800">
+          <a href="../documentation.html" class="text-sm text-slate-400 hover:text-cyan-400 transition flex items-center gap-2">
+            ← Back to Documentation
+          </a>
+        </div>
+      </div>
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <main class="flex-1 min-w-0 p-6 lg:p-12 overflow-hidden">
+      <div class="max-w-4xl mx-auto">
+
+        <!-- Breadcrumbs -->
+        <nav class="flex items-center gap-2 mb-8 text-sm text-slate-400 font-medium" aria-label="Breadcrumb">
+          <ol itemscope itemtype="https://schema.org/BreadcrumbList" class="flex items-center gap-2">
+            <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+              <a itemprop="item" href="../../index.html" class="hover:text-cyan-400 transition-colors"><span itemprop="name">Home</span></a>
+              <meta itemprop="position" content="1" />
+            </li>
+            <span>›</span>
+            <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+              <a itemprop="item" href="../documentation.html" class="hover:text-cyan-400 transition-colors"><span itemprop="name">Documentation</span></a>
+              <meta itemprop="position" content="2" />
+            </li>
+            <span>›</span>
+            <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+              <span itemprop="name" class="text-slate-100">DataCentre & Cloud</span>
+              <meta itemprop="position" content="3" />
+            </li>
+          </ol>
+        </nav>
+
+        <!-- Page Header -->
+        <div class="mb-12 border-b border-slate-800 pb-8">
+          <div class="flex items-center gap-3 mb-4">
+            <div class="w-14 h-14 rounded-xl bg-gradient-to-br from-blue-500/20 to-indigo-600/20 flex items-center justify-center text-3xl border border-blue-500/30">
+              🏢
+            </div>
+            <div>
+              <h1 class="text-4xl md:text-5xl font-black tracking-tight">DataCentre & Cloud</h1>
+              <p class="text-slate-400 mt-1">Physical infrastructure and stateful orchestration</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Overview -->
+        <section class="mb-16">
+          <h2 class="text-3xl font-bold mb-6">Overview</h2>
+          <div class="bg-slate-900/50 border border-slate-800 rounded-xl p-6 mb-6">
+            <p class="text-slate-300 leading-relaxed mb-4">
+              The <strong class="text-white">cloud tier</strong> in Simcan2Fog provides abundant capacity and centralized coordination. It consists of two complementary modules: the <strong class="text-white">DataCentre</strong> (physical infrastructure) and the <strong class="text-white">CloudProvider</strong> (stateful orchestrator).
+            </p>
+            <p class="text-slate-300 leading-relaxed">
+              Together they handle VM provisioning, application deployment, and resource management at cloud scale, typically offering <strong class="text-white">8x the capacity</strong> of the fog layer.
+            </p>
+          </div>
+
+          <div class="bg-blue-950/20 border-l-4 border-blue-500 rounded-r-xl p-6">
+            <p class="font-semibold text-blue-300 mb-2">Key Difference from FogNode</p>
+            <p class="text-slate-300">
+              DataCentre uses <code class="text-cyan-400 bg-slate-800 px-2 py-1 rounded">NetworkStack</code> (flat network), while FogNode uses <code class="text-cyan-400 bg-slate-800 px-2 py-1 rounded">RoutingNetworkStack</code> (IP routing). This reflects the architectural difference: data centres sit at network endpoints, fog nodes act as routers.
+            </p>
+          </div>
+        </section>
+
+        <!-- DataCentre -->
+        <section class="mb-16">
+          <h2 class="text-3xl font-bold mb-6">DataCentre Module</h2>
+          <p class="text-slate-300 mb-6 leading-relaxed">
+            The DataCentre represents the <strong class="text-white">physical infrastructure</strong> of a cloud deployment zone. It contains compute blades, a resource manager, and networking components.
+          </p>
+
+          <div class="space-y-4 mb-6">
+            <div class="bg-slate-900/50 border-l-4 border-cyan-500 rounded-r-xl p-6">
+              <h4 class="font-bold text-white mb-2">Blade Arrays</h4>
+              <p class="text-slate-300 text-sm">Configurable number of compute blades, each with dedicated CPU cores, RAM, and disk. Cloud: typically 20-40 blades (16 cores, 64GB RAM each). Fog: typically 4-10 blades (8 cores, 16GB RAM each).</p>
+            </div>
+            <div class="bg-slate-900/50 border-l-4 border-purple-500 rounded-r-xl p-6">
+              <h4 class="font-bold text-white mb-2">ResourceManager & NodePool</h4>
+              <p class="text-slate-300 text-sm">Tracks blade availability, allocates compute resources for VM requests, and manages the lifecycle of hosted applications.</p>
+            </div>
+            <div class="bg-slate-900/50 border-l-4 border-emerald-500 rounded-r-xl p-6">
+              <h4 class="font-bold text-white mb-2">AppProxy & ServiceTable</h4>
+              <p class="text-slate-300 text-sm">Each DataCentre includes an AppProxy for service routing and a ServiceTable for endpoint registration. Deployed services register themselves automatically.</p>
+            </div>
+            <div class="bg-slate-900/50 border-l-4 border-orange-500 rounded-r-xl p-6">
+              <h4 class="font-bold text-white mb-2">DcManager</h4>
+              <p class="text-slate-300 text-sm">Coordinates internal operations: receives deployment requests from the CloudProvider, allocates blades, and reports status back through the Message Queue.</p>
+            </div>
+          </div>
+
+          <div class="code-block rounded-xl overflow-hidden">
+            <div class="flex items-center justify-between px-4 py-3 bg-slate-800/50 border-b border-slate-700">
+              <span class="text-xs font-mono text-slate-400">Key Parameters</span>
+            </div>
+            <pre class="p-6 text-sm font-mono overflow-x-auto custom-scrollbar"><span class="text-blue-400">*.dataCentre.numBlades</span> = <span class="text-pink-400">4</span>
+<span class="text-blue-400">*.dataCentre.zone</span> = <span class="text-emerald-400">"us-east-1"</span>
+<span class="text-blue-400">*.dataCentre.domain</span> = <span class="text-emerald-400">"us-east-1.com"</span>
+<span class="text-blue-400">*.dataCentre.nodeTopic</span> = <span class="text-emerald-400">"dataCentre"</span></pre>
+          </div>
+        </section>
+
+        <!-- CloudProvider -->
+        <section class="mb-16">
+          <h2 class="text-3xl font-bold mb-6">CloudProvider Module</h2>
+          <p class="text-slate-300 mb-6 leading-relaxed">
+            The CloudProvider is the <strong class="text-white">stateful orchestrator</strong> that consumes VM requests from the Message Queue topic <code class="bg-slate-800 px-2 py-1 rounded text-sm text-pink-400">"cloudProvider"</code> and coordinates placement across DataCentres.
+          </p>
+
+          <div class="grid md:grid-cols-2 gap-6 mb-6">
+            <div class="bg-slate-900/50 border border-slate-800 rounded-xl p-6">
+              <h3 class="text-lg font-bold mb-3 text-emerald-400">NodeDb</h3>
+              <p class="text-sm text-slate-400">
+                Global state database tracking all DataCentres, their zones, available capacity, and hosted VMs. Used for placement decisions.
+              </p>
+            </div>
+            <div class="bg-slate-900/50 border border-slate-800 rounded-xl p-6">
+              <h3 class="text-lg font-bold mb-3 text-purple-400">Best-Fit Placement</h3>
+              <p class="text-sm text-slate-400">
+                Selects the DataCentre with the most available cores that still satisfies the request. Zone-aware: only considers DataCentres in the requested deployment zone.
+              </p>
+            </div>
+          </div>
+
+          <div class="mb-6">
+            <h3 class="text-xl font-bold mb-4 text-cyan-400">Orchestration Flow</h3>
+            <div class="space-y-4">
+              <div class="bg-slate-900/50 border-l-4 border-cyan-500 rounded-r-xl p-6">
+                <div class="flex items-start gap-3">
+                  <div class="w-8 h-8 rounded-full bg-cyan-600 text-white flex items-center justify-center font-bold flex-shrink-0">1</div>
+                  <div>
+                    <h4 class="font-bold text-white mb-2">Receive SM_UserVM</h4>
+                    <p class="text-slate-300 text-sm">CloudProvider pulls a VM request from the "cloudProvider" MQ topic.</p>
+                  </div>
+                </div>
+              </div>
+              <div class="bg-slate-900/50 border-l-4 border-cyan-500 rounded-r-xl p-6">
+                <div class="flex items-start gap-3">
+                  <div class="w-8 h-8 rounded-full bg-cyan-600 text-white flex items-center justify-center font-bold flex-shrink-0">2</div>
+                  <div>
+                    <h4 class="font-bold text-white mb-2">Select Target via NodeDb</h4>
+                    <p class="text-slate-300 text-sm">Queries NodeDb for DataCentres in the requested zone, applies best-fit selection by available cores.</p>
+                  </div>
+                </div>
+              </div>
+              <div class="bg-slate-900/50 border-l-4 border-cyan-500 rounded-r-xl p-6">
+                <div class="flex items-start gap-3">
+                  <div class="w-8 h-8 rounded-full bg-cyan-600 text-white flex items-center justify-center font-bold flex-shrink-0">3</div>
+                  <div>
+                    <h4 class="font-bold text-white mb-2">Forward to DataCentre</h4>
+                    <p class="text-slate-300 text-sm">Sends the VM request to the selected DataCentre's MQ topic for provisioning.</p>
+                  </div>
+                </div>
+              </div>
+              <div class="bg-slate-900/50 border-l-4 border-cyan-500 rounded-r-xl p-6">
+                <div class="flex items-start gap-3">
+                  <div class="w-8 h-8 rounded-full bg-cyan-600 text-white flex items-center justify-center font-bold flex-shrink-0">4</div>
+                  <div>
+                    <h4 class="font-bold text-white mb-2">Respond to User</h4>
+                    <p class="text-slate-300 text-sm">Once the DataCentre confirms provisioning, CloudProvider sends the response to the user's returnTopic.</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Capacity Comparison -->
+        <section class="mb-16">
+          <h2 class="text-3xl font-bold mb-6">Capacity Comparison</h2>
+          <div class="overflow-x-auto">
+            <table class="w-full text-sm border-collapse">
+              <thead>
+                <tr class="bg-slate-800/50 border-b border-slate-700">
+                  <th class="text-left p-4 font-bold text-cyan-400">Parameter</th>
+                  <th class="text-left p-4 font-bold text-cyan-400">Cloud DataCentre</th>
+                  <th class="text-left p-4 font-bold text-cyan-400">Fog Node</th>
+                </tr>
+              </thead>
+              <tbody class="text-slate-300">
+                <tr class="border-b border-slate-800"><td class="p-4">Blades</td><td class="p-4">20-40</td><td class="p-4">4-10</td></tr>
+                <tr class="border-b border-slate-800"><td class="p-4">Cores per blade</td><td class="p-4">16</td><td class="p-4">8</td></tr>
+                <tr class="border-b border-slate-800"><td class="p-4">RAM per blade</td><td class="p-4">64 GB</td><td class="p-4">16 GB</td></tr>
+                <tr class="border-b border-slate-800"><td class="p-4">Total capacity ratio</td><td class="p-4" colspan="2"><strong class="text-white">~8x</strong> (cloud vs fog)</td></tr>
+                <tr class="border-b border-slate-800"><td class="p-4">Network stack</td><td class="p-4">NetworkStack</td><td class="p-4">RoutingNetworkStack</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- Reference -->
+        <section class="p-8 rounded-2xl bg-cyan-500/5 border border-cyan-500/20 mb-16">
+          <div class="flex gap-6">
+            <div class="hidden sm:flex shrink-0 w-12 h-12 items-center justify-center rounded-full bg-cyan-500 text-white text-2xl">
+              📚
+            </div>
+            <div>
+              <h3 class="text-2xl font-bold mb-3">Learn More</h3>
+              <p class="text-slate-400 mb-6 leading-relaxed">
+                See the DataCentre and CloudProvider in action in the Data Centre showcase.
+              </p>
+              <div class="flex flex-wrap gap-4">
+                <a href="../../showcases/dc.html" class="inline-flex items-center gap-2 font-bold text-cyan-400 hover:text-cyan-300 transition">
+                  Data Centre Showcase →
+                </a>
+                <a href="messageQueue.html" class="inline-flex items-center gap-2 font-bold text-cyan-400 hover:text-cyan-300 transition">
+                  Message Queue →
+                </a>
+                <a href="edgeuser.html" class="inline-flex items-center gap-2 font-bold text-cyan-400 hover:text-cyan-300 transition">
+                  EdgeUser & EdgeTile →
+                </a>
+              </div>
+            </div>
+          </div>
+        </section>
+
+      </div>
+    </main>
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="bg-slate-950 border-t border-slate-800 py-12 text-slate-400 text-center">
+    <div class="max-w-7xl mx-auto px-6">
+      <p class="text-lg">© 2026 Simcan2Fog • Open Source Fog Computing Simulation Framework</p>
+      <p class="mt-2">Built with OMNeT++ 6.3.0 & INET 4.5.4 • Licensed under GPL-3.0</p>
+      <div class="mt-8 flex justify-center gap-12 text-sm">
+        <a href="https://github.com/UlyssesDeAguilar/Simcan2Fog" class="hover:text-cyan-400">GitHub</a>
+        <a href="https://ulyssesdeaguilar.github.io/s2f-ned-docs/" class="hover:text-cyan-400">Documentation</a>
+        <a href="https://github.com/UlyssesDeAguilar/Simcan2Fog/releases" class="hover:text-cyan-400">Releases</a>
+        <a href="https://www.sciencedirect.com/science/article/pii/S2352711025003905" class="hover:text-cyan-400">Paper</a>
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>

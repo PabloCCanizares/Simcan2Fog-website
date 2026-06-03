@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Statistics Showcase - Simcan2Fog Eventlog & Statistical Recording</title>
+  <meta name="description" content="Statistics showcase: eventlog recording, statistic/scalar/vector capture, selective enable pattern, and analysis file configuration for Simcan2Fog fog computing simulations."/>
+  <meta name="keywords" content="OMNeT++ statistics, eventlog recording, vector recording, scalar recording, simulation analysis, sequence chart, fog computing metrics"/>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/tailwind.min.css">
+  <style>
+    .custom-scrollbar::-webkit-scrollbar { width: 6px; height: 6px; }
+    .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
+    .custom-scrollbar::-webkit-scrollbar-thumb { background: #334155; border-radius: 10px; }
+    .code-block { background: #1e293b; border: 1px solid #334155; }
+  </style>
+</head>
+<body class="bg-slate-950 text-slate-100 antialiased">
+
+  <!-- Animated Background -->
+  <div class="fixed w-full h-full top-0 left-0 -z-10 bg-gradient-to-b from-slate-900 via-slate-950 to-slate-900"></div>
+
+  <!-- NAVIGATION -->
+  <nav class="sticky top-0 z-50 w-full bg-slate-900/80 backdrop-blur-xl border-b border-slate-700/40">
+    <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+      <div class="flex items-center gap-3">
+        <div class="w-11 h-11 rounded-xl bg-gradient-to-br from-cyan-500 to-blue-600 flex items-center justify-center font-bold text-white text-2xl shadow-lg">S2F</div>
+        <span class="text-2xl font-semibold tracking-tight">Simcan2Fog</span>
+      </div>
+
+      <!-- Mobile menu button -->
+      <button id="mobileMenuBtn" class="md:hidden p-2 rounded-lg hover:bg-slate-800 transition">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
+      </button>
+
+      <div class="hidden md:flex gap-8 font-medium">
+        <a href="../index.html" class="hover:text-cyan-300 transition-colors">Home</a>
+        <a href="../features.html" class="hover:text-cyan-300 transition-colors">Features</a>
+        <a href="../comparison.html" class="hover:text-cyan-300 transition-colors">Comparison</a>
+        <a href="../doc/tutorial.html" class="hover:text-cyan-300 transition-colors">Tutorial</a>
+        <a href="../doc/documentation.html" class="hover:text-cyan-300 transition-colors">Documentation</a>
+        <a href="../publications.html" class="hover:text-cyan-300 transition-colors">Publications</a>
+      </div>
+    </div>
+    <!-- Mobile menu -->
+    <div id="mobileMenu" class="hidden md:hidden border-t border-slate-700/40 bg-slate-900/95 backdrop-blur-xl">
+      <div class="px-6 py-4 flex flex-col gap-3 font-medium">
+        <a href="../index.html" class="hover:text-cyan-300 transition-colors py-1">Home</a>
+        <a href="../features.html" class="hover:text-cyan-300 transition-colors py-1">Features</a>
+        <a href="../comparison.html" class="hover:text-cyan-300 transition-colors py-1">Comparison</a>
+        <a href="../doc/tutorial.html" class="hover:text-cyan-300 transition-colors py-1">Tutorial</a>
+        <a href="../doc/documentation.html" class="hover:text-cyan-300 transition-colors py-1">Documentation</a>
+        <a href="../publications.html" class="hover:text-cyan-300 transition-colors py-1">Publications</a>
+      </div>
+    </div>
+  </nav>
+
+  <div class="max-w-[1440px] mx-auto flex">
+
+    <!-- SIDEBAR -->
+    <aside class="hidden lg:block w-72 h-[calc(100vh-76px)] sticky top-[76px] border-r border-slate-800 p-6 overflow-y-auto custom-scrollbar">
+      <div class="flex flex-col gap-6">
+        <div>
+          <h3 class="text-xs font-bold uppercase tracking-wider text-slate-400 mb-3">On This Page</h3>
+          <nav class="flex flex-col gap-1">
+            <a class="flex items-center gap-3 px-3 py-2 text-sm font-medium text-cyan-400 bg-cyan-500/10 rounded-lg border-l-2 border-cyan-500" href="#overview">Overview</a>
+            <a class="flex items-center gap-3 px-3 py-2 text-sm font-medium hover:bg-slate-800 rounded-lg transition" href="#network">Network</a>
+            <a class="flex items-center gap-3 px-3 py-2 text-sm font-medium hover:bg-slate-800 rounded-lg transition" href="#pattern">Recording Pattern</a>
+            <a class="flex items-center gap-3 px-3 py-2 text-sm font-medium hover:bg-slate-800 rounded-lg transition" href="#eventlog">Eventlog</a>
+            <a class="flex items-center gap-3 px-3 py-2 text-sm font-medium hover:bg-slate-800 rounded-lg transition" href="#statistics">Statistics</a>
+            <a class="flex items-center gap-3 px-3 py-2 text-sm font-medium hover:bg-slate-800 rounded-lg transition" href="#analysis">Analysis</a>
+            <a class="flex items-center gap-3 px-3 py-2 text-sm font-medium hover:bg-slate-800 rounded-lg transition" href="#configuration">Configuration</a>
+          </nav>
+        </div>
+
+        <div class="pt-6 border-t border-slate-800">
+          <h3 class="text-xs font-bold uppercase tracking-wider text-slate-400 mb-3">Other Showcases</h3>
+          <nav class="flex flex-col gap-1">
+            <a href="iot.html" class="flex items-center gap-3 px-3 py-2 text-sm font-medium hover:bg-slate-800 rounded-lg transition">
+              <span>🏠</span>IoT Smart Home
+            </a>
+            <a href="dc.html" class="flex items-center gap-3 px-3 py-2 text-sm font-medium hover:bg-slate-800 rounded-lg transition">
+              <span>🏢</span>Data Centre
+            </a>
+            <a href="proxy.html" class="flex items-center gap-3 px-3 py-2 text-sm font-medium hover:bg-slate-800 rounded-lg transition">
+              <span>🔗</span>Proxy & DNS
+            </a>
+          </nav>
+        </div>
+
+        <div class="pt-6 border-t border-slate-800">
+          <a href="../doc/documentation.html" class="text-sm text-slate-400 hover:text-cyan-400 transition flex items-center gap-2">
+            ← Back to Documentation
+          </a>
+        </div>
+      </div>
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <main class="flex-1 min-w-0 p-6 lg:p-12 overflow-hidden">
+      <div class="max-w-4xl mx-auto">
+
+        <!-- Breadcrumbs -->
+        <nav class="flex items-center gap-2 mb-8 text-sm text-slate-400 font-medium" aria-label="Breadcrumb">
+          <ol itemscope itemtype="https://schema.org/BreadcrumbList" class="flex items-center gap-2">
+            <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+              <a itemprop="item" href="../index.html" class="hover:text-cyan-400 transition-colors">
+                <span itemprop="name">Home</span>
+              </a>
+              <meta itemprop="position" content="1" />
+            </li>
+            <span>›</span>
+            <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+              <a itemprop="item" href="../doc/documentation.html" class="hover:text-cyan-400 transition-colors">
+                <span itemprop="name">Documentation</span>
+              </a>
+              <meta itemprop="position" content="2" />
+            </li>
+            <span>›</span>
+            <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+              <span itemprop="name" class="text-slate-100">Statistics Showcase</span>
+              <meta itemprop="position" content="3" />
+            </li>
+          </ol>
+        </nav>
+
+        <!-- Page Header -->
+        <div class="mb-12 border-b border-slate-800 pb-8">
+          <div class="flex items-center gap-4 mb-4">
+            <div class="w-16 h-16 rounded-2xl bg-gradient-to-br from-violet-500 to-indigo-600 flex items-center justify-center text-3xl shadow-xl">
+              📊
+            </div>
+            <div>
+              <h1 class="text-4xl md:text-5xl font-black tracking-tight">Statistics Showcase</h1>
+              <p class="text-slate-400 mt-2">Eventlog Recording & Statistical Capture</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Overview -->
+        <section id="overview" class="mb-16">
+          <h2 class="text-3xl font-bold mb-6">Overview</h2>
+          <p class="text-slate-300 mb-6 leading-relaxed">
+            The Statistics showcase demonstrates how to configure <strong class="text-white">eventlog recording</strong> and <strong class="text-white">statistical capture</strong> in Simcan2Fog simulations. It uses a simple IoT scenario to teach the core pattern: <strong class="text-white">disable globally, enable selectively</strong>.
+          </p>
+
+          <div class="bg-cyan-500/5 border border-cyan-500/20 rounded-xl p-6 mb-6">
+            <h3 class="text-xl font-bold mb-3 text-cyan-400">Key Concept: Disable Globally, Enable Selectively</h3>
+            <p class="text-slate-300 leading-relaxed">
+              OMNeT++ generates enormous amounts of data by default. The correct approach is to <strong class="text-white">disable all recording globally</strong>, then <strong class="text-white">selectively enable</strong> only the modules and signals you need. This keeps result files manageable and simulations fast.
+            </p>
+          </div>
+
+          <div class="grid md:grid-cols-2 gap-6">
+            <div class="bg-slate-900/50 border border-slate-800 rounded-xl p-6">
+              <h3 class="text-lg font-bold mb-3 text-emerald-400">Eventlog Recording</h3>
+              <p class="text-sm text-slate-400">
+                Captures module-level events for sequence chart generation. Enabled per-module to track message exchanges between specific components.
+              </p>
+            </div>
+            <div class="bg-slate-900/50 border border-slate-800 rounded-xl p-6">
+              <h3 class="text-lg font-bold mb-3 text-purple-400">Statistical Recording</h3>
+              <p class="text-sm text-slate-400">
+                Captures scalar values, vector time series, and histograms. Enabled per-module to record specific signals like <code class="text-cyan-400">powerState</code> from actuators.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <!-- Network -->
+        <section id="network" class="mb-16">
+          <h2 class="text-3xl font-bold mb-6">Network Topology</h2>
+          <p class="text-slate-300 mb-6 leading-relaxed">
+            The showcase uses the <code class="bg-slate-800 px-2 py-1 rounded text-sm text-pink-400">IotStatistics</code> network - a simple IoT scenario with all wireless communication via IEEE 802.15.4.
+          </p>
+
+          <div class="code-block rounded-xl p-6 mb-6">
+            <pre class="text-sm font-mono text-slate-300"><span class="text-slate-500">          IotStatistics Network</span>
+<span class="text-slate-500">    (All wireless via IEEE 802.15.4)</span>
+
+  <span class="text-emerald-400">sensor1</span>              <span class="text-blue-400">lamp1</span>
+<span class="text-slate-500">(LuminositySensor)</span>    <span class="text-slate-500">(SmartBulb)</span>
+       <span class="text-slate-500">\                 /</span>
+        <span class="text-cyan-400">controller</span>
+      <span class="text-slate-500">(Raspberry5)</span>
+           <span class="text-slate-500">|</span>
+         <span class="text-yellow-400">user</span>
+      <span class="text-slate-500">(EdgeUser)</span></pre>
+          </div>
+
+          <div class="overflow-x-auto">
+            <table class="w-full text-sm border-collapse">
+              <thead>
+                <tr class="bg-slate-800/50 border-b border-slate-700">
+                  <th class="text-left p-4 font-bold text-cyan-400">Component</th>
+                  <th class="text-left p-4 font-bold text-cyan-400">Type</th>
+                  <th class="text-left p-4 font-bold text-cyan-400">Role</th>
+                </tr>
+              </thead>
+              <tbody class="text-slate-300">
+                <tr class="border-b border-slate-800">
+                  <td class="p-4"><code class="text-cyan-400">sensor1</code></td>
+                  <td class="p-4"><code class="text-pink-400">LuminositySensor</code></td>
+                  <td class="p-4">Luminosity data source</td>
+                </tr>
+                <tr class="border-b border-slate-800">
+                  <td class="p-4"><code class="text-cyan-400">controller</code></td>
+                  <td class="p-4"><code class="text-pink-400">Raspberry5</code></td>
+                  <td class="p-4">Edge processing hub</td>
+                </tr>
+                <tr class="border-b border-slate-800">
+                  <td class="p-4"><code class="text-cyan-400">lamp1</code></td>
+                  <td class="p-4"><code class="text-pink-400">SmartBulb</code></td>
+                  <td class="p-4">Actuator with powerState signal</td>
+                </tr>
+                <tr class="border-b border-slate-800">
+                  <td class="p-4"><code class="text-cyan-400">user</code></td>
+                  <td class="p-4"><code class="text-pink-400">EdgeUser</code></td>
+                  <td class="p-4">Deployment orchestrator</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- Recording Pattern -->
+        <section id="pattern" class="mb-16">
+          <h2 class="text-3xl font-bold mb-6">The Recording Pattern</h2>
+          <p class="text-slate-300 mb-6 leading-relaxed">
+            Both eventlog and statistical recording follow the same three-step pattern:
+          </p>
+
+          <div class="space-y-4">
+            <div class="bg-slate-900/50 border-l-4 border-red-500 rounded-r-xl p-6">
+              <div class="flex items-start gap-4">
+                <div class="flex-shrink-0 w-8 h-8 rounded-full bg-red-600 text-white flex items-center justify-center font-bold text-sm">1</div>
+                <div>
+                  <h3 class="text-lg font-bold mb-2 text-red-400">Enable Globally (Temporary)</h3>
+                  <p class="text-sm text-slate-300">
+                    First, turn on recording at the broadest scope so all descendant modules inherit the setting.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div class="bg-slate-900/50 border-l-4 border-emerald-500 rounded-r-xl p-6">
+              <div class="flex items-start gap-4">
+                <div class="flex-shrink-0 w-8 h-8 rounded-full bg-emerald-600 text-white flex items-center justify-center font-bold text-sm">2</div>
+                <div>
+                  <h3 class="text-lg font-bold mb-2 text-emerald-400">Enable Selectively</h3>
+                  <p class="text-sm text-slate-300">
+                    Enable recording only for the specific modules you want to capture. These more specific patterns take precedence.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div class="bg-slate-900/50 border-l-4 border-cyan-500 rounded-r-xl p-6">
+              <div class="flex items-start gap-4">
+                <div class="flex-shrink-0 w-8 h-8 rounded-full bg-cyan-600 text-white flex items-center justify-center font-bold text-sm">3</div>
+                <div>
+                  <h3 class="text-lg font-bold mb-2 text-cyan-400">Disable Everything Else</h3>
+                  <p class="text-sm text-slate-300">
+                    Disable recording at the wildcard level. Because OMNeT++ applies the <strong class="text-white">most specific match</strong>, the selective enables from step 2 survive while everything else is turned off.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Eventlog -->
+        <section id="eventlog" class="mb-16">
+          <h2 class="text-3xl font-bold mb-6">Eventlog Configuration</h2>
+          <p class="text-slate-300 mb-6 leading-relaxed">
+            Eventlog recording captures message send/receive events for generating sequence charts in the OMNeT++ IDE.
+          </p>
+
+          <div class="code-block rounded-xl overflow-hidden shadow-2xl mb-6">
+            <div class="flex items-center justify-between px-4 py-3 bg-slate-800/50 border-b border-slate-700">
+              <span class="text-xs font-mono text-slate-400">omnetpp.ini - Eventlog</span>
+            </div>
+            <pre class="p-6 text-sm font-mono overflow-x-auto custom-scrollbar"><span class="text-slate-500"># Step 1: Enable globally</span>
+<span class="text-blue-400">record-eventlog</span> = <span class="text-emerald-400">true</span>
+
+<span class="text-slate-500"># Step 2: Enable for specific modules</span>
+<span class="text-blue-400">**.lamp1.**.module-eventlog-recording</span> = <span class="text-emerald-400">true</span>
+<span class="text-blue-400">**.controller.**.module-eventlog-recording</span> = <span class="text-emerald-400">true</span>
+<span class="text-blue-400">**.sensor1.**.module-eventlog-recording</span> = <span class="text-emerald-400">true</span>
+
+<span class="text-slate-500"># Step 3: Disable everything else</span>
+<span class="text-blue-400">**.module-eventlog-recording</span> = <span class="text-emerald-400">false</span></pre>
+          </div>
+
+          <div class="bg-blue-950/20 border-l-4 border-blue-500 rounded-r-xl p-4">
+            <p class="text-sm text-slate-300">
+              <strong class="text-blue-300">Pattern specificity:</strong> <code class="text-cyan-400">**.lamp1.**</code> is more specific than <code class="text-cyan-400">**</code>, so the lamp1 enable survives the global disable. The result is eventlog data only for lamp1, controller, and sensor1.
+            </p>
+          </div>
+        </section>
+
+        <!-- Statistics -->
+        <section id="statistics" class="mb-16">
+          <h2 class="text-3xl font-bold mb-6">Statistical Recording</h2>
+          <p class="text-slate-300 mb-6 leading-relaxed">
+            Statistical recording captures scalar summaries, vector time series, and histogram bins. The showcase captures the <code class="bg-slate-800 px-2 py-1 rounded text-sm text-pink-400">powerState</code> signal from <code class="text-cyan-400">lamp1.model</code> (IotActuatorModel) as a vector.
+          </p>
+
+          <div class="code-block rounded-xl overflow-hidden shadow-2xl mb-6">
+            <div class="flex items-center justify-between px-4 py-3 bg-slate-800/50 border-b border-slate-700">
+              <span class="text-xs font-mono text-slate-400">omnetpp.ini - Statistics</span>
+            </div>
+            <pre class="p-6 text-sm font-mono overflow-x-auto custom-scrollbar"><span class="text-slate-500"># Enable for lamp1.model and all its statistics</span>
+<span class="text-blue-400">**.lamp1.model.*.statistic-recording</span> = <span class="text-emerald-400">true</span>
+<span class="text-blue-400">**.lamp1.model.*.scalar-recording</span> = <span class="text-emerald-400">true</span>
+<span class="text-blue-400">**.lamp1.model.*.vector-recording</span> = <span class="text-emerald-400">true</span>
+
+<span class="text-slate-500"># Disable everything else</span>
+<span class="text-blue-400">**.statistic-recording</span> = <span class="text-emerald-400">false</span>
+<span class="text-blue-400">**.scalar-recording</span> = <span class="text-emerald-400">false</span>
+<span class="text-blue-400">**.vector-recording</span> = <span class="text-emerald-400">false</span>
+<span class="text-blue-400">**.bin-recording</span> = <span class="text-emerald-400">false</span></pre>
+          </div>
+
+          <div class="grid md:grid-cols-3 gap-4">
+            <div class="bg-slate-900/50 border border-slate-700 rounded-lg p-4">
+              <h4 class="text-sm font-bold text-emerald-400 mb-2">Scalar Recording</h4>
+              <p class="text-xs text-slate-400">Summary values written to <code class="text-cyan-400">.sca</code> files (min, max, mean, count)</p>
+            </div>
+            <div class="bg-slate-900/50 border border-slate-700 rounded-lg p-4">
+              <h4 class="text-sm font-bold text-purple-400 mb-2">Vector Recording</h4>
+              <p class="text-xs text-slate-400">Time series data written to <code class="text-cyan-400">.vec</code> files (timestamp + value pairs)</p>
+            </div>
+            <div class="bg-slate-900/50 border border-slate-700 rounded-lg p-4">
+              <h4 class="text-sm font-bold text-blue-400 mb-2">Bin Recording</h4>
+              <p class="text-xs text-slate-400">Histogram bins for distribution analysis (disabled here to save space)</p>
+            </div>
+          </div>
+        </section>
+
+        <!-- Analysis -->
+        <section id="analysis" class="mb-16">
+          <h2 class="text-3xl font-bold mb-6">Analysis File</h2>
+          <p class="text-slate-300 mb-6 leading-relaxed">
+            The showcase includes an analysis file <code class="bg-slate-800 px-2 py-1 rounded text-sm text-pink-400">Iot_Statistics.anf</code> that points to the result files for visualization in the OMNeT++ IDE.
+          </p>
+
+          <div class="bg-slate-900/50 border border-slate-800 rounded-xl p-6 mb-6">
+            <h3 class="text-lg font-bold mb-3 text-cyan-400">Result Files</h3>
+            <ul class="space-y-2 text-slate-300">
+              <li class="flex items-start gap-2">
+                <span class="text-cyan-400">•</span>
+                <span><code class="text-pink-400">results/Iot_Statistics-*.vec</code> - Vector time series data (powerState over time)</span>
+              </li>
+              <li class="flex items-start gap-2">
+                <span class="text-cyan-400">•</span>
+                <span><code class="text-pink-400">results/Iot_Statistics-*.sca</code> - Scalar summary statistics</span>
+              </li>
+            </ul>
+          </div>
+
+          <div class="bg-amber-950/20 border-l-4 border-amber-500 rounded-r-xl p-4">
+            <p class="text-sm text-slate-300">
+              <strong class="text-amber-300">Deterministic Seeds:</strong> The showcase uses fixed seeds (<code class="text-cyan-400">seed-set=0</code>, <code class="text-cyan-400">seed-0-mt=0</code>) for reproducible results. Every run produces identical output, making it suitable for regression testing and result comparison.
+            </p>
+          </div>
+        </section>
+
+        <!-- Configuration -->
+        <section id="configuration" class="mb-16">
+          <h2 class="text-3xl font-bold mb-6">Full Configuration</h2>
+
+          <div class="code-block rounded-xl overflow-hidden shadow-2xl">
+            <div class="flex items-center justify-between px-4 py-3 bg-slate-800/50 border-b border-slate-700">
+              <span class="text-xs font-mono text-slate-400">showcases/Statistics/omnetpp.ini</span>
+              <button onclick="copyCode()" class="flex items-center gap-2 text-xs text-slate-400 hover:text-white transition">
+                <span>📋</span> Copy
+              </button>
+            </div>
+            <pre class="p-6 text-sm font-mono overflow-x-auto custom-scrollbar" id="codeBlock"><span class="text-slate-500"># Network Configuration</span>
+<span class="text-blue-400">network</span> = <span class="text-emerald-400">IotStatistics</span>
+<span class="text-blue-400">sim-time-limit</span> = <span class="text-pink-400">15min</span>
+
+<span class="text-slate-500"># Deterministic seeds</span>
+<span class="text-blue-400">seed-set</span> = <span class="text-pink-400">0</span>
+<span class="text-blue-400">seed-0-mt</span> = <span class="text-pink-400">0</span>
+
+<span class="text-slate-500"># --- Eventlog Recording ---</span>
+<span class="text-blue-400">record-eventlog</span> = <span class="text-emerald-400">true</span>
+<span class="text-blue-400">**.lamp1.**.module-eventlog-recording</span> = <span class="text-emerald-400">true</span>
+<span class="text-blue-400">**.controller.**.module-eventlog-recording</span> = <span class="text-emerald-400">true</span>
+<span class="text-blue-400">**.sensor1.**.module-eventlog-recording</span> = <span class="text-emerald-400">true</span>
+<span class="text-blue-400">**.module-eventlog-recording</span> = <span class="text-emerald-400">false</span>
+
+<span class="text-slate-500"># --- Statistical Recording ---</span>
+<span class="text-blue-400">**.lamp1.model.*.statistic-recording</span> = <span class="text-emerald-400">true</span>
+<span class="text-blue-400">**.lamp1.model.*.scalar-recording</span> = <span class="text-emerald-400">true</span>
+<span class="text-blue-400">**.lamp1.model.*.vector-recording</span> = <span class="text-emerald-400">true</span>
+<span class="text-blue-400">**.statistic-recording</span> = <span class="text-emerald-400">false</span>
+<span class="text-blue-400">**.scalar-recording</span> = <span class="text-emerald-400">false</span>
+<span class="text-blue-400">**.vector-recording</span> = <span class="text-emerald-400">false</span>
+<span class="text-blue-400">**.bin-recording</span> = <span class="text-emerald-400">false</span></pre>
+          </div>
+        </section>
+
+        <!-- What to Observe -->
+        <section class="p-8 rounded-2xl bg-cyan-500/5 border border-cyan-500/20 mb-16">
+          <div class="flex gap-6">
+            <div class="hidden sm:flex shrink-0 w-12 h-12 items-center justify-center rounded-full bg-cyan-500 text-white text-2xl">
+              🔍
+            </div>
+            <div>
+              <h3 class="text-2xl font-bold mb-3">What to Observe During Execution</h3>
+              <p class="text-slate-400 mb-4 leading-relaxed">
+                After running the simulation, verify these outputs:
+              </p>
+              <ul class="space-y-2 text-slate-300">
+                <li class="flex items-start gap-2">
+                  <span class="text-cyan-400">•</span>
+                  <span>The <code class="text-pink-400">.elog</code> file contains events only for lamp1, controller, and sensor1</span>
+                </li>
+                <li class="flex items-start gap-2">
+                  <span class="text-cyan-400">•</span>
+                  <span>Open the .elog in the Sequence Chart view to see message exchanges</span>
+                </li>
+                <li class="flex items-start gap-2">
+                  <span class="text-cyan-400">•</span>
+                  <span>The <code class="text-pink-400">.vec</code> file contains only powerState vector data from lamp1.model</span>
+                </li>
+                <li class="flex items-start gap-2">
+                  <span class="text-cyan-400">•</span>
+                  <span>Open <code class="text-pink-400">Iot_Statistics.anf</code> to visualize the powerState time series</span>
+                </li>
+                <li class="flex items-start gap-2">
+                  <span class="text-cyan-400">•</span>
+                  <span>Re-running with the same seeds produces identical results</span>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </section>
+
+        <!-- Next Steps -->
+        <section class="p-8 rounded-2xl bg-gradient-to-br from-cyan-500/10 to-purple-500/10 border border-cyan-500/30">
+          <h3 class="text-2xl font-bold mb-4">Next Steps</h3>
+          <p class="text-slate-300 mb-6 leading-relaxed">
+            Explore related showcases and documentation:
+          </p>
+          <div class="flex flex-wrap gap-4">
+            <a href="iot.html" class="inline-flex items-center gap-2 font-bold text-cyan-400 hover:text-cyan-300 transition">
+              IoT Showcase →
+            </a>
+            <a href="../doc/core/iotDevices.html" class="inline-flex items-center gap-2 font-bold text-cyan-400 hover:text-cyan-300 transition">
+              IoT Devices Documentation →
+            </a>
+            <a href="../doc/tutorial.html" class="inline-flex items-center gap-2 font-bold text-cyan-400 hover:text-cyan-300 transition">
+              Get Started →
+            </a>
+          </div>
+        </section>
+
+      </div>
+    </main>
+
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="bg-slate-950 border-t border-slate-800 py-12 text-slate-400 text-center">
+    <div class="max-w-7xl mx-auto px-6">
+      <p class="text-lg">© 2026 Simcan2Fog • Open Source Fog Computing Simulation Framework</p>
+      <p class="mt-2">Built with OMNeT++ 6.3.0 & INET 4.5.4 • Licensed under GPL-3.0</p>
+      <div class="mt-8 flex justify-center gap-12 text-sm">
+        <a href="https://github.com/UlyssesDeAguilar/Simcan2Fog" class="hover:text-cyan-400">GitHub</a>
+        <a href="https://ulyssesdeaguilar.github.io/s2f-ned-docs/" class="hover:text-cyan-400">Documentation</a>
+        <a href="https://github.com/UlyssesDeAguilar/Simcan2Fog/releases" class="hover:text-cyan-400">Releases</a>
+        <a href="https://www.sciencedirect.com/science/article/pii/S2352711025003905" class="hover:text-cyan-400">Paper</a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Mobile menu toggle
+    const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+    const mobileMenu = document.getElementById('mobileMenu');
+    if (mobileMenuBtn && mobileMenu) {
+      mobileMenuBtn.addEventListener('click', () => mobileMenu.classList.toggle('hidden'));
+    }
+
+    function copyCode() {
+      const code = document.getElementById('codeBlock').textContent;
+      navigator.clipboard.writeText(code).then(() => {
+        alert('Code copied to clipboard!');
+      });
+    }
+  </script>
+
+</body>
+</html>
