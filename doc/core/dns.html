@@ -153,74 +153,133 @@
           <h2 class="text-3xl font-bold mb-6">DNS Architecture</h2>
 
           <p class="text-slate-300 mb-6">
-            Simcan2Fog provides two DNS resolution modes, each suited for different simulation scenarios:
+            Resolution is split across three real components — a client-side <strong class="text-white">stub cache</strong>,
+            a recursive <strong class="text-white">ISP resolver</strong>, and <strong class="text-white">authoritative</strong>
+            servers. From a client's point of view, every query takes one of two paths:
           </p>
 
           <div class="grid md:grid-cols-2 gap-6 mb-8">
 
-            <!-- Hierarchical Mode -->
-            <div class="bg-slate-900/50 border border-slate-800 rounded-xl p-6">
-              <div class="flex items-start gap-3 mb-4">
-                <div class="w-10 h-10 rounded-lg bg-purple-500/10 text-purple-400 flex items-center justify-center flex-shrink-0 text-xl">
-                  🔀
-                </div>
-                <div class="flex-1">
-                  <h3 class="text-xl font-bold mb-2 text-purple-400">Hierarchical Resolution</h3>
-                  <p class="text-sm text-slate-400">Full DNS protocol implementation</p>
-                </div>
-              </div>
-
-              <p class="text-slate-300 text-sm mb-4">
-                Follows the standard DNS hierarchy with root servers, TLD (Top-Level Domain) servers,
-                and authoritative name servers. Supports recursive resolution with caching.
-              </p>
-
-              <ul class="space-y-2 text-slate-300 text-sm">
-                <li>• <strong class="text-white">Realistic:</strong> Models real-world DNS behavior</li>
-                <li>• <strong class="text-white">Cached:</strong> Reduces lookup latency for repeated queries</li>
-                <li>• <strong class="text-white">Scalable:</strong> Handles large, complex network topologies</li>
-              </ul>
-            </div>
-
-            <!-- Simplified Mode -->
+            <!-- Cache hit -->
             <div class="bg-slate-900/50 border border-slate-800 rounded-xl p-6">
               <div class="flex items-start gap-3 mb-4">
                 <div class="w-10 h-10 rounded-lg bg-green-500/10 text-green-400 flex items-center justify-center flex-shrink-0 text-xl">
                   ⚡
                 </div>
                 <div class="flex-1">
-                  <h3 class="text-xl font-bold mb-2 text-green-400">Simplified Resolution</h3>
-                  <p class="text-sm text-slate-400">Direct lookup mode</p>
+                  <h3 class="text-xl font-bold mb-2 text-green-400">Cache hit — stub resolver</h3>
+                  <p class="text-sm text-slate-400">Fast local path</p>
                 </div>
               </div>
 
               <p class="text-slate-300 text-sm mb-4">
-                Single root server where all services are published directly, bypassing the hierarchical
-                structure. Faster and simpler for small-scale scenarios.
+                Every node's <code class="text-green-400">NetworkStack</code> holds a <code class="text-cyan-400">StubDnsResolver</code>.
+                If the name is already cached locally, it answers <strong class="text-white">instantly, with no network traffic</strong>.
               </p>
 
               <ul class="space-y-2 text-slate-300 text-sm">
-                <li>• <strong class="text-white">Simple:</strong> No hierarchy management needed</li>
-                <li>• <strong class="text-white">Fast:</strong> Single-hop lookups</li>
-                <li>• <strong class="text-white">Prototyping:</strong> Ideal for development and testing</li>
+                <li>• <strong class="text-white">Direct:</strong> apps call it via a direct gate (no UDP)</li>
+                <li>• <strong class="text-white">Cheap:</strong> zero round-trips on a hit</li>
+                <li>• <strong class="text-white">Caveat:</strong> the current cache has <em>no TTL/expiry</em></li>
+              </ul>
+            </div>
+
+            <!-- Cache miss -->
+            <div class="bg-slate-900/50 border border-slate-800 rounded-xl p-6">
+              <div class="flex items-start gap-3 mb-4">
+                <div class="w-10 h-10 rounded-lg bg-purple-500/10 text-purple-400 flex items-center justify-center flex-shrink-0 text-xl">
+                  🔀
+                </div>
+                <div class="flex-1">
+                  <h3 class="text-xl font-bold mb-2 text-purple-400">Cache miss — recursive resolver</h3>
+                  <p class="text-sm text-slate-400">Walks the zone tree</p>
+                </div>
+              </div>
+
+              <p class="text-slate-300 text-sm mb-4">
+                On a miss the stub forwards to the ISP resolver (<code class="text-purple-400">DnsResolverServer</code>), which
+                recursively walks the <code class="text-cyan-400">DnsDb</code> zone tree (<strong class="text-white">root → TLD → authoritative</strong>)
+                and caches the result.
+              </p>
+
+              <ul class="space-y-2 text-slate-300 text-sm">
+                <li>• <strong class="text-white">Recursive:</strong> a state machine drives each step</li>
+                <li>• <strong class="text-white">Aggregated:</strong> duplicate questions share one upstream query</li>
+                <li>• <strong class="text-white">Cached:</strong> results stored at every tier</li>
               </ul>
             </div>
 
           </div>
 
-          <!-- Architecture Diagram -->
-          <div class="mb-8 bg-slate-900 border-2 border-dashed border-slate-700 rounded-xl p-12 text-center">
-            <div class="flex flex-col items-center gap-4">
-              <div class="w-20 h-20 rounded-full bg-slate-800 flex items-center justify-center text-4xl">
-                🌐
-              </div>
-              <div>
-                <p class="text-slate-400 font-semibold mb-1">DNS Resolution Processes</p>
-                <p class="text-slate-500 text-sm">Hierarchical vs. Simplified resolution flow diagrams</p>
-                <p class="text-slate-600 text-xs mt-2">Reference: Figure 2 from SoftwareX publication</p>
-              </div>
-            </div>
-          </div>
+          <!-- Diagram: real 3-tier DNS architecture -->
+          <figure class="mb-8 bg-slate-900/50 border border-slate-800 rounded-xl p-6">
+            <svg viewBox="0 0 960 400" class="w-full h-auto" font-family="Inter, system-ui, sans-serif" role="img" aria-label="Three-tier DNS architecture: stub resolver, recursive resolver, authoritative server">
+              <defs>
+                <marker id="dnC" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto" markerUnits="strokeWidth"><path d="M0,0 L7,3 L0,6 Z" fill="#22d3ee"/></marker>
+                <marker id="dnG" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto" markerUnits="strokeWidth"><path d="M0,0 L7,3 L0,6 Z" fill="#34d399"/></marker>
+              </defs>
+
+              <!-- Application -->
+              <rect x="40" y="18" width="200" height="38" rx="9" fill="#0f172a" stroke="#334155"/>
+              <text x="140" y="36" text-anchor="middle" fill="#e2e8f0" font-size="11.5" font-weight="600">Application</text>
+              <text x="140" y="50" text-anchor="middle" fill="#64748b" font-size="9" font-family="'JetBrains Mono', monospace">resolve(domain)</text>
+
+              <!-- NetworkStack / DnsResolver -->
+              <rect x="16" y="72" width="250" height="300" rx="13" fill="none" stroke="#475569" stroke-width="1.4"/>
+              <text x="141" y="94" text-anchor="middle" fill="#cbd5e1" font-size="12.5" font-weight="700">NetworkStack · DnsResolver</text>
+              <rect x="32" y="110" width="218" height="52" rx="9" fill="#0f172a" stroke="#22d3ee" stroke-width="1.5"/>
+              <text x="141" y="132" text-anchor="middle" fill="#22d3ee" font-size="12" font-weight="700">stubResolver</text>
+              <text x="141" y="150" text-anchor="middle" fill="#64748b" font-size="9">local cache · hit → return</text>
+              <rect x="32" y="176" width="218" height="46" rx="9" fill="#0f172a" stroke="#334155"/>
+              <text x="141" y="197" text-anchor="middle" fill="#cbd5e1" font-size="11">dnsClient</text>
+              <text x="141" y="213" text-anchor="middle" fill="#64748b" font-size="8.5">DnsClientService · retry/timeout</text>
+              <rect x="32" y="236" width="218" height="40" rx="9" fill="#0f172a" stroke="#334155"/>
+              <text x="141" y="261" text-anchor="middle" fill="#94a3b8" font-size="10" font-family="'JetBrains Mono', monospace">db · DnsDb (cache)</text>
+
+              <!-- Recursive resolver -->
+              <rect x="300" y="72" width="300" height="300" rx="13" fill="none" stroke="#a855f7" stroke-width="1.4"/>
+              <text x="450" y="94" text-anchor="middle" fill="#c084fc" font-size="12.5" font-weight="700">DnsResolverServer · ISP resolver</text>
+              <rect x="320" y="110" width="260" height="58" rx="9" fill="#0f172a" stroke="#a855f7" stroke-width="1.5"/>
+              <text x="450" y="131" text-anchor="middle" fill="#c084fc" font-size="12" font-weight="700">resolver</text>
+              <text x="450" y="148" text-anchor="middle" fill="#94a3b8" font-size="9">DnsResolverService</text>
+              <text x="450" y="162" text-anchor="middle" fill="#64748b" font-size="8.5">recursive state machine</text>
+              <rect x="320" y="182" width="260" height="46" rx="9" fill="#0f172a" stroke="#334155"/>
+              <text x="450" y="203" text-anchor="middle" fill="#cbd5e1" font-size="11">client</text>
+              <text x="450" y="219" text-anchor="middle" fill="#64748b" font-size="8.5">DnsClientService</text>
+              <rect x="320" y="242" width="260" height="40" rx="9" fill="#0f172a" stroke="#334155"/>
+              <text x="450" y="267" text-anchor="middle" fill="#94a3b8" font-size="10" font-family="'JetBrains Mono', monospace">db · DnsDb (cache)</text>
+
+              <!-- Authoritative -->
+              <rect x="636" y="72" width="308" height="300" rx="13" fill="none" stroke="#10b981" stroke-width="1.4"/>
+              <text x="790" y="94" text-anchor="middle" fill="#34d399" font-size="12.5" font-weight="700">DnsSimplified · authoritative</text>
+              <rect x="652" y="110" width="276" height="50" rx="9" fill="#0f172a" stroke="#10b981" stroke-width="1.5"/>
+              <text x="790" y="130" text-anchor="middle" fill="#34d399" font-size="12" font-weight="700">registryService</text>
+              <text x="790" y="147" text-anchor="middle" fill="#64748b" font-size="9">RESTful · TCP :443</text>
+              <rect x="652" y="174" width="276" height="50" rx="9" fill="#0f172a" stroke="#334155"/>
+              <text x="790" y="194" text-anchor="middle" fill="#cbd5e1" font-size="11.5" font-weight="600">dnsService</text>
+              <text x="790" y="211" text-anchor="middle" fill="#64748b" font-size="8.5">DnsServiceSimplified · UDP :53</text>
+              <rect x="652" y="238" width="276" height="44" rx="9" fill="#0f172a" stroke="#334155"/>
+              <text x="790" y="258" text-anchor="middle" fill="#94a3b8" font-size="10" font-family="'JetBrains Mono', monospace">db · DnsDb</text>
+              <text x="790" y="273" text-anchor="middle" fill="#64748b" font-size="8">ROOT / TLD / AUTH tree</text>
+
+              <!-- Service for registration -->
+              <rect x="690" y="18" width="238" height="38" rx="9" fill="#0f172a" stroke="#334155"/>
+              <text x="809" y="42" text-anchor="middle" fill="#e2e8f0" font-size="11" font-weight="600">Service / orchestrator</text>
+
+              <!-- arrows -->
+              <line x1="140" y1="56" x2="140" y2="108" stroke="#22d3ee" stroke-width="1.6" marker-end="url(#dnC)"/>
+              <text x="150" y="84" text-anchor="start" fill="#64748b" font-size="8.5">resolve() · direct</text>
+              <line x1="250" y1="206" x2="318" y2="150" stroke="#22d3ee" stroke-width="1.6" marker-end="url(#dnC)"/>
+              <text x="284" y="166" text-anchor="middle" fill="#94a3b8" font-size="8">UDP · ispResolver</text>
+              <line x1="580" y1="205" x2="650" y2="199" stroke="#22d3ee" stroke-width="1.6" marker-end="url(#dnC)"/>
+              <text x="615" y="190" text-anchor="middle" fill="#94a3b8" font-size="8">UDP :53</text>
+              <line x1="809" y1="56" x2="809" y2="108" stroke="#34d399" stroke-width="1.6" marker-end="url(#dnG)"/>
+              <text x="819" y="84" text-anchor="start" fill="#34d399" font-size="8.5">register · POST :443</text>
+
+              <text x="480" y="392" text-anchor="middle" fill="#64748b" font-size="10">On a miss the answer flows back and is cached at every tier (stub → resolver), so repeats are near-instant.</text>
+            </svg>
+            <figcaption class="text-sm text-slate-400 mt-4 text-center">The real model is three tiers: a <span class="text-cyan-400 font-medium">stub resolver</span> (cache in every NetworkStack), a recursive <span class="text-purple-400 font-medium">ISP resolver</span> that walks the zone tree, and <span class="text-emerald-400 font-medium">authoritative</span> servers that also accept dynamic registration over REST.</figcaption>
+          </figure>
         </section>
 
         <!-- Components -->
@@ -229,75 +288,101 @@
 
           <div class="space-y-6">
 
-            <!-- Recursive Resolver -->
+            <!-- StubDnsResolver -->
             <div class="bg-slate-900/50 border border-slate-800 rounded-xl p-6">
               <div class="flex items-start gap-3 mb-4">
                 <div class="w-10 h-10 rounded-lg bg-cyan-500/10 text-cyan-400 flex items-center justify-center flex-shrink-0 text-xl">
                   🔄
                 </div>
                 <div class="flex-1">
-                  <h3 class="text-xl font-bold mb-2 text-cyan-400">Recursive Resolver</h3>
+                  <h3 class="text-xl font-bold mb-2 text-cyan-400">StubDnsResolver <span class="text-sm font-normal text-slate-500">(client)</span></h3>
                 </div>
               </div>
 
               <p class="text-slate-300 mb-4">
-                The client-facing component that receives DNS queries from fog nodes, IoT devices,
-                and other network entities. It performs recursive lookups by contacting the appropriate
-                DNS servers according to the domain hierarchy.
+                The client-facing resolver embedded in every <code class="text-cyan-400">NetworkStack</code>. Applications call
+                <code class="text-pink-400">resolve()</code> through a direct gate; on a cache hit it answers immediately, otherwise it
+                forwards the query to the ISP resolver through <code class="text-cyan-400">DnsClientService</code> (UDP, with retry/timeout).
               </p>
 
-              <h4 class="text-lg font-bold mb-3 text-white">Features:</h4>
               <ul class="space-y-2 text-slate-300">
-                <li>• <strong class="text-white">Query caching:</strong> Stores recent resolutions to reduce latency</li>
-                <li>• <strong class="text-white">Recursive lookups:</strong> Follows DNS hierarchy automatically</li>
-                <li>• <strong class="text-white">TTL enforcement:</strong> Respects time-to-live for cached entries</li>
-                <li>• <strong class="text-white">Fallback handling:</strong> Retries and error management</li>
+                <li>• <strong class="text-white">Local cache:</strong> stores answers at AUTHORITATIVE level for instant hits</li>
+                <li>• <strong class="text-white">Direct API:</strong> apps reach it via <code class="text-cyan-400">resolverPath</code>, no protocol code needed</li>
+                <li>• <strong class="text-white">Forwarding:</strong> misses go to <code class="text-pink-400">ispResolver</code></li>
+                <li>• <strong class="text-white">Caveat:</strong> no TTL/expiry on cached entries (see Failure modes)</li>
               </ul>
             </div>
 
-            <!-- Root Server -->
+            <!-- DnsResolverServer -->
             <div class="bg-slate-900/50 border border-slate-800 rounded-xl p-6">
               <div class="flex items-start gap-3 mb-4">
                 <div class="w-10 h-10 rounded-lg bg-purple-500/10 text-purple-400 flex items-center justify-center flex-shrink-0 text-xl">
-                  🌍
+                  🔁
                 </div>
                 <div class="flex-1">
-                  <h3 class="text-xl font-bold mb-2 text-purple-400">Root Server</h3>
+                  <h3 class="text-xl font-bold mb-2 text-purple-400">DnsResolverServer <span class="text-sm font-normal text-slate-500">(recursive / ISP)</span></h3>
                 </div>
               </div>
 
               <p class="text-slate-300 mb-4">
-                Top-level server in the DNS hierarchy. In hierarchical mode, it delegates queries to
-                appropriate TLD servers. In simplified mode, it directly resolves all queries.
+                Resolves names on behalf of clients. Its <code class="text-purple-400">DnsResolverService</code> runs a recursive
+                state machine that walks the hierarchy, while <code class="text-purple-400">DnsClientService</code> handles the
+                outgoing queries and a local <code class="text-cyan-400">DnsDb</code> caches answers.
               </p>
 
               <ul class="space-y-2 text-slate-300">
-                <li>• <strong class="text-white">Entry point:</strong> First server contacted in resolution chain</li>
-                <li>• <strong class="text-white">TLD delegation:</strong> Routes queries to correct top-level domain servers</li>
-                <li>• <strong class="text-white">Simplified mode:</strong> Can act as single authoritative server</li>
+                <li>• <strong class="text-white">State machine:</strong> <code class="text-xs text-slate-300">INIT → TLD → NS → AUTH → RESOLVED</code></li>
+                <li>• <strong class="text-white">CNAME chains:</strong> follows aliases recursively to a final address</li>
+                <li>• <strong class="text-white">Question aggregation:</strong> duplicate concurrent queries share one upstream lookup</li>
+                <li>• <strong class="text-white">Caching:</strong> stores results to accelerate repeats</li>
               </ul>
             </div>
 
-            <!-- TLD & Authoritative Servers -->
+            <!-- DnsSimplified -->
             <div class="bg-slate-900/50 border border-slate-800 rounded-xl p-6">
               <div class="flex items-start gap-3 mb-4">
                 <div class="w-10 h-10 rounded-lg bg-green-500/10 text-green-400 flex items-center justify-center flex-shrink-0 text-xl">
-                  📋
+                  🌍
                 </div>
                 <div class="flex-1">
-                  <h3 class="text-xl font-bold mb-2 text-green-400">TLD & Authoritative Servers</h3>
+                  <h3 class="text-xl font-bold mb-2 text-green-400">DnsSimplified <span class="text-sm font-normal text-slate-500">(authoritative)</span></h3>
                 </div>
               </div>
 
               <p class="text-slate-300 mb-4">
-                In hierarchical mode, TLD servers handle top-level domains (.com, .org, custom domains),
-                and authoritative name servers provide final IP address resolution for specific domains.
+                Holds authoritative zone data and answers queries for the domains it manages. The
+                <code class="text-green-400">DnsServiceSimplified</code> server replies on <strong class="text-white">UDP :53</strong>, and a
+                <code class="text-green-400">DnsRegistryService</code> accepts <strong class="text-white">dynamic registration</strong> over REST on TCP :443.
               </p>
 
               <ul class="space-y-2 text-slate-300">
-                <li>• <strong class="text-white">TLD servers:</strong> Manage top-level domain delegations</li>
-                <li>• <strong class="text-white">Authoritative servers:</strong> Store actual DNS records for domains</li>
-                <li>• <strong class="text-white">Zone management:</strong> Handle domain-specific configurations</li>
+                <li>• <strong class="text-white">Authoritative answers:</strong> distinguishes authoritative vs non-authoritative</li>
+                <li>• <strong class="text-white">UDP :53:</strong> processes <code class="text-cyan-400">QUERY</code> operations</li>
+                <li>• <strong class="text-white">REST :443:</strong> POST/PUT/DELETE records at runtime</li>
+                <li>• <strong class="text-white">Backed by DnsDb:</strong> the shared zone tree</li>
+              </ul>
+            </div>
+
+            <!-- DnsDb -->
+            <div class="bg-slate-900/50 border border-slate-800 rounded-xl p-6">
+              <div class="flex items-start gap-3 mb-4">
+                <div class="w-10 h-10 rounded-lg bg-orange-500/10 text-orange-400 flex items-center justify-center flex-shrink-0 text-xl">
+                  📋
+                </div>
+                <div class="flex-1">
+                  <h3 class="text-xl font-bold mb-2 text-orange-400">DnsDb <span class="text-sm font-normal text-slate-500">(the zone tree)</span></h3>
+                </div>
+              </div>
+
+              <p class="text-slate-300 mb-4">
+                A hierarchical tree that stores resource records across three levels — <strong class="text-white">ROOT → TLD → AUTHORITATIVE</strong>.
+                It is the single storage shared by the authoritative server, the resolver cache, and the stub cache.
+              </p>
+
+              <ul class="space-y-2 text-slate-300">
+                <li>• <strong class="text-white">Preloaded:</strong> from JSON <code class="text-cyan-400">zoneConfig</code> (see Configuration)</li>
+                <li>• <strong class="text-white">Wildcards:</strong> patterns like <code class="text-cyan-400">*.example.com</code> via <code class="text-pink-400">cPatternMatcher</code></li>
+                <li>• <strong class="text-white">Dynamic:</strong> CRUD — <code class="text-xs text-slate-300">insertRecord / removeRecord / searchRecords</code></li>
               </ul>
             </div>
 
@@ -366,7 +451,57 @@
               </div>
             </div>
 
+            <div class="bg-slate-900/50 border border-slate-800 rounded-xl p-6">
+              <h3 class="text-lg font-bold mb-3 text-cyan-400 flex items-center gap-2">
+                <span>🧭</span> SOA (Start of Authority)
+              </h3>
+              <p class="text-slate-300 text-sm">
+                Declares the authoritative parameters of a zone (primary name server, serial, refresh).
+                Exactly one per zone.
+              </p>
+              <div class="mt-3 p-3 bg-slate-800/50 rounded-lg border border-slate-700">
+                <code class="text-xs text-cyan-400">example.com SOA ns1.example.com</code>
+              </div>
+            </div>
+
+            <div class="bg-slate-900/50 border border-slate-800 rounded-xl p-6">
+              <h3 class="text-lg font-bold mb-3 text-cyan-400 flex items-center gap-2">
+                <span>↩️</span> PTR (Pointer)
+              </h3>
+              <p class="text-slate-300 text-sm">
+                The reverse of an A record — maps an IP address back to a name. Used for reverse DNS lookups.
+              </p>
+              <div class="mt-3 p-3 bg-slate-800/50 rounded-lg border border-slate-700">
+                <code class="text-xs text-cyan-400">10.0.0.5 → host.example.com</code>
+              </div>
+            </div>
+
+            <div class="bg-slate-900/50 border border-slate-800 rounded-xl p-6">
+              <h3 class="text-lg font-bold mb-3 text-cyan-400 flex items-center gap-2">
+                <span>📝</span> TXT (Text)
+              </h3>
+              <p class="text-slate-300 text-sm">
+                Attaches arbitrary text metadata to a name — handy for tagging service descriptors or experiment markers.
+              </p>
+              <div class="mt-3 p-3 bg-slate-800/50 rounded-lg border border-slate-700">
+                <code class="text-xs text-cyan-400">example.com TXT "zone=us-east-1"</code>
+              </div>
+            </div>
+
+            <div class="bg-slate-900/50 border border-slate-800 rounded-xl p-6">
+              <h3 class="text-lg font-bold mb-3 text-cyan-400 flex items-center gap-2">
+                <span>🗂️</span> ANY <span class="text-xs font-normal text-slate-500">(query-only)</span>
+              </h3>
+              <p class="text-slate-300 text-sm">
+                A query type (not stored) that asks for <strong class="text-white">all</strong> record types known for a name.
+              </p>
+              <div class="mt-3 p-3 bg-slate-800/50 rounded-lg border border-slate-700">
+                <code class="text-xs text-cyan-400">ANY example.com → (all records)</code>
+              </div>
+            </div>
+
           </div>
+          <p class="text-slate-400 text-sm mt-4">Record types are defined in <code class="bg-slate-800 px-1.5 py-0.5 rounded text-xs text-slate-300">DnsDefinitions.msg</code>: <code class="text-cyan-400">A, NS, CNAME, SOA, PTR, MX, TXT, ANY</code>.</p>
         </section>
 
         <!-- Resolution Example -->
@@ -377,6 +512,48 @@
             Let's trace a DNS query through the hierarchical resolution process to understand
             how service discovery works in practice.
           </p>
+
+          <!-- Diagram: end-to-end resolution sequence -->
+          <figure class="bg-slate-900/50 border border-slate-800 rounded-xl p-6 mb-8">
+            <svg viewBox="0 0 960 390" class="w-full h-auto" font-family="Inter, system-ui, sans-serif" role="img" aria-label="End-to-end DNS resolution sequence">
+              <defs>
+                <marker id="rsC" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto" markerUnits="strokeWidth"><path d="M0,0 L7,3 L0,6 Z" fill="#22d3ee"/></marker>
+                <marker id="rsG" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto" markerUnits="strokeWidth"><path d="M0,0 L7,3 L0,6 Z" fill="#34d399"/></marker>
+                <marker id="rsS" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto" markerUnits="strokeWidth"><path d="M0,0 L7,3 L0,6 Z" fill="#64748b"/></marker>
+              </defs>
+
+              <line x1="100" y1="62" x2="100" y2="356" stroke="#334155" stroke-width="1.1" stroke-dasharray="3 4"/>
+              <line x1="350" y1="62" x2="350" y2="356" stroke="#334155" stroke-width="1.1" stroke-dasharray="3 4"/>
+              <line x1="610" y1="62" x2="610" y2="356" stroke="#334155" stroke-width="1.1" stroke-dasharray="3 4"/>
+              <line x1="850" y1="62" x2="850" y2="356" stroke="#334155" stroke-width="1.1" stroke-dasharray="3 4"/>
+
+              <rect x="40" y="20" width="120" height="40" rx="9" fill="#1e293b" stroke="#334155"/><text x="100" y="45" text-anchor="middle" fill="#e2e8f0" font-size="11" font-weight="700">Application</text>
+              <rect x="278" y="20" width="144" height="40" rx="9" fill="#1e293b" stroke="#22d3ee" stroke-width="1.5"/><text x="350" y="45" text-anchor="middle" fill="#22d3ee" font-size="11" font-weight="700">stubResolver</text>
+              <rect x="540" y="20" width="140" height="40" rx="9" fill="#1e293b" stroke="#a855f7" stroke-width="1.5"/><text x="610" y="45" text-anchor="middle" fill="#c084fc" font-size="11" font-weight="700">ISP resolver</text>
+              <rect x="788" y="20" width="130" height="40" rx="9" fill="#1e293b" stroke="#10b981" stroke-width="1.5"/><text x="853" y="45" text-anchor="middle" fill="#34d399" font-size="11" font-weight="700">Authoritative</text>
+
+              <text x="225" y="90" text-anchor="middle" fill="#cbd5e1" font-size="10">resolve(domain) · direct</text>
+              <line x1="100" y1="98" x2="348" y2="98" stroke="#22d3ee" stroke-width="1.6" marker-end="url(#rsC)"/>
+
+              <rect x="286" y="116" width="128" height="38" rx="6" fill="#0f172a" stroke="#334155"/><text x="350" y="132" text-anchor="middle" fill="#cbd5e1" font-size="9">cache lookup</text><text x="350" y="146" text-anchor="middle" fill="#34d399" font-size="8.5">[hit] → return now</text>
+
+              <text x="480" y="184" text-anchor="middle" fill="#cbd5e1" font-size="10">[miss] UDP query → ispResolver</text>
+              <line x1="350" y1="192" x2="608" y2="192" stroke="#22d3ee" stroke-width="1.6" marker-end="url(#rsC)"/>
+
+              <rect x="540" y="210" width="140" height="36" rx="6" fill="#0f172a" stroke="#a855f7"/><text x="610" y="226" text-anchor="middle" fill="#c084fc" font-size="9">recursive walk</text><text x="610" y="239" text-anchor="middle" fill="#64748b" font-size="8">root → TLD → auth</text>
+
+              <text x="730" y="270" text-anchor="middle" fill="#cbd5e1" font-size="10">UDP :53 query</text>
+              <line x1="610" y1="278" x2="848" y2="278" stroke="#22d3ee" stroke-width="1.6" marker-end="url(#rsC)"/>
+              <text x="730" y="300" text-anchor="middle" fill="#94a3b8" font-size="10">A record (authoritative)</text>
+              <line x1="850" y1="308" x2="612" y2="308" stroke="#64748b" stroke-width="1.4" stroke-dasharray="5 4" marker-end="url(#rsS)"/>
+
+              <text x="480" y="332" text-anchor="middle" fill="#94a3b8" font-size="10">answer (cache it)</text>
+              <line x1="610" y1="340" x2="352" y2="340" stroke="#34d399" stroke-width="1.5" stroke-dasharray="5 4" marker-end="url(#rsG)"/>
+              <text x="225" y="356" text-anchor="middle" fill="#94a3b8" font-size="10">result (cache it) →</text>
+              <line x1="350" y1="364" x2="102" y2="364" stroke="#34d399" stroke-width="1.5" stroke-dasharray="5 4" marker-end="url(#rsG)"/>
+            </svg>
+            <figcaption class="text-sm text-slate-400 mt-4 text-center">A cache hit returns with zero network traffic; a miss fans out to the recursive resolver and authoritative server, and the answer is cached on the way back. If no response arrives, <code class="text-cyan-400">DnsClientService</code> retries up to <code class="text-pink-400">maxAttempts</code> before failing.</figcaption>
+          </figure>
 
           <div class="space-y-4">
 
@@ -468,6 +645,41 @@
               lookup latency.
             </p>
           </div>
+
+          <h3 class="text-xl font-bold mt-10 mb-4 text-purple-400">Recursive resolver state machine</h3>
+          <figure class="bg-slate-900/50 border border-slate-800 rounded-xl p-6">
+            <svg viewBox="0 0 960 250" class="w-full h-auto" font-family="Inter, system-ui, sans-serif" role="img" aria-label="Recursive resolver state machine">
+              <defs>
+                <marker id="ssA" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto" markerUnits="strokeWidth"><path d="M0,0 L7,3 L0,6 Z" fill="#94a3b8"/></marker>
+                <marker id="ssR" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto" markerUnits="strokeWidth"><path d="M0,0 L7,3 L0,6 Z" fill="#ef4444"/></marker>
+                <marker id="ssG" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto" markerUnits="strokeWidth"><path d="M0,0 L7,3 L0,6 Z" fill="#34d399"/></marker>
+              </defs>
+
+              <!-- states -->
+              <rect x="16" y="86" width="150" height="54" rx="11" fill="#0f172a" stroke="#64748b" stroke-width="1.5"/><text x="91" y="111" text-anchor="middle" fill="#cbd5e1" font-size="13" font-weight="700">INIT</text><text x="91" y="128" text-anchor="middle" fill="#64748b" font-size="8.5">check cache</text>
+              <rect x="196" y="86" width="160" height="54" rx="11" fill="#0f172a" stroke="#a855f7" stroke-width="1.4"/><text x="276" y="110" text-anchor="middle" fill="#c084fc" font-size="11.5" font-weight="700">TLD_RESOLUTION</text><text x="276" y="127" text-anchor="middle" fill="#64748b" font-size="8">ask root → TLD NS</text>
+              <rect x="386" y="86" width="160" height="54" rx="11" fill="#0f172a" stroke="#a855f7" stroke-width="1.4"/><text x="466" y="110" text-anchor="middle" fill="#c084fc" font-size="11.5" font-weight="700">NS_RESOLUTION</text><text x="466" y="127" text-anchor="middle" fill="#64748b" font-size="8">ask TLD → auth NS</text>
+              <rect x="576" y="86" width="160" height="54" rx="11" fill="#0f172a" stroke="#a855f7" stroke-width="1.4"/><text x="656" y="110" text-anchor="middle" fill="#c084fc" font-size="11.5" font-weight="700">AUTH_RESOLUTION</text><text x="656" y="127" text-anchor="middle" fill="#64748b" font-size="8">ask auth → answer</text>
+              <rect x="766" y="86" width="160" height="54" rx="11" fill="#0f172a" stroke="#10b981" stroke-width="1.8"/><text x="846" y="111" text-anchor="middle" fill="#34d399" font-size="13" font-weight="800">RESOLVED</text><text x="846" y="128" text-anchor="middle" fill="#64748b" font-size="8.5">answer + cache</text>
+
+              <!-- transitions -->
+              <line x1="166" y1="113" x2="194" y2="113" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#ssA)"/>
+              <line x1="356" y1="113" x2="384" y2="113" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#ssA)"/>
+              <line x1="546" y1="113" x2="574" y2="113" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#ssA)"/>
+              <line x1="736" y1="113" x2="764" y2="113" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#ssA)"/>
+
+              <!-- cache-hit shortcut -->
+              <path d="M91,86 C91,40 846,40 846,84" fill="none" stroke="#34d399" stroke-width="1.4" stroke-dasharray="5 4" marker-end="url(#ssG)"/>
+              <text x="468" y="34" text-anchor="middle" fill="#34d399" font-size="9.5">cache hit → RESOLVED (skip the walk)</text>
+
+              <!-- failure -->
+              <rect x="386" y="190" width="160" height="44" rx="10" fill="#1a0a0a" stroke="#ef4444" stroke-width="1.4"/><text x="466" y="210" text-anchor="middle" fill="#f87171" font-size="11" font-weight="700">NOT_FOUND</text><text x="466" y="226" text-anchor="middle" fill="#fca5a5" font-size="9">/ SERVER_ERROR</text>
+              <path d="M276,140 L276,212 L384,212" fill="none" stroke="#ef4444" stroke-width="1.3" stroke-dasharray="4 3" marker-end="url(#ssR)"/>
+              <path d="M656,140 L656,212 L548,212" fill="none" stroke="#ef4444" stroke-width="1.3" stroke-dasharray="4 3" marker-end="url(#ssR)"/>
+              <text x="466" y="174" text-anchor="middle" fill="#fca5a5" font-size="9">any step fails / times out</text>
+            </svg>
+            <figcaption class="text-sm text-slate-400 mt-4 text-center">Inside the ISP resolver, the <code class="text-purple-400">DnsResolverService</code> drives this state machine — a cache hit jumps straight to <span class="text-emerald-400 font-medium">RESOLVED</span>, while any failed or timed-out step lands in <span class="text-red-400 font-medium">NOT_FOUND / SERVER_ERROR</span>.</figcaption>
+          </figure>
         </section>
 
         <!-- Configuration -->
@@ -485,32 +697,75 @@
                 <span>📋</span> Copy
               </button>
             </div>
-            <pre class="p-6 text-sm font-mono overflow-x-auto custom-scrollbar" id="codeBlock"><span class="text-slate-500"># DNS Resolver Configuration</span>
-<span class="text-blue-400">*.resolver.typename</span> = <span class="text-emerald-400">"DnsResolver"</span>
-<span class="text-blue-400">*.resolver.cacheSize</span> = <span class="text-pink-400">1000</span> <span class="text-slate-500"># Number of cached entries</span>
-<span class="text-blue-400">*.resolver.cacheTTL</span> = <span class="text-pink-400">3600</span><span class="text-emerald-400">s</span> <span class="text-slate-500"># Time-to-live for cache entries</span>
+            <pre class="p-6 text-sm font-mono overflow-x-auto custom-scrollbar" id="codeBlock"><span class="text-slate-500"># Authoritative DNS server (DnsSimplified) — zones from JSON</span>
+<span class="text-blue-400">*.dns.db.zoneConfig</span>      = <span class="text-emerald-400">readJSON("DnsZone.json")</span>
 
-<span class="text-slate-500"># Root DNS Server</span>
-<span class="text-blue-400">*.rootDns.typename</span> = <span class="text-emerald-400">"DnsServer"</span>
-<span class="text-blue-400">*.rootDns.mode</span> = <span class="text-emerald-400">"root"</span>
+<span class="text-slate-500"># Recursive resolver (DnsResolverServer) — NS records from JSON</span>
+<span class="text-blue-400">*.resolver.db.zoneConfig</span> = <span class="text-emerald-400">readJSON("ResolverZones.json")</span>
 
-<span class="text-slate-500"># TLD DNS Server (.cp domain)</span>
-<span class="text-blue-400">*.tldDns.typename</span> = <span class="text-emerald-400">"DnsServer"</span>
-<span class="text-blue-400">*.tldDns.mode</span> = <span class="text-emerald-400">"tld"</span>
-<span class="text-blue-400">*.tldDns.domain</span> = <span class="text-emerald-400">"cp"</span>
+<span class="text-slate-500"># Clients: which ISP resolver to use, and how apps reach their stub</span>
+<span class="text-blue-400">**.dns</span>                          = <span class="text-emerald-400">"10.0.0.2"</span>     <span class="text-slate-500"># NetworkStack binds dnsResolver.ispResolver = dns</span>
+<span class="text-blue-400">*.*.resolver.ispResolver</span>        = <span class="text-emerald-400">"10.0.0.3"</span>     <span class="text-slate-500"># (or set the stub's upstream directly)</span>
+<span class="text-blue-400">*.client.hostedApp.resolverPath</span> = <span class="text-emerald-400">"^.^.resolver"</span> <span class="text-slate-500"># app → local StubDnsResolver</span>
 
-<span class="text-slate-500"># Authoritative DNS Server</span>
-<span class="text-blue-400">*.authDns.typename</span> = <span class="text-emerald-400">"DnsServer"</span>
-<span class="text-blue-400">*.authDns.mode</span> = <span class="text-emerald-400">"authoritative"</span>
-<span class="text-blue-400">*.authDns.zone</span> = <span class="text-emerald-400">"cpman001.cp"</span>
-
-<span class="text-slate-500"># Service Registration</span>
-<span class="text-blue-400">*.authDns.records</span> = <span class="text-emerald-400">"cpman001.cp A 10.0.0.3"</span>
-
-<span class="text-slate-500"># Simplified Mode (Alternative)</span>
-<span class="text-slate-500"># *.simpleDns.typename = "SimpleDnsServer"</span>
-<span class="text-slate-500"># *.simpleDns.records = "cpman001.cp:10.0.0.3,fognode1.local:10.0.1.5"</span></pre>
+<span class="text-slate-500"># Retry / timeout on the client (DnsClientService)</span>
+<span class="text-blue-400">**.dnsClient.maxAttempts</span>     = <span class="text-pink-400">3</span>
+<span class="text-blue-400">**.dnsClient.ticksForTimeOut</span> = <span class="text-pink-400">5</span>
+<span class="text-blue-400">**.dnsClient.timePerTick</span>     = <span class="text-pink-400">200</span><span class="text-emerald-400">ms</span></pre>
           </div>
+
+          <p class="text-slate-400 text-sm mt-6 mb-3">Records are not strings in the INI — zones are plain JSON loaded with <code class="text-cyan-400">readJSON</code>. For example <code class="bg-slate-800 px-1.5 py-0.5 rounded text-xs text-slate-300">DnsZone.json</code>:</p>
+          <div class="code-block rounded-xl overflow-hidden shadow-2xl">
+            <div class="flex items-center justify-between px-4 py-3 bg-slate-800/50 border-b border-slate-700">
+              <span class="text-xs font-mono text-slate-400">DnsZone.json</span>
+            </div>
+            <pre class="p-6 text-sm font-mono overflow-x-auto custom-scrollbar"><span class="text-slate-500">[</span>
+  <span class="text-slate-500">{</span>
+    <span class="text-cyan-400">"zone"</span>: <span class="text-emerald-400">"us-east-1.com"</span>,
+    <span class="text-cyan-400">"records"</span>: <span class="text-slate-500">[</span>
+      <span class="text-slate-500">{</span> <span class="text-cyan-400">"domain"</span>: <span class="text-emerald-400">"*.us-east-1.com"</span>,    <span class="text-cyan-400">"type"</span>: <span class="text-emerald-400">"A"</span>,     <span class="text-cyan-400">"ip"</span>:   <span class="text-emerald-400">"10.1.0.5"</span> <span class="text-slate-500">}</span>,
+      <span class="text-slate-500">{</span> <span class="text-cyan-400">"domain"</span>: <span class="text-emerald-400">"test.us-east-1.com"</span>, <span class="text-cyan-400">"type"</span>: <span class="text-emerald-400">"CNAME"</span>, <span class="text-cyan-400">"text"</span>: <span class="text-emerald-400">"us-east-1.com"</span> <span class="text-slate-500">}</span>
+    <span class="text-slate-500">]</span>
+  <span class="text-slate-500">}</span>
+<span class="text-slate-500">]</span></pre>
+          </div>
+
+          <!-- Diagram: DnsDb tree -->
+          <figure class="bg-slate-900/50 border border-slate-800 rounded-xl p-6 mt-8">
+            <svg viewBox="0 0 960 300" class="w-full h-auto" font-family="Inter, system-ui, sans-serif" role="img" aria-label="DnsDb hierarchical zone tree">
+              <defs><marker id="dbA" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto" markerUnits="strokeWidth"><path d="M0,0 L7,3 L0,6 Z" fill="#64748b"/></marker></defs>
+
+              <!-- level labels -->
+              <text x="16" y="62" fill="#a855f7" font-size="10" font-weight="700">ROOT</text>
+              <text x="16" y="132" fill="#22d3ee" font-size="10" font-weight="700">TLD</text>
+              <text x="16" y="202" fill="#10b981" font-size="10" font-weight="700">AUTHORITATIVE</text>
+              <text x="16" y="265" fill="#94a3b8" font-size="10" font-weight="700">records</text>
+
+              <!-- edges -->
+              <g stroke="#475569" stroke-width="1.4" fill="none">
+                <line x1="485" y1="78" x2="485" y2="110"/>
+                <line x1="470" y1="148" x2="350" y2="180"/>
+                <line x1="500" y1="148" x2="630" y2="180"/>
+                <line x1="340" y1="218" x2="330" y2="246"/>
+                <line x1="360" y1="218" x2="430" y2="246"/>
+                <line x1="630" y1="218" x2="630" y2="246"/>
+              </g>
+
+              <!-- nodes -->
+              <rect x="430" y="42" width="110" height="36" rx="8" fill="#0f172a" stroke="#a855f7" stroke-width="1.5"/><text x="485" y="65" text-anchor="middle" fill="#c084fc" font-size="12" font-weight="700" font-family="'JetBrains Mono', monospace">. (root)</text>
+              <rect x="430" y="112" width="110" height="36" rx="8" fill="#0f172a" stroke="#22d3ee" stroke-width="1.4"/><text x="485" y="135" text-anchor="middle" fill="#22d3ee" font-size="12" font-weight="700" font-family="'JetBrains Mono', monospace">com</text>
+
+              <rect x="250" y="182" width="200" height="36" rx="8" fill="#0f172a" stroke="#10b981" stroke-width="1.4"/><text x="350" y="205" text-anchor="middle" fill="#34d399" font-size="11" font-family="'JetBrains Mono', monospace">us-east-1.com</text>
+              <rect x="540" y="182" width="180" height="36" rx="8" fill="#0f172a" stroke="#10b981" stroke-width="1.4"/><text x="630" y="205" text-anchor="middle" fill="#34d399" font-size="11" font-family="'JetBrains Mono', monospace">example.com</text>
+
+              <rect x="208" y="246" width="244" height="34" rx="7" fill="#2a1c05" stroke="#eab308"/><text x="330" y="267" text-anchor="middle" fill="#fbbf24" font-size="9.5" font-family="'JetBrains Mono', monospace">*.us-east-1.com → A 10.1.0.5</text>
+              <rect x="508" y="246" width="244" height="34" rx="7" fill="#0b1e2a" stroke="#475569"/><text x="630" y="267" text-anchor="middle" fill="#cbd5e1" font-size="9.5" font-family="'JetBrains Mono', monospace">*.example.com → A 10.0.0.5</text>
+
+              <text x="846" y="62" text-anchor="end" fill="#64748b" font-size="9">one shared tree, walked top-down</text>
+              <text x="846" y="265" text-anchor="end" fill="#eab308" font-size="9">★ wildcard via cPatternMatcher</text>
+            </svg>
+            <figcaption class="text-sm text-slate-400 mt-4 text-center">A single <code class="text-orange-400">DnsDb</code> stores everything as a tree (ROOT → TLD → AUTHORITATIVE). Wildcard records like <code class="text-cyan-400">*.us-east-1.com</code> match any subdomain, which is why one entry can cover a whole zone.</figcaption>
+          </figure>
         </section>
 
         <!-- Use Cases -->
