@@ -129,6 +129,49 @@
               DataCentre uses <code class="text-cyan-400 bg-slate-800 px-2 py-1 rounded">NetworkStack</code> (flat network), while FogNode uses <code class="text-cyan-400 bg-slate-800 px-2 py-1 rounded">RoutingNetworkStack</code> (IP routing). This reflects the architectural difference: data centres sit at network endpoints, fog nodes act as routers.
             </p>
           </div>
+
+          <!-- Diagram: cloud tier overview -->
+          <figure class="bg-slate-900/50 border border-slate-800 rounded-xl p-6 mt-8">
+            <svg viewBox="0 0 960 300" class="w-full h-auto" font-family="Inter, system-ui, sans-serif" role="img" aria-label="Cloud tier overview: CloudProvider orchestrator and DataCentre infrastructure">
+              <defs>
+                <marker id="ovC" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto" markerUnits="strokeWidth"><path d="M0,0 L7,3 L0,6 Z" fill="#22d3ee"/></marker>
+                <marker id="ovS" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto" markerUnits="strokeWidth"><path d="M0,0 L7,3 L0,6 Z" fill="#64748b"/></marker>
+              </defs>
+
+              <rect x="24" y="108" width="140" height="78" rx="10" fill="#0f172a" stroke="#334155"/>
+              <text x="94" y="140" text-anchor="middle" fill="#e2e8f0" font-size="13" font-weight="700">Users</text>
+              <text x="94" y="159" text-anchor="middle" fill="#64748b" font-size="9">EdgeUsers</text>
+              <text x="94" y="173" text-anchor="middle" fill="#64748b" font-size="9">VM requests</text>
+
+              <rect x="208" y="118" width="108" height="58" rx="9" fill="#0f172a" stroke="#475569"/>
+              <text x="262" y="142" text-anchor="middle" fill="#cbd5e1" font-size="10.5" font-weight="600">Message Queue</text>
+              <text x="262" y="158" text-anchor="middle" fill="#64748b" font-size="8.5" font-family="'JetBrains Mono', monospace">"CloudProvider"</text>
+
+              <rect x="360" y="82" width="282" height="132" rx="12" fill="#0c1f2b" stroke="#22d3ee" stroke-width="1.8"/>
+              <text x="501" y="110" text-anchor="middle" fill="#22d3ee" font-size="16" font-weight="800">CloudProvider</text>
+              <text x="501" y="130" text-anchor="middle" fill="#7dd3fc" font-size="10" font-weight="600">the brain · global orchestrator</text>
+              <text x="501" y="152" text-anchor="middle" fill="#94a3b8" font-size="10">NodeDb (global state)</text>
+              <text x="501" y="170" text-anchor="middle" fill="#94a3b8" font-size="10">best-fit placement</text>
+              <text x="501" y="194" text-anchor="middle" fill="#64748b" font-size="9.5">has no blades of its own</text>
+
+              <rect x="700" y="92" width="236" height="112" rx="12" fill="#0f172a" stroke="#a855f7" stroke-width="1.5"/>
+              <text x="818" y="120" text-anchor="middle" fill="#c084fc" font-size="15" font-weight="800">DataCentre ×N</text>
+              <text x="818" y="140" text-anchor="middle" fill="#d8b4fe" font-size="10" font-weight="600">the muscle · infrastructure</text>
+              <text x="818" y="162" text-anchor="middle" fill="#94a3b8" font-size="10">blades + ResourceManager</text>
+              <text x="818" y="184" text-anchor="middle" fill="#64748b" font-size="9.5">executes, no global view</text>
+
+              <line x1="164" y1="147" x2="206" y2="147" stroke="#22d3ee" stroke-width="1.6" marker-end="url(#ovC)"/>
+              <line x1="316" y1="147" x2="358" y2="147" stroke="#22d3ee" stroke-width="1.6" marker-end="url(#ovC)"/>
+              <text x="337" y="139" text-anchor="middle" fill="#94a3b8" font-size="8.5">SM_UserVM</text>
+              <line x1="642" y1="126" x2="698" y2="126" stroke="#22d3ee" stroke-width="1.6" marker-end="url(#ovC)"/>
+              <text x="670" y="118" text-anchor="middle" fill="#94a3b8" font-size="8.5">forward (best-fit)</text>
+              <line x1="698" y1="170" x2="644" y2="170" stroke="#64748b" stroke-width="1.5" stroke-dasharray="5 4" marker-end="url(#ovS)"/>
+              <text x="670" y="186" text-anchor="middle" fill="#94a3b8" font-size="8.5">NodeUpdate (state sync)</text>
+
+              <text x="480" y="256" text-anchor="middle" fill="#64748b" font-size="11">The <tspan fill="#22d3ee">brain</tspan> decides <tspan fill="#cbd5e1">where</tspan>; the <tspan fill="#c084fc">muscle</tspan> executes — and keeps the brain in sync through asynchronous <tspan fill="#cbd5e1">NodeUpdate</tspan>.</text>
+            </svg>
+            <figcaption class="text-sm text-slate-400 mt-4 text-center">The cloud tier splits responsibility: the <span class="text-cyan-400 font-medium">CloudProvider</span> holds global state and makes placement decisions, while each <span class="text-purple-400 font-medium">DataCentre</span> owns the actual blades and reports its availability back.</figcaption>
+          </figure>
         </section>
 
         <!-- DataCentre -->
@@ -157,14 +200,63 @@
             </div>
           </div>
 
+          <!-- Diagram: DataCentre internal structure -->
+          <figure class="bg-slate-900/50 border border-slate-800 rounded-xl p-6 mb-6">
+            <svg viewBox="0 0 960 270" class="w-full h-auto" font-family="Inter, system-ui, sans-serif" role="img" aria-label="DataCentre internal structure">
+              <defs>
+                <marker id="dcC" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto" markerUnits="strokeWidth"><path d="M0,0 L7,3 L0,6 Z" fill="#22d3ee"/></marker>
+                <marker id="dcS" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto" markerUnits="strokeWidth"><path d="M0,0 L7,3 L0,6 Z" fill="#64748b"/></marker>
+              </defs>
+
+              <rect x="24" y="44" width="580" height="212" rx="13" fill="none" stroke="#475569" stroke-width="1.4"/>
+              <text x="314" y="68" text-anchor="middle" fill="#e2e8f0" font-size="15" font-weight="800">DataCentre</text>
+              <text x="314" y="86" text-anchor="middle" fill="#64748b" font-size="9.5">11 submodules — identical to FogNode except the stack</text>
+
+              <rect x="44" y="100" width="540" height="48" rx="9" fill="#0f172a" stroke="#22d3ee" stroke-width="1.5"/>
+              <text x="314" y="121" text-anchor="middle" fill="#cbd5e1" font-size="10.5" font-family="'JetBrains Mono', monospace">stack · proxy · serviceTable · blade[ ] ×numBlades</text>
+              <text x="314" y="139" text-anchor="middle" fill="#64748b" font-size="8.5">data plane — request path</text>
+
+              <rect x="44" y="160" width="262" height="46" rx="9" fill="#0f172a" stroke="#a855f7" stroke-width="1.4"/>
+              <text x="175" y="181" text-anchor="middle" fill="#cbd5e1" font-size="10.5" font-family="'JetBrains Mono', monospace">resourceManager · pool · netDb</text>
+              <text x="175" y="197" text-anchor="middle" fill="#64748b" font-size="8.5">resources</text>
+
+              <rect x="322" y="160" width="262" height="46" rx="9" fill="#0f172a" stroke="#f97316" stroke-width="1.4"/>
+              <text x="453" y="181" text-anchor="middle" fill="#cbd5e1" font-size="10.5" font-family="'JetBrains Mono', monospace">dcManager · switch · netCard</text>
+              <text x="453" y="197" text-anchor="middle" fill="#64748b" font-size="8.5">control / fabric</text>
+
+              <text x="314" y="234" text-anchor="middle" fill="#fbbf24" font-size="9.5">★ stack = NetworkStack — FogNode uses RoutingNetworkStack (this is the only difference)</text>
+
+              <!-- CloudProvider link -->
+              <rect x="690" y="78" width="250" height="100" rx="12" fill="#0c1f2b" stroke="#22d3ee" stroke-width="1.6"/>
+              <text x="815" y="112" text-anchor="middle" fill="#22d3ee" font-size="14" font-weight="700">CloudProvider</text>
+              <text x="815" y="132" text-anchor="middle" fill="#94a3b8" font-size="9.5">global orchestrator</text>
+              <text x="815" y="152" text-anchor="middle" fill="#64748b" font-size="9">talks over the Message Queue</text>
+
+              <line x1="586" y1="174" x2="688" y2="120" stroke="#22d3ee" stroke-width="1.5" marker-end="url(#dcC)"/>
+              <text x="648" y="132" text-anchor="middle" fill="#94a3b8" font-size="8.5">NodeUpdate ↑</text>
+              <line x1="688" y1="150" x2="588" y2="196" stroke="#64748b" stroke-width="1.4" stroke-dasharray="5 4" marker-end="url(#dcS)"/>
+              <text x="640" y="186" text-anchor="middle" fill="#94a3b8" font-size="8.5">VM requests ↓</text>
+            </svg>
+            <figcaption class="text-sm text-slate-400 mt-4 text-center">A DataCentre is structurally a FogNode (see <a href="fogNodes.html" class="text-cyan-400 hover:text-cyan-300">Fog Nodes</a> for the full breakdown) — the <span class="text-amber-400 font-medium">only change is the network stack</span>. Its <code class="text-orange-400">dcManager</code> is the bridge to the CloudProvider.</figcaption>
+          </figure>
+
           <div class="code-block rounded-xl overflow-hidden">
             <div class="flex items-center justify-between px-4 py-3 bg-slate-800/50 border-b border-slate-700">
               <span class="text-xs font-mono text-slate-400">Key Parameters</span>
             </div>
-            <pre class="p-6 text-sm font-mono overflow-x-auto custom-scrollbar"><span class="text-blue-400">*.dataCentre.numBlades</span> = <span class="text-pink-400">4</span>
-<span class="text-blue-400">*.dataCentre.zone</span> = <span class="text-emerald-400">"us-east-1"</span>
-<span class="text-blue-400">*.dataCentre.domain</span> = <span class="text-emerald-400">"us-east-1.com"</span>
-<span class="text-blue-400">*.dataCentre.nodeTopic</span> = <span class="text-emerald-400">"dataCentre"</span></pre>
+            <pre class="p-6 text-sm font-mono overflow-x-auto custom-scrollbar"><span class="text-slate-500"># DataCentre — instance is usually named "dc"</span>
+<span class="text-blue-400">*.dc.numBlades</span> = <span class="text-pink-400">40</span>
+<span class="text-blue-400">*.dc.zone</span>      = <span class="text-emerald-400">"cloud"</span>
+<span class="text-slate-500"># domain defaults to fullName() + "-" + zone + ".com"</span>
+<span class="text-slate-500"># the MQ topic comes from the stack (defaults to the node name)</span>
+<span class="text-blue-400">*.dc.stack.nodeTopic</span> = <span class="text-emerald-400">"dc"</span>
+
+<span class="text-slate-500"># Per-blade capacity — aggregated by the node (40 × 16 = 640 cores)</span>
+<span class="text-blue-400">*.dc.blade[*].numCpuCores</span> = <span class="text-pink-400">16</span>
+<span class="text-blue-400">*.dc.blade[*].memorySize</span>  = <span class="text-pink-400">64</span><span class="text-emerald-400">GB</span>
+
+<span class="text-slate-500"># Send NodeUpdate events to the CloudProvider</span>
+<span class="text-blue-400">*.dc.dcManager.hasCloudEvents</span> = <span class="text-pink-400">true</span></pre>
           </div>
         </section>
 
@@ -172,8 +264,55 @@
         <section class="mb-16">
           <h2 class="text-3xl font-bold mb-6">CloudProvider Module</h2>
           <p class="text-slate-300 mb-6 leading-relaxed">
-            The CloudProvider is the <strong class="text-white">stateful orchestrator</strong> that consumes VM requests from the Message Queue topic <code class="bg-slate-800 px-2 py-1 rounded text-sm text-pink-400">"cloudProvider"</code> and coordinates placement across DataCentres.
+            The CloudProvider is the <strong class="text-white">stateful orchestrator</strong> that consumes VM requests from the Message Queue topic <code class="bg-slate-800 px-2 py-1 rounded text-sm text-pink-400">"cloudProvider"</code> and coordinates placement across DataCentres. It <code class="text-cyan-400">extends StandardHost</code> and composes three submodules:
           </p>
+
+          <!-- Diagram: CloudProvider structure -->
+          <figure class="bg-slate-900/50 border border-slate-800 rounded-xl p-6 mb-8">
+            <svg viewBox="0 0 960 250" class="w-full h-auto" font-family="Inter, system-ui, sans-serif" role="img" aria-label="CloudProvider internal structure">
+              <defs>
+                <marker id="cpC" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto" markerUnits="strokeWidth"><path d="M0,0 L7,3 L0,6 Z" fill="#22d3ee"/></marker>
+                <marker id="cpS" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto" markerUnits="strokeWidth"><path d="M0,0 L7,3 L0,6 Z" fill="#64748b"/></marker>
+              </defs>
+
+              <rect x="24" y="74" width="120" height="92" rx="10" fill="#0f172a" stroke="#334155"/>
+              <text x="84" y="115" text-anchor="middle" fill="#e2e8f0" font-size="12" font-weight="700">Message</text>
+              <text x="84" y="131" text-anchor="middle" fill="#e2e8f0" font-size="12" font-weight="700">Queue</text>
+              <text x="84" y="150" text-anchor="middle" fill="#64748b" font-size="8.5">broker</text>
+
+              <rect x="196" y="36" width="548" height="172" rx="13" fill="none" stroke="#22d3ee" stroke-width="1.5"/>
+              <text x="470" y="60" text-anchor="middle" fill="#22d3ee" font-size="13" font-weight="800">CloudProvider · StandardHost</text>
+
+              <rect x="220" y="86" width="150" height="86" rx="10" fill="#0f172a" stroke="#22d3ee" stroke-width="1.4"/>
+              <text x="295" y="120" text-anchor="middle" fill="#22d3ee" font-size="12.5" font-weight="700">queueClient</text>
+              <text x="295" y="139" text-anchor="middle" fill="#94a3b8" font-size="9">MQ connectivity</text>
+              <text x="295" y="155" text-anchor="middle" fill="#64748b" font-size="8.5" font-family="'JetBrains Mono', monospace">topic: CloudProvider</text>
+
+              <rect x="400" y="86" width="174" height="86" rx="10" fill="#0f172a" stroke="#a855f7" stroke-width="1.4"/>
+              <text x="487" y="116" text-anchor="middle" fill="#c084fc" font-size="12.5" font-weight="700">cpService</text>
+              <text x="487" y="134" text-anchor="middle" fill="#94a3b8" font-size="8.5">CloudProviderService</text>
+              <text x="487" y="150" text-anchor="middle" fill="#64748b" font-size="8">best-fit · zone fallback · queue</text>
+
+              <rect x="604" y="86" width="116" height="86" rx="10" fill="#0f172a" stroke="#10b981" stroke-width="1.4"/>
+              <text x="662" y="120" text-anchor="middle" fill="#34d399" font-size="12.5" font-weight="700">nodeDb</text>
+              <text x="662" y="139" text-anchor="middle" fill="#94a3b8" font-size="9">NodeDb</text>
+              <text x="662" y="155" text-anchor="middle" fill="#64748b" font-size="8.5">global state</text>
+
+              <line x1="144" y1="106" x2="218" y2="106" stroke="#22d3ee" stroke-width="1.6" marker-end="url(#cpC)"/>
+              <text x="181" y="99" text-anchor="middle" fill="#94a3b8" font-size="8">SM_UserVM</text>
+              <line x1="218" y1="140" x2="146" y2="140" stroke="#64748b" stroke-width="1.4" stroke-dasharray="5 4" marker-end="url(#cpS)"/>
+              <text x="181" y="156" text-anchor="middle" fill="#94a3b8" font-size="8">→ DC topic</text>
+              <line x1="370" y1="118" x2="398" y2="118" stroke="#22d3ee" stroke-width="1.5" marker-end="url(#cpC)"/>
+              <text x="385" y="110" text-anchor="middle" fill="#94a3b8" font-size="7.5">queueIn</text>
+              <line x1="398" y1="146" x2="372" y2="146" stroke="#64748b" stroke-width="1.4" marker-end="url(#cpS)"/>
+              <text x="385" y="161" text-anchor="middle" fill="#94a3b8" font-size="7.5">queueOut</text>
+              <line x1="574" y1="129" x2="602" y2="129" stroke="#94a3b8" stroke-width="1.4" marker-end="url(#cpS)"/>
+              <text x="588" y="121" text-anchor="middle" fill="#94a3b8" font-size="7.5">query</text>
+
+              <text x="430" y="232" text-anchor="middle" fill="#64748b" font-size="10">DataCentres subscribe to their own topics on the same Message Queue — the provider forwards requests there.</text>
+            </svg>
+            <figcaption class="text-sm text-slate-400 mt-4 text-center"><code class="text-cyan-400">queueClient</code> handles messaging, <code class="text-purple-400">cpService</code> runs the placement logic, and <code class="text-emerald-400">nodeDb</code> holds the global view of every DataCentre's capacity.</figcaption>
+          </figure>
 
           <div class="grid md:grid-cols-2 gap-6 mb-6">
             <div class="bg-slate-900/50 border border-slate-800 rounded-xl p-6">
@@ -229,6 +368,301 @@
                   </div>
                 </div>
               </div>
+            </div>
+          </div>
+
+          <h3 class="text-xl font-bold mt-10 mb-4 text-cyan-400">The full request cycle</h3>
+          <figure class="bg-slate-900/50 border border-slate-800 rounded-xl p-6">
+            <svg viewBox="0 0 960 360" class="w-full h-auto" font-family="Inter, system-ui, sans-serif" role="img" aria-label="VM request orchestration sequence">
+              <defs>
+                <marker id="seqC" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto" markerUnits="strokeWidth"><path d="M0,0 L7,3 L0,6 Z" fill="#22d3ee"/></marker>
+                <marker id="seqS" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto" markerUnits="strokeWidth"><path d="M0,0 L7,3 L0,6 Z" fill="#64748b"/></marker>
+              </defs>
+
+              <line x1="130" y1="62" x2="130" y2="316" stroke="#334155" stroke-width="1.1" stroke-dasharray="3 4"/>
+              <line x1="480" y1="62" x2="480" y2="316" stroke="#334155" stroke-width="1.1" stroke-dasharray="3 4"/>
+              <line x1="830" y1="62" x2="830" y2="316" stroke="#334155" stroke-width="1.1" stroke-dasharray="3 4"/>
+
+              <rect x="60" y="20" width="140" height="40" rx="9" fill="#1e293b" stroke="#334155"/><text x="130" y="45" text-anchor="middle" fill="#e2e8f0" font-size="12" font-weight="700">User</text>
+              <rect x="395" y="20" width="170" height="40" rx="9" fill="#1e293b" stroke="#22d3ee" stroke-width="1.6"/><text x="480" y="45" text-anchor="middle" fill="#22d3ee" font-size="12" font-weight="800">CloudProvider</text>
+              <rect x="755" y="20" width="150" height="40" rx="9" fill="#1e293b" stroke="#a855f7" stroke-width="1.5"/><text x="830" y="45" text-anchor="middle" fill="#c084fc" font-size="12" font-weight="700">DataCentre</text>
+
+              <text x="305" y="90" text-anchor="middle" fill="#cbd5e1" font-size="10">① SM_UserVM (zone, resources) · via MQ</text>
+              <line x1="130" y1="98" x2="478" y2="98" stroke="#22d3ee" stroke-width="1.6" marker-end="url(#seqC)"/>
+
+              <rect x="392" y="116" width="176" height="28" rx="6" fill="#0f172a" stroke="#a855f7"/><text x="480" y="134" text-anchor="middle" fill="#c084fc" font-size="9">② best-fit + optimistic subtract</text>
+
+              <text x="655" y="172" text-anchor="middle" fill="#cbd5e1" font-size="10">③ forward → DataCentre topic</text>
+              <line x1="480" y1="180" x2="828" y2="180" stroke="#22d3ee" stroke-width="1.6" marker-end="url(#seqC)"/>
+
+              <rect x="738" y="198" width="184" height="28" rx="6" fill="#0f172a" stroke="#a855f7"/><text x="830" y="216" text-anchor="middle" fill="#c084fc" font-size="9">④ allocateVms (FirstFit blades)</text>
+
+              <text x="480" y="254" text-anchor="middle" fill="#94a3b8" font-size="10">⑤ response Accept / Reject → returnTopic</text>
+              <line x1="830" y1="262" x2="132" y2="262" stroke="#64748b" stroke-width="1.4" stroke-dasharray="5 4" marker-end="url(#seqS)"/>
+
+              <text x="655" y="290" text-anchor="middle" fill="#94a3b8" font-size="10">⑥ NodeUpdate (async) — true availability</text>
+              <line x1="830" y1="298" x2="482" y2="298" stroke="#64748b" stroke-width="1.4" stroke-dasharray="5 4" marker-end="url(#seqS)"/>
+
+              <rect x="120" y="326" width="720" height="28" rx="8" fill="#1a1430" stroke="#a855f7" stroke-width="1.1"/><text x="480" y="344" text-anchor="middle" fill="#cbd5e1" font-size="9.5">On a reject, that NodeUpdate <tspan fill="#c084fc">uncommits</tspan> the cores the provider optimistically reserved at step ②.</text>
+            </svg>
+            <figcaption class="text-sm text-slate-400 mt-4 text-center">The request path (①–⑤) is synchronous, but state sync (⑥) is asynchronous — the provider commits resources <em>before</em> the DataCentre confirms, which is exactly what creates the stale-state race below.</figcaption>
+          </figure>
+        </section>
+
+        <!-- NodeDb -->
+        <section class="mb-16">
+          <h2 class="text-3xl font-bold mb-6">NodeDb: the global state database</h2>
+          <p class="text-slate-300 mb-6 leading-relaxed">
+            Every placement decision reads from <code class="bg-slate-800 px-2 py-1 rounded text-sm text-cyan-400">NodeDb</code>, which wraps a
+            <code class="text-pink-400">NodeTable</code> of <strong class="text-white">three parallel structures</strong> — one for the resources,
+            one indexed by topic (for forwarding), and one indexed by zone (for zone-aware placement).
+          </p>
+
+          <figure class="bg-slate-900/50 border border-slate-800 rounded-xl p-6 mb-6">
+            <svg viewBox="0 0 960 300" class="w-full h-auto" font-family="Inter, system-ui, sans-serif" role="img" aria-label="NodeDb / NodeTable data model">
+              <defs><marker id="ndA" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto" markerUnits="strokeWidth"><path d="M0,0 L7,3 L0,6 Z" fill="#64748b"/></marker></defs>
+
+              <!-- topics[] -->
+              <rect x="20" y="52" width="262" height="224" rx="11" fill="none" stroke="#22d3ee" stroke-width="1.4"/>
+              <text x="151" y="76" text-anchor="middle" fill="#22d3ee" font-size="12" font-weight="700" font-family="'JetBrains Mono', monospace">topics[ ]</text>
+              <text x="151" y="92" text-anchor="middle" fill="#64748b" font-size="8.5">sorted → binary search O(log n)</text>
+              <rect x="40" y="104" width="222" height="30" rx="6" fill="#0b1e2a" stroke="#475569"/><text x="56" y="124" fill="#cbd5e1" font-size="10.5" font-family="'JetBrains Mono', monospace">"dc[0]" → node 0</text>
+              <rect x="40" y="140" width="222" height="30" rx="6" fill="#0b1e2a" stroke="#475569"/><text x="56" y="160" fill="#cbd5e1" font-size="10.5" font-family="'JetBrains Mono', monospace">"dc[1]" → node 1</text>
+              <rect x="40" y="176" width="222" height="30" rx="6" fill="#0b1e2a" stroke="#475569"/><text x="56" y="196" fill="#cbd5e1" font-size="10.5" font-family="'JetBrains Mono', monospace">"fg[0]" → node 2</text>
+              <text x="151" y="232" text-anchor="middle" fill="#64748b" font-size="8.5">findNodeByTopic()</text>
+
+              <!-- nodes[] -->
+              <rect x="340" y="52" width="300" height="224" rx="11" fill="none" stroke="#a855f7" stroke-width="1.4"/>
+              <text x="490" y="76" text-anchor="middle" fill="#c084fc" font-size="12" font-weight="700" font-family="'JetBrains Mono', monospace">nodes[ ]  ·  NodeEntry</text>
+              <text x="490" y="92" text-anchor="middle" fill="#64748b" font-size="8.5">availableCores / Ram / Disk</text>
+              <rect x="360" y="104" width="260" height="40" rx="6" fill="#1a1430" stroke="#475569"/><text x="490" y="120" text-anchor="middle" fill="#cbd5e1" font-size="10" font-family="'JetBrains Mono', monospace">node 0 · 580 cores</text><text x="490" y="134" text-anchor="middle" fill="#64748b" font-size="8">2.4 TB RAM · 157 TB disk</text>
+              <rect x="360" y="150" width="260" height="40" rx="6" fill="#1a1430" stroke="#475569"/><text x="490" y="166" text-anchor="middle" fill="#cbd5e1" font-size="10" font-family="'JetBrains Mono', monospace">node 1 · 640 cores</text><text x="490" y="180" text-anchor="middle" fill="#64748b" font-size="8">2.5 TB RAM · 164 TB disk</text>
+              <rect x="360" y="196" width="260" height="40" rx="6" fill="#1a1430" stroke="#475569"/><text x="490" y="212" text-anchor="middle" fill="#cbd5e1" font-size="10" font-family="'JetBrains Mono', monospace">node 2 · 72 cores</text><text x="490" y="226" text-anchor="middle" fill="#64748b" font-size="8">144 GB RAM · 18 TB disk</text>
+
+              <!-- zones[] -->
+              <rect x="698" y="52" width="242" height="224" rx="11" fill="none" stroke="#10b981" stroke-width="1.4"/>
+              <text x="819" y="76" text-anchor="middle" fill="#34d399" font-size="12" font-weight="700" font-family="'JetBrains Mono', monospace">zones[ ]</text>
+              <text x="819" y="92" text-anchor="middle" fill="#64748b" font-size="8.5">zone → set&lt;int&gt; of node indices</text>
+              <rect x="718" y="110" width="202" height="44" rx="6" fill="#06281c" stroke="#475569"/><text x="819" y="130" text-anchor="middle" fill="#cbd5e1" font-size="10.5" font-family="'JetBrains Mono', monospace">"cloud"</text><text x="819" y="146" text-anchor="middle" fill="#34d399" font-size="10" font-family="'JetBrains Mono', monospace">→ { 0, 1 }</text>
+              <rect x="718" y="166" width="202" height="44" rx="6" fill="#06281c" stroke="#475569"/><text x="819" y="186" text-anchor="middle" fill="#cbd5e1" font-size="10.5" font-family="'JetBrains Mono', monospace">"fog"</text><text x="819" y="202" text-anchor="middle" fill="#34d399" font-size="10" font-family="'JetBrains Mono', monospace">→ { 2 }</text>
+              <text x="819" y="232" text-anchor="middle" fill="#64748b" font-size="8.5">findNodesByZone()</text>
+
+              <line x1="262" y1="119" x2="358" y2="122" stroke="#64748b" stroke-width="1.3" marker-end="url(#ndA)"/>
+              <line x1="716" y1="130" x2="622" y2="124" stroke="#64748b" stroke-width="1.3" marker-end="url(#ndA)"/>
+              <line x1="716" y1="140" x2="622" y2="170" stroke="#64748b" stroke-width="1.3" marker-end="url(#ndA)"/>
+            </svg>
+            <figcaption class="text-sm text-slate-400 mt-4 text-center">The same nodes are reachable two ways: by <span class="text-cyan-400 font-medium">topic</span> (to forward a request) and by <span class="text-emerald-400 font-medium">zone</span> (to find placement candidates) — both pointing into the shared <span class="text-purple-400 font-medium">NodeEntry</span> resources.</figcaption>
+          </figure>
+
+          <p class="text-slate-300 text-sm leading-relaxed">
+            Key methods: <code class="text-cyan-400">addOrUpdateNode()</code> (upsert on a NodeUpdate), <code class="text-cyan-400">findNodeByTopic()</code>,
+            <code class="text-cyan-400">findNodesByZone()</code>, <code class="text-cyan-400">getNode()</code>, and <code class="text-cyan-400">getTopicForNode()</code>.
+            You can watch this table live in Qtenv via its <code class="text-pink-400">WATCH</code> macros to spot staleness against the real DataCentre state.
+          </p>
+        </section>
+
+        <!-- Placement -->
+        <section class="mb-16">
+          <h2 class="text-3xl font-bold mb-6">Placement: best-fit with zone fallback</h2>
+          <p class="text-slate-300 mb-6 leading-relaxed">
+            Given a request, the provider looks only at DataCentres in the requested <strong class="text-white">zone</strong>, picks the
+            <strong class="text-white">best fit</strong> (the candidate with the <em>most</em> free cores that still satisfies the request), and
+            optimistically reserves the cores before forwarding. If the zone can't serve it, it falls back to the <code class="text-cyan-400">defaultZone</code>.
+          </p>
+
+          <figure class="bg-slate-900/50 border border-slate-800 rounded-xl p-6 mb-6">
+            <svg viewBox="0 0 900 420" class="w-full h-auto" font-family="Inter, system-ui, sans-serif" role="img" aria-label="Best-fit placement with zone fallback flowchart">
+              <defs><marker id="plA" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto" markerUnits="strokeWidth"><path d="M0,0 L7,3 L0,6 Z" fill="#64748b"/></marker></defs>
+
+              <rect x="190" y="14" width="300" height="38" rx="19" fill="#0f172a" stroke="#475569"/>
+              <text x="340" y="38" text-anchor="middle" fill="#e2e8f0" font-size="12" font-weight="600">VM request — zone Z, N cores</text>
+              <line x1="340" y1="52" x2="340" y2="66" stroke="#64748b" stroke-width="1.5" marker-end="url(#plA)"/>
+
+              <rect x="190" y="68" width="300" height="38" rx="8" fill="#0f172a" stroke="#334155"/>
+              <text x="340" y="92" text-anchor="middle" fill="#cbd5e1" font-size="11" font-family="'JetBrains Mono', monospace">findNodesByZone(Z)</text>
+              <line x1="340" y1="106" x2="340" y2="110" stroke="#64748b" stroke-width="1.5" marker-end="url(#plA)"/>
+
+              <polygon points="340,112 436,154 340,196 244,154" fill="#0f172a" stroke="#eab308" stroke-width="1.5"/>
+              <text x="340" y="150" text-anchor="middle" fill="#facc15" font-size="10" font-weight="600">best-fit node</text>
+              <text x="340" y="164" text-anchor="middle" fill="#facc15" font-size="10" font-weight="600">with ≥ N cores?</text>
+              <line x1="436" y1="154" x2="558" y2="154" stroke="#64748b" stroke-width="1.5" marker-end="url(#plA)"/>
+              <text x="497" y="146" text-anchor="middle" fill="#34d399" font-size="9.5">yes</text>
+              <line x1="340" y1="196" x2="340" y2="226" stroke="#64748b" stroke-width="1.5" marker-end="url(#plA)"/>
+              <text x="349" y="216" text-anchor="start" fill="#94a3b8" font-size="9.5">no</text>
+
+              <rect x="560" y="132" width="320" height="44" rx="10" fill="#06281c" stroke="#10b981"/>
+              <text x="720" y="151" text-anchor="middle" fill="#34d399" font-size="11.5" font-weight="700">reserve N cores (optimistic)</text>
+              <text x="720" y="167" text-anchor="middle" fill="#64748b" font-size="9">→ forward to that DataCentre topic</text>
+
+              <rect x="190" y="228" width="300" height="38" rx="8" fill="#0f172a" stroke="#334155"/>
+              <text x="340" y="252" text-anchor="middle" fill="#cbd5e1" font-size="11" font-family="'JetBrains Mono', monospace">Z ← defaultZone</text>
+              <line x1="340" y1="266" x2="340" y2="270" stroke="#64748b" stroke-width="1.5" marker-end="url(#plA)"/>
+
+              <polygon points="340,272 436,314 340,356 244,314" fill="#0f172a" stroke="#eab308" stroke-width="1.5"/>
+              <text x="340" y="310" text-anchor="middle" fill="#facc15" font-size="10" font-weight="600">best-fit in</text>
+              <text x="340" y="324" text-anchor="middle" fill="#facc15" font-size="10" font-weight="600">default zone?</text>
+              <line x1="436" y1="314" x2="558" y2="314" stroke="#64748b" stroke-width="1.5" marker-end="url(#plA)"/>
+              <text x="497" y="306" text-anchor="middle" fill="#34d399" font-size="9.5">yes</text>
+              <line x1="340" y1="356" x2="340" y2="384" stroke="#64748b" stroke-width="1.5" marker-end="url(#plA)"/>
+              <text x="349" y="374" text-anchor="start" fill="#94a3b8" font-size="9.5">no</text>
+
+              <rect x="560" y="292" width="320" height="44" rx="10" fill="#06281c" stroke="#10b981"/>
+              <text x="720" y="318" text-anchor="middle" fill="#34d399" font-size="11.5" font-weight="700">reserve → forward (fallback)</text>
+
+              <rect x="190" y="386" width="300" height="34" rx="10" fill="#1a0a0a" stroke="#ef4444"/>
+              <text x="340" y="408" text-anchor="middle" fill="#f87171" font-size="11" font-weight="700">reject  ·  or enqueue subscription</text>
+            </svg>
+            <figcaption class="text-sm text-slate-400 mt-4 text-center">Best-fit keeps small-capacity DataCentres free for small requests. Configuring fog in zone <code class="text-cyan-400">"edge"</code> with <code class="text-cyan-400">defaultZone = "cloud"</code> gives you automatic fog→cloud offload.</figcaption>
+          </figure>
+
+          <div class="bg-amber-950/20 border-l-4 border-amber-500 rounded-r-xl p-6">
+            <p class="font-semibold text-amber-300 mb-2">⚠️ Optimistic reservation</p>
+            <p class="text-slate-300 text-sm">The provider subtracts the cores <strong class="text-white">before</strong> the DataCentre confirms. If the DataCentre later rejects (its real capacity was already taken), it must send a corrective <code class="text-cyan-400">NodeUpdate</code> to "uncommit" — the root of the stale-state race below.</p>
+          </div>
+        </section>
+
+        <!-- State sync -->
+        <section class="mb-16">
+          <h2 class="text-3xl font-bold mb-6">Keeping state in sync: NodeUpdate</h2>
+          <p class="text-slate-300 mb-6 leading-relaxed">
+            The provider never reads a DataCentre directly. Instead each DataCentre pushes a
+            <code class="bg-slate-800 px-2 py-1 rounded text-sm text-cyan-400">NodeUpdate</code> whenever its availability changes, carrying an
+            <strong class="text-white">absolute snapshot</strong> of free cores, RAM and disk.
+          </p>
+
+          <figure class="bg-slate-900/50 border border-slate-800 rounded-xl p-6 mb-8">
+            <svg viewBox="0 0 960 270" class="w-full h-auto" font-family="Inter, system-ui, sans-serif" role="img" aria-label="NodeUpdate state synchronization">
+              <defs><marker id="suA" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto" markerUnits="strokeWidth"><path d="M0,0 L7,3 L0,6 Z" fill="#22d3ee"/></marker></defs>
+
+              <rect x="24" y="44" width="250" height="90" rx="11" fill="#0f172a" stroke="#a855f7" stroke-width="1.5"/>
+              <text x="149" y="76" text-anchor="middle" fill="#c084fc" font-size="13" font-weight="700">DataCentre · DcManager</text>
+              <text x="149" y="96" text-anchor="middle" fill="#94a3b8" font-size="9.5">reads ResourceManager</text>
+              <text x="149" y="113" text-anchor="middle" fill="#64748b" font-size="8.5">getAvailableCores() …</text>
+
+              <rect x="350" y="44" width="262" height="90" rx="11" fill="#0c1f2b" stroke="#22d3ee" stroke-width="1.5"/>
+              <text x="481" y="74" text-anchor="middle" fill="#22d3ee" font-size="12.5" font-weight="700">NodeUpdate</text>
+              <text x="481" y="93" text-anchor="middle" fill="#94a3b8" font-size="9" font-family="'JetBrains Mono', monospace">availableCores / Ram / Disk + zone</text>
+              <text x="481" y="111" text-anchor="middle" fill="#64748b" font-size="8.5">absolute snapshot, not a delta</text>
+
+              <rect x="688" y="44" width="248" height="90" rx="11" fill="#0f172a" stroke="#10b981" stroke-width="1.5"/>
+              <text x="812" y="76" text-anchor="middle" fill="#34d399" font-size="13" font-weight="700">CloudProvider · nodeDb</text>
+              <text x="812" y="98" text-anchor="middle" fill="#94a3b8" font-size="9.5" font-family="'JetBrains Mono', monospace">addOrUpdateNode()</text>
+
+              <line x1="274" y1="89" x2="348" y2="89" stroke="#22d3ee" stroke-width="1.6" marker-end="url(#suA)"/>
+              <line x1="612" y1="89" x2="686" y2="89" stroke="#22d3ee" stroke-width="1.6" marker-end="url(#suA)"/>
+
+              <text x="40" y="176" fill="#94a3b8" font-size="10" font-weight="600">Sent on six events:</text>
+              <g font-size="9" text-anchor="middle">
+                <rect x="40" y="186" width="180" height="26" rx="13" fill="#0f172a" stroke="#475569"/><text x="130" y="203" fill="#cbd5e1">initialization (register)</text>
+                <rect x="232" y="186" width="150" height="26" rx="13" fill="#0f172a" stroke="#475569"/><text x="307" y="203" fill="#cbd5e1">VM allocation accept</text>
+                <rect x="394" y="186" width="200" height="26" rx="13" fill="#0f172a" stroke="#475569"/><text x="494" y="203" fill="#cbd5e1">VM reject → uncommit</text>
+                <rect x="606" y="186" width="140" height="26" rx="13" fill="#0f172a" stroke="#475569"/><text x="676" y="203" fill="#cbd5e1">VM termination</text>
+                <rect x="758" y="186" width="160" height="26" rx="13" fill="#0f172a" stroke="#475569"/><text x="838" y="203" fill="#cbd5e1">extension reject</text>
+                <rect x="40" y="222" width="180" height="26" rx="13" fill="#0f172a" stroke="#475569"/><text x="130" y="239" fill="#cbd5e1">blade on/off (dynamic)</text>
+              </g>
+              <text x="600" y="240" text-anchor="middle" fill="#64748b" font-size="9.5">Event-driven, no heartbeat → the provider's view can lag reality between updates.</text>
+            </svg>
+            <figcaption class="text-sm text-slate-400 mt-4 text-center">Because updates are event-driven and carry absolute values, the provider stays <em>approximately</em> consistent — close enough for placement, but with a window where its numbers are stale.</figcaption>
+          </figure>
+
+          <h3 class="text-xl font-bold mb-4 text-red-300">The stale-state race</h3>
+          <p class="text-slate-300 mb-6 text-sm leading-relaxed">
+            Because the provider reserves cores <em>before</em> the DataCentre confirms, its view can drift from reality. A classic timeline (one DataCentre starting at 100 free cores):
+          </p>
+          <figure class="bg-slate-900/50 border border-slate-800 rounded-xl p-6">
+            <svg viewBox="0 0 960 360" class="w-full h-auto" font-family="Inter, system-ui, sans-serif" role="img" aria-label="Stale-state race condition timeline">
+              <!-- header -->
+              <text x="44" y="38" fill="#94a3b8" font-size="10" font-weight="700">t (ms)</text>
+              <text x="110" y="38" fill="#94a3b8" font-size="10" font-weight="700">event</text>
+              <text x="700" y="38" text-anchor="middle" fill="#22d3ee" font-size="10" font-weight="700">CP believes</text>
+              <text x="860" y="38" text-anchor="middle" fill="#c084fc" font-size="10" font-weight="700">DC real</text>
+              <line x1="40" y1="46" x2="920" y2="46" stroke="#334155" stroke-width="1"/>
+
+              <!-- rows -->
+              <g font-size="10.5">
+                <text x="44" y="74" fill="#cbd5e1" font-family="'JetBrains Mono', monospace">0</text><text x="110" y="74" fill="#cbd5e1">DC sends NodeUpdate(100)</text><text x="700" y="74" text-anchor="middle" fill="#64748b">—</text><text x="860" y="74" text-anchor="middle" fill="#c084fc">100</text>
+                <text x="44" y="104" fill="#cbd5e1" font-family="'JetBrains Mono', monospace">5</text><text x="110" y="104" fill="#cbd5e1">CP records availability</text><text x="700" y="104" text-anchor="middle" fill="#22d3ee">100</text><text x="860" y="104" text-anchor="middle" fill="#c084fc">100</text>
+                <text x="44" y="134" fill="#cbd5e1" font-family="'JetBrains Mono', monospace">6</text><text x="110" y="134" fill="#cbd5e1">User asks for 60 cores</text><text x="700" y="134" text-anchor="middle" fill="#22d3ee">100</text><text x="860" y="134" text-anchor="middle" fill="#c084fc">100</text>
+                <text x="44" y="164" fill="#cbd5e1" font-family="'JetBrains Mono', monospace">7</text><text x="110" y="164" fill="#cbd5e1">CP best-fit → subtract 60, forward</text><text x="700" y="164" text-anchor="middle" fill="#22d3ee" font-weight="700">40</text><text x="860" y="164" text-anchor="middle" fill="#c084fc">100</text>
+              </g>
+              <rect x="40" y="176" width="880" height="56" rx="6" fill="#ef4444" fill-opacity="0.08"/>
+              <g font-size="10.5">
+                <text x="44" y="196" fill="#cbd5e1" font-family="'JetBrains Mono', monospace">8</text><text x="110" y="196" fill="#cbd5e1">another source consumes 50 at DC</text><text x="700" y="196" text-anchor="middle" fill="#22d3ee" font-weight="700">40</text><text x="860" y="196" text-anchor="middle" fill="#c084fc" font-weight="700">50</text>
+                <text x="44" y="222" fill="#cbd5e1" font-family="'JetBrains Mono', monospace">12</text><text x="110" y="222" fill="#cbd5e1">req rejected (50&lt;60); DC NodeUpdate(50)</text><text x="700" y="222" text-anchor="middle" fill="#f87171" font-weight="700">40</text><text x="860" y="222" text-anchor="middle" fill="#c084fc" font-weight="700">50</text>
+              </g>
+              <g font-size="10.5">
+                <text x="44" y="258" fill="#cbd5e1" font-family="'JetBrains Mono', monospace">17</text><text x="110" y="258" fill="#cbd5e1">correction arrives → resynced</text><text x="700" y="258" text-anchor="middle" fill="#34d399" font-weight="700">50</text><text x="860" y="258" text-anchor="middle" fill="#34d399" font-weight="700">50</text>
+              </g>
+
+              <rect x="40" y="286" width="880" height="56" rx="9" fill="#1a0a0a" stroke="#ef4444" stroke-width="1.2"/>
+              <text x="480" y="308" text-anchor="middle" fill="#f87171" font-size="11" font-weight="700">Between t=8 and t=17 the provider believes 40 cores while 50 are actually free.</text>
+              <text x="480" y="326" text-anchor="middle" fill="#cbd5e1" font-size="10">It underestimates capacity and may wrongly reject or mis-route the next request.</text>
+            </svg>
+            <figcaption class="text-sm text-slate-400 mt-4 text-center">The optimistic subtraction (t=7) plus an unrelated allocation (t=8) leave the provider's <span class="text-cyan-400 font-medium">belief</span> out of step with <span class="text-purple-400 font-medium">reality</span> until the corrective NodeUpdate lands.</figcaption>
+          </figure>
+        </section>
+
+        <!-- Saturation & failures -->
+        <section class="mb-16">
+          <h2 class="text-3xl font-bold mb-6">Saturation: queues &amp; failure modes</h2>
+          <p class="text-slate-300 mb-6 leading-relaxed">
+            When every candidate is full, a user can <strong class="text-white">subscribe</strong> (<code class="text-pink-400">SM_VM_Sub</code>) and wait. The
+            provider queues the request with a timeout and retries it the moment capacity frees up.
+          </p>
+
+          <figure class="bg-slate-900/50 border border-slate-800 rounded-xl p-6 mb-8">
+            <svg viewBox="0 0 960 220" class="w-full h-auto" font-family="Inter, system-ui, sans-serif" role="img" aria-label="Subscription queue flow">
+              <defs>
+                <marker id="sbG" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto" markerUnits="strokeWidth"><path d="M0,0 L7,3 L0,6 Z" fill="#34d399"/></marker>
+                <marker id="sbR" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto" markerUnits="strokeWidth"><path d="M0,0 L7,3 L0,6 Z" fill="#ef4444"/></marker>
+                <marker id="sbS" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto" markerUnits="strokeWidth"><path d="M0,0 L7,3 L0,6 Z" fill="#64748b"/></marker>
+              </defs>
+
+              <rect x="24" y="74" width="150" height="64" rx="10" fill="#0f172a" stroke="#334155"/>
+              <text x="99" y="102" text-anchor="middle" fill="#e2e8f0" font-size="12" font-weight="700">User</text>
+              <text x="99" y="120" text-anchor="middle" fill="#64748b" font-size="9" font-family="'JetBrains Mono', monospace">SM_VM_Sub</text>
+
+              <rect x="220" y="52" width="250" height="108" rx="11" fill="#0f172a" stroke="#eab308" stroke-width="1.5"/>
+              <text x="345" y="84" text-anchor="middle" fill="#facc15" font-size="13" font-weight="700">Subscription queue</text>
+              <text x="345" y="104" text-anchor="middle" fill="#94a3b8" font-size="9.5">FIFO · per-request timeout</text>
+              <text x="345" y="121" text-anchor="middle" fill="#64748b" font-size="8.5" font-family="'JetBrains Mono', monospace">maxSubTime</text>
+              <text x="345" y="140" text-anchor="middle" fill="#64748b" font-size="8.5">(unbounded)</text>
+
+              <rect x="520" y="48" width="412" height="54" rx="10" fill="#06281c" stroke="#10b981"/>
+              <text x="726" y="70" text-anchor="middle" fill="#34d399" font-size="11" font-weight="700">on NodeUpdate (capacity ↑)</text>
+              <text x="726" y="88" text-anchor="middle" fill="#64748b" font-size="9">attemptDispatching — greedy: dispatch front while it fits</text>
+
+              <rect x="520" y="116" width="412" height="54" rx="10" fill="#1a0a0a" stroke="#ef4444"/>
+              <text x="726" y="138" text-anchor="middle" fill="#f87171" font-size="11" font-weight="700">on timeout</text>
+              <text x="726" y="156" text-anchor="middle" fill="#cbd5e1" font-size="9">SM_APP_Sub_Timeout → user abandons or retries</text>
+
+              <line x1="174" y1="106" x2="218" y2="106" stroke="#64748b" stroke-width="1.5" marker-end="url(#sbS)"/>
+              <text x="196" y="98" text-anchor="middle" fill="#94a3b8" font-size="8">enqueue</text>
+              <line x1="470" y1="92" x2="518" y2="80" stroke="#34d399" stroke-width="1.5" marker-end="url(#sbG)"/>
+              <line x1="470" y1="128" x2="518" y2="140" stroke="#ef4444" stroke-width="1.5" marker-end="url(#sbR)"/>
+
+              <text x="345" y="190" text-anchor="middle" fill="#64748b" font-size="9.5">Greedy dispatch maximises utilisation but can let early requests grab all freed capacity (a fairness caveat).</text>
+            </svg>
+            <figcaption class="text-sm text-slate-400 mt-4 text-center">Subscriptions turn a hard rejection into <em>delayed placement</em>: the request waits until a NodeUpdate reports room, or its <code class="text-cyan-400">maxSubTime</code> runs out.</figcaption>
+          </figure>
+
+          <h3 class="text-xl font-bold mb-4 text-red-300">Common failure modes</h3>
+          <div class="grid md:grid-cols-2 gap-4">
+            <div class="bg-slate-900/50 border-l-4 border-red-500 rounded-r-xl p-5">
+              <h4 class="font-bold text-white mb-1">State staleness &amp; double allocation</h4>
+              <p class="text-slate-300 text-sm">The provider's belief drifts from reality (see the race above). Symptoms: rejections despite "enough" capacity, or exhaustion despite "available". Mitigate with more frequent or periodic updates.</p>
+            </div>
+            <div class="bg-slate-900/50 border-l-4 border-amber-500 rounded-r-xl p-5">
+              <h4 class="font-bold text-white mb-1">Control-plane bottleneck</h4>
+              <p class="text-slate-300 text-sm">Every request funnels through one <code class="text-cyan-400">cpService</code>. Under load it saturates — rising end-to-end latency and growing queues <em>despite</em> free blades. Watch processing latency vs network latency.</p>
+            </div>
+            <div class="bg-slate-900/50 border-l-4 border-purple-500 rounded-r-xl p-5">
+              <h4 class="font-bold text-white mb-1">Zone misconfiguration</h4>
+              <p class="text-slate-300 text-sm">If <code class="text-cyan-400">defaultZone</code> names a zone with no registered DataCentres, <strong class="text-white">every</strong> request fails hard (the provider raises an error) — even if other zones are idle.</p>
+            </div>
+            <div class="bg-slate-900/50 border-l-4 border-blue-500 rounded-r-xl p-5">
+              <h4 class="font-bold text-white mb-1">NodeUpdate loss</h4>
+              <p class="text-slate-300 text-sm">Updates ride the Message Queue with no acknowledgement. A lost update leaves the provider <strong class="text-white">permanently stale</strong>; a periodic background refresh bounds the staleness window.</p>
             </div>
           </div>
         </section>
