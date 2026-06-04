@@ -43,33 +43,57 @@
   <div class="max-w-[1440px] mx-auto flex">
 
     <!-- SIDEBAR -->
-    <aside class="hidden lg:block w-72 h-[calc(100vh-76px)] sticky top-[76px] border-r border-slate-800 p-6 overflow-y-auto custom-scrollbar">
+        <aside class="hidden lg:block w-72 h-[calc(100vh-76px)] sticky top-[76px] border-r border-slate-800 p-6 overflow-y-auto custom-scrollbar">
       <div class="flex flex-col gap-6">
-        <nav class="flex flex-col gap-6">
+        <nav class="flex flex-col gap-5">
           <section>
             <h3 class="text-xs font-bold uppercase tracking-wider text-slate-400 mb-3 px-3">Core Concepts</h3>
             <ul class="flex flex-col gap-1">
               <li><a class="flex items-center gap-3 px-3 py-2 text-sm font-medium hover:bg-slate-800 rounded-lg transition" href="architecture.html"><span>🏗️</span>Architecture</a></li>
               <li><a class="flex items-center gap-3 px-3 py-2 text-sm font-medium hover:bg-slate-800 rounded-lg transition" href="fogNodes.html"><span>🌫️</span>Fog Nodes</a></li>
               <li><a class="flex items-center gap-3 px-3 py-2 text-sm font-medium hover:bg-slate-800 rounded-lg transition" href="iotDevices.html"><span>💡</span>IoT Devices</a></li>
-              <li><a class="flex items-center gap-3 px-3 py-2 text-sm font-medium text-cyan-400 bg-cyan-500/10 rounded-lg border-l-2 border-cyan-500" href="#"><span>🏢</span>DataCentre & Cloud</a></li>
-              <li><a class="flex items-center gap-3 px-3 py-2 text-sm font-medium hover:bg-slate-800 rounded-lg transition" href="edgeuser.html"><span>👤</span>EdgeUser & EdgeTile</a></li>
+              <li><a class="flex items-center gap-3 px-3 py-2 text-sm font-medium text-cyan-400 bg-cyan-500/10 rounded-lg border-l-2 border-cyan-500" href="#"><span>🏢</span>DataCentre &amp; Cloud</a></li>
+              <li><a class="flex items-center gap-3 px-3 py-2 text-sm font-medium hover:bg-slate-800 rounded-lg transition" href="edgeuser.html"><span>👤</span>EdgeUser &amp; EdgeTile</a></li>
             </ul>
           </section>
           <section>
-            <h3 class="text-xs font-bold uppercase tracking-wider text-slate-400 mb-3 px-3">Services & Networking</h3>
+            <h3 class="text-xs font-bold uppercase tracking-wider text-slate-400 mb-3 px-3">Services &amp; Networking</h3>
             <ul class="flex flex-col gap-1">
               <li><a class="flex items-center gap-3 px-3 py-2 text-sm font-medium hover:bg-slate-800 rounded-lg transition" href="dns.html"><span>🌐</span>DNS</a></li>
               <li><a class="flex items-center gap-3 px-3 py-2 text-sm font-medium hover:bg-slate-800 rounded-lg transition" href="messageQueue.html"><span>📨</span>Message Queue</a></li>
               <li><a class="flex items-center gap-3 px-3 py-2 text-sm font-medium hover:bg-slate-800 rounded-lg transition" href="queueClient.html"><span>🔌</span>Queue Client</a></li>
               <li><a class="flex items-center gap-3 px-3 py-2 text-sm font-medium hover:bg-slate-800 rounded-lg transition" href="appProxy.html"><span>🔀</span>AppProxy</a></li>
+              <li><a class="flex items-center gap-3 px-3 py-2 text-sm font-medium hover:bg-slate-800 rounded-lg transition" href="protocols.html"><span>🔗</span>Application Protocols</a></li>
+            </ul>
+          </section>
+          <section>
+            <h3 class="text-xs font-bold uppercase tracking-wider text-slate-400 mb-3 px-3">Orchestration &amp; Compute</h3>
+            <ul class="flex flex-col gap-1">
+              <li><a class="flex items-center gap-3 px-3 py-2 text-sm font-medium hover:bg-slate-800 rounded-lg transition" href="resourceManager.html"><span>⚖️</span>ResourceManager</a></li>
+              <li><a class="flex items-center gap-3 px-3 py-2 text-sm font-medium hover:bg-slate-800 rounded-lg transition" href="placement.html"><span>🎯</span>Placement Strategies</a></li>
+              <li><a class="flex items-center gap-3 px-3 py-2 text-sm font-medium hover:bg-slate-800 rounded-lg transition" href="dcManager.html"><span>♻️</span>DcManager &amp; VM lifecycle</a></li>
+            </ul>
+          </section>
+          <section>
+            <h3 class="text-xs font-bold uppercase tracking-wider text-slate-400 mb-3 px-3">Experiments &amp; Ops</h3>
+            <ul class="flex flex-col gap-1">
+              <li><a class="flex items-center gap-3 px-3 py-2 text-sm font-medium hover:bg-slate-800 rounded-lg transition" href="recipes.html"><span>🍳</span>Scenario Recipes</a></li>
+              <li><a class="flex items-center gap-3 px-3 py-2 text-sm font-medium hover:bg-slate-800 rounded-lg transition" href="workflow.html"><span>🧪</span>Experimental Workflow</a></li>
+              <li><a class="flex items-center gap-3 px-3 py-2 text-sm font-medium hover:bg-slate-800 rounded-lg transition" href="observability.html"><span>📈</span>Observability</a></li>
+              <li><a class="flex items-center gap-3 px-3 py-2 text-sm font-medium hover:bg-slate-800 rounded-lg transition" href="troubleshooting.html"><span>🩺</span>Troubleshooting</a></li>
+            </ul>
+          </section>
+          <section>
+            <h3 class="text-xs font-bold uppercase tracking-wider text-slate-400 mb-3 px-3">Reference</h3>
+            <ul class="flex flex-col gap-1">
+              <li><a class="flex items-center gap-3 px-3 py-2 text-sm font-medium hover:bg-slate-800 rounded-lg transition" href="msgCatalog.html"><span>📇</span>Message Catalog</a></li>
+              <li><a class="flex items-center gap-3 px-3 py-2 text-sm font-medium hover:bg-slate-800 rounded-lg transition" href="parameters.html"><span>🎛️</span>Parameters</a></li>
+              <li><a class="flex items-center gap-3 px-3 py-2 text-sm font-medium hover:bg-slate-800 rounded-lg transition" href="iniTemplates.html"><span>📄</span>INI Templates</a></li>
             </ul>
           </section>
         </nav>
         <div class="pt-6 border-t border-slate-800">
-          <a href="../documentation.html" class="text-sm text-slate-400 hover:text-cyan-400 transition flex items-center gap-2">
-            ← Back to Documentation
-          </a>
+          <a href="../documentation.html" class="text-sm text-slate-400 hover:text-cyan-400 transition flex items-center gap-2">← Back to Documentation</a>
         </div>
       </div>
     </aside>

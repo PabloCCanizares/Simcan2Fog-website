@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Experimental Workflow - Simcan2Fog Documentation</title>
+  <meta name="description" content="A research-grade experimental workflow for Simcan2Fog: variable control, metric hierarchy, parameter sweeps with deterministic seeds, traceable results organisation, and the scave→CSV→Python pipeline."/>
+  <meta name="keywords" content="experimental workflow, parameter sweep, seed management, reproducibility, metrics, scave, research, fog computing"/>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../css/tailwind.min.css">
+  <style>
+    .custom-scrollbar::-webkit-scrollbar { width: 6px; height: 6px; }
+    .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
+    .custom-scrollbar::-webkit-scrollbar-thumb { background: #334155; border-radius: 10px; }
+    .code-block { background: #1e293b; border: 1px solid #334155; }
+  </style>
+</head>
+<body class="bg-slate-950 text-slate-100 antialiased">
+
+  <div class="fixed w-full h-full top-0 left-0 -z-10 bg-gradient-to-b from-slate-900 via-slate-950 to-slate-900"></div>
+
+  <nav class="sticky top-0 z-50 w-full bg-slate-900/80 backdrop-blur-xl border-b border-slate-700/40">
+    <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+      <div class="flex items-center gap-3">
+        <div class="w-11 h-11 rounded-xl bg-gradient-to-br from-cyan-500 to-blue-600 flex items-center justify-center font-bold text-white text-2xl shadow-lg">S2F</div>
+        <span class="text-2xl font-semibold tracking-tight">Simcan2Fog</span>
+      </div>
+      <div class="hidden md:flex gap-8 font-medium">
+        <a href="../../index.html" class="hover:text-cyan-300 transition-colors">Home</a>
+        <a href="../../features.html" class="hover:text-cyan-300 transition-colors">Features</a>
+        <a href="../../comparison.html" class="hover:text-cyan-300 transition-colors">Comparison</a>
+        <a href="../tutorial.html" class="hover:text-cyan-300 transition-colors">Tutorial</a>
+        <a href="../documentation.html" class="text-cyan-300">Documentation</a>
+        <a href="../../publications.html" class="hover:text-cyan-300 transition-colors">Publications</a>
+      </div>
+    </div>
+  </nav>
+
+  <div class="max-w-[1440px] mx-auto flex">
+
+        <aside class="hidden lg:block w-72 h-[calc(100vh-76px)] sticky top-[76px] border-r border-slate-800 p-6 overflow-y-auto custom-scrollbar">
+      <div class="flex flex-col gap-6">
+        <nav class="flex flex-col gap-5">
+          <section>
+            <h3 class="text-xs font-bold uppercase tracking-wider text-slate-400 mb-3 px-3">Core Concepts</h3>
+            <ul class="flex flex-col gap-1">
+              <li><a class="flex items-center gap-3 px-3 py-2 text-sm font-medium hover:bg-slate-800 rounded-lg transition" href="architecture.html"><span>🏗️</span>Architecture</a></li>
+              <li><a class="flex items-center gap-3 px-3 py-2 text-sm font-medium hover:bg-slate-800 rounded-lg transition" href="fogNodes.html"><span>🌫️</span>Fog Nodes</a></li>
+              <li><a class="flex items-center gap-3 px-3 py-2 text-sm font-medium hover:bg-slate-800 rounded-lg transition" href="iotDevices.html"><span>💡</span>IoT Devices</a></li>
+              <li><a class="flex items-center gap-3 px-3 py-2 text-sm font-medium hover:bg-slate-800 rounded-lg transition" href="datacentre.html"><span>🏢</span>DataCentre &amp; Cloud</a></li>
+              <li><a class="flex items-center gap-3 px-3 py-2 text-sm font-medium hover:bg-slate-800 rounded-lg transition" href="edgeuser.html"><span>👤</span>EdgeUser &amp; EdgeTile</a></li>
+            </ul>
+          </section>
+          <section>
+            <h3 class="text-xs font-bold uppercase tracking-wider text-slate-400 mb-3 px-3">Services &amp; Networking</h3>
+            <ul class="flex flex-col gap-1">
+              <li><a class="flex items-center gap-3 px-3 py-2 text-sm font-medium hover:bg-slate-800 rounded-lg transition" href="dns.html"><span>🌐</span>DNS</a></li>
+              <li><a class="flex items-center gap-3 px-3 py-2 text-sm font-medium hover:bg-slate-800 rounded-lg transition" href="messageQueue.html"><span>📨</span>Message Queue</a></li>
+              <li><a class="flex items-center gap-3 px-3 py-2 text-sm font-medium hover:bg-slate-800 rounded-lg transition" href="queueClient.html"><span>🔌</span>Queue Client</a></li>
+              <li><a class="flex items-center gap-3 px-3 py-2 text-sm font-medium hover:bg-slate-800 rounded-lg transition" href="appProxy.html"><span>🔀</span>AppProxy</a></li>
+              <li><a class="flex items-center gap-3 px-3 py-2 text-sm font-medium hover:bg-slate-800 rounded-lg transition" href="protocols.html"><span>🔗</span>Application Protocols</a></li>
+            </ul>
+          </section>
+          <section>
+            <h3 class="text-xs font-bold uppercase tracking-wider text-slate-400 mb-3 px-3">Orchestration &amp; Compute</h3>
+            <ul class="flex flex-col gap-1">
+              <li><a class="flex items-center gap-3 px-3 py-2 text-sm font-medium hover:bg-slate-800 rounded-lg transition" href="resourceManager.html"><span>⚖️</span>ResourceManager</a></li>
+              <li><a class="flex items-center gap-3 px-3 py-2 text-sm font-medium hover:bg-slate-800 rounded-lg transition" href="placement.html"><span>🎯</span>Placement Strategies</a></li>
+              <li><a class="flex items-center gap-3 px-3 py-2 text-sm font-medium hover:bg-slate-800 rounded-lg transition" href="dcManager.html"><span>♻️</span>DcManager &amp; VM lifecycle</a></li>
+            </ul>
+          </section>
+          <section>
+            <h3 class="text-xs font-bold uppercase tracking-wider text-slate-400 mb-3 px-3">Experiments &amp; Ops</h3>
+            <ul class="flex flex-col gap-1">
+              <li><a class="flex items-center gap-3 px-3 py-2 text-sm font-medium hover:bg-slate-800 rounded-lg transition" href="recipes.html"><span>🍳</span>Scenario Recipes</a></li>
+              <li><a class="flex items-center gap-3 px-3 py-2 text-sm font-medium text-cyan-400 bg-cyan-500/10 rounded-lg border-l-2 border-cyan-500" href="#"><span>🧪</span>Experimental Workflow</a></li>
+              <li><a class="flex items-center gap-3 px-3 py-2 text-sm font-medium hover:bg-slate-800 rounded-lg transition" href="observability.html"><span>📈</span>Observability</a></li>
+              <li><a class="flex items-center gap-3 px-3 py-2 text-sm font-medium hover:bg-slate-800 rounded-lg transition" href="troubleshooting.html"><span>🩺</span>Troubleshooting</a></li>
+            </ul>
+          </section>
+          <section>
+            <h3 class="text-xs font-bold uppercase tracking-wider text-slate-400 mb-3 px-3">Reference</h3>
+            <ul class="flex flex-col gap-1">
+              <li><a class="flex items-center gap-3 px-3 py-2 text-sm font-medium hover:bg-slate-800 rounded-lg transition" href="msgCatalog.html"><span>📇</span>Message Catalog</a></li>
+              <li><a class="flex items-center gap-3 px-3 py-2 text-sm font-medium hover:bg-slate-800 rounded-lg transition" href="parameters.html"><span>🎛️</span>Parameters</a></li>
+              <li><a class="flex items-center gap-3 px-3 py-2 text-sm font-medium hover:bg-slate-800 rounded-lg transition" href="iniTemplates.html"><span>📄</span>INI Templates</a></li>
+            </ul>
+          </section>
+        </nav>
+        <div class="pt-6 border-t border-slate-800">
+          <a href="../documentation.html" class="text-sm text-slate-400 hover:text-cyan-400 transition flex items-center gap-2">← Back to Documentation</a>
+        </div>
+      </div>
+    </aside>
+
+    <main class="flex-1 min-w-0 p-6 lg:p-12 overflow-hidden">
+      <div class="max-w-4xl mx-auto">
+
+        <nav class="flex items-center gap-2 mb-8 text-sm text-slate-400 font-medium" aria-label="Breadcrumb">
+          <a href="../../index.html" class="hover:text-cyan-400 transition-colors">Home</a><span>›</span>
+          <a href="../documentation.html" class="hover:text-cyan-400 transition-colors">Documentation</a><span>›</span>
+          <span class="text-slate-100">Experimental Workflow</span>
+        </nav>
+
+        <div class="mb-12 border-b border-slate-800 pb-8">
+          <div class="flex items-center gap-3 mb-4">
+            <div class="w-14 h-14 rounded-xl bg-gradient-to-br from-purple-500/20 to-fuchsia-600/20 flex items-center justify-center text-3xl border border-purple-500/30">🧪</div>
+            <div>
+              <h1 class="text-4xl md:text-5xl font-black tracking-tight">Experimental Workflow</h1>
+              <p class="text-slate-400 mt-1">Research-grade method, end to end</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Loop -->
+        <section class="mb-16">
+          <h2 class="text-3xl font-bold mb-6">The experimental loop</h2>
+          <div class="bg-slate-900/50 border border-slate-800 rounded-xl p-6 mb-6">
+            <p class="text-slate-300 leading-relaxed">
+              A simulation earns scientific value through <strong class="text-white">controlled comparison</strong>, not isolated observation. The discipline:
+              change one factor at a time, repeat with independent seeds, and keep results traceable enough that a plot answers
+              <em>“which config, which params, which code, which seeds?”</em> in 30 seconds.
+            </p>
+          </div>
+          <figure class="bg-slate-900/50 border border-slate-800 rounded-xl p-6">
+            <svg viewBox="0 0 960 200" class="w-full h-auto" font-family="Inter, system-ui, sans-serif" role="img" aria-label="Experimental loop pipeline">
+              <defs><marker id="wfA" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto" markerUnits="strokeWidth"><path d="M0,0 L7,3 L0,6 Z" fill="#22d3ee"/></marker></defs>
+              <g>
+                <rect x="14" y="70" width="140" height="66" rx="10" fill="#0f172a" stroke="#22d3ee" stroke-width="1.4"/><text x="84" y="98" text-anchor="middle" fill="#22d3ee" font-size="11.5" font-weight="700">① Design</text><text x="84" y="115" text-anchor="middle" fill="#64748b" font-size="8.5">vars + metrics</text>
+                <rect x="170" y="70" width="140" height="66" rx="10" fill="#0f172a" stroke="#a855f7" stroke-width="1.4"/><text x="240" y="98" text-anchor="middle" fill="#c084fc" font-size="11.5" font-weight="700">② Sweep</text><text x="240" y="113" text-anchor="middle" fill="#64748b" font-size="8" font-family="'JetBrains Mono', monospace">${p} · seed-set</text>
+                <rect x="326" y="70" width="140" height="66" rx="10" fill="#0f172a" stroke="#334155"/><text x="396" y="98" text-anchor="middle" fill="#cbd5e1" font-size="11.5" font-weight="700">③ Run</text><text x="396" y="113" text-anchor="middle" fill="#64748b" font-size="8.5">Cmdenv batch</text>
+                <rect x="482" y="70" width="140" height="66" rx="10" fill="#0f172a" stroke="#334155"/><text x="552" y="98" text-anchor="middle" fill="#cbd5e1" font-size="11.5" font-weight="700">④ Organise</text><text x="552" y="113" text-anchor="middle" fill="#64748b" font-size="8" font-family="'JetBrains Mono', monospace">results/&lt;study&gt;/</text>
+                <rect x="638" y="70" width="140" height="66" rx="10" fill="#0f172a" stroke="#334155"/><text x="708" y="98" text-anchor="middle" fill="#cbd5e1" font-size="11.5" font-weight="700">⑤ Export</text><text x="708" y="113" text-anchor="middle" fill="#64748b" font-size="8.5">scave → CSV</text>
+                <rect x="794" y="70" width="152" height="66" rx="10" fill="#0c1f2b" stroke="#22d3ee" stroke-width="1.4"/><text x="870" y="98" text-anchor="middle" fill="#22d3ee" font-size="11.5" font-weight="700">⑥ Analyse</text><text x="870" y="113" text-anchor="middle" fill="#64748b" font-size="8.5">Python/R · CIs</text>
+              </g>
+              <g stroke="#22d3ee" stroke-width="1.5">
+                <line x1="154" y1="103" x2="168" y2="103" marker-end="url(#wfA)"/>
+                <line x1="310" y1="103" x2="324" y2="103" marker-end="url(#wfA)"/>
+                <line x1="466" y1="103" x2="480" y2="103" marker-end="url(#wfA)"/>
+                <line x1="622" y1="103" x2="636" y2="103" marker-end="url(#wfA)"/>
+                <line x1="778" y1="103" x2="792" y2="103" marker-end="url(#wfA)"/>
+              </g>
+              <path d="M870,70 C870,28 84,28 84,68" fill="none" stroke="#64748b" stroke-width="1.4" stroke-dasharray="5 4" marker-end="url(#wfA)"/>
+              <text x="477" y="24" text-anchor="middle" fill="#64748b" font-size="9">iterate — refine the question, not the noise</text>
+            </svg>
+            <figcaption class="text-sm text-slate-400 mt-4 text-center">Keep a one-file <strong class="text-slate-200">experiment dossier</strong> (question · factors · controls · seed policy · OMNeT++/INET/S2F versions) per study.</figcaption>
+          </figure>
+        </section>
+
+        <!-- Variables + metrics -->
+        <section class="mb-16">
+          <h2 class="text-3xl font-bold mb-6">Variables &amp; metric hierarchy</h2>
+          <div class="grid md:grid-cols-2 gap-6 mb-6">
+            <div class="bg-slate-900/50 border border-slate-800 rounded-xl p-6">
+              <h3 class="text-lg font-bold mb-3 text-purple-400">Control your variables</h3>
+              <ul class="space-y-2 text-slate-300 text-sm">
+                <li>• <strong class="text-white">Independent:</strong> what you change (placement, queue size, delay)</li>
+                <li>• <strong class="text-white">Controlled:</strong> held fixed (topology, load, seed policy, time limit)</li>
+                <li>• <strong class="text-white">Dependent:</strong> what you measure (latency, throughput, drops, utilisation)</li>
+                <li>• <strong class="text-white">Unit:</strong> one run = config + seed</li>
+              </ul>
+            </div>
+            <div class="bg-slate-900/50 border border-slate-800 rounded-xl p-6">
+              <h3 class="text-lg font-bold mb-3 text-cyan-400">Measure on purpose</h3>
+              <ul class="space-y-2 text-slate-300 text-sm">
+                <li>• <strong class="text-emerald-400">Primary:</strong> the decision metric (e.g. end-to-end latency)</li>
+                <li>• <strong class="text-cyan-400">Secondary:</strong> explain <em>why</em> (queue occupancy, CPU util.)</li>
+                <li>• <strong class="text-amber-400">Sanity:</strong> is the run comparable? (completed reqs, drops)</li>
+              </ul>
+            </div>
+          </div>
+        </section>
+
+        <!-- Seeds -->
+        <section class="mb-16">
+          <h2 class="text-3xl font-bold mb-6">Sweeps &amp; deterministic seeds</h2>
+          <p class="text-slate-300 mb-6">Iteration variables make the run count a Cartesian product; tie the seed to the repetition so repeats are <strong class="text-white">independent</strong> yet reproducible.</p>
+          <div class="code-block rounded-xl overflow-hidden">
+            <div class="px-4 py-3 bg-slate-800/50 border-b border-slate-700 text-xs font-mono text-slate-400">omnetpp.ini</div>
+            <pre class="p-5 text-sm font-mono overflow-x-auto custom-scrollbar"><span class="text-slate-500">[Sweep]</span>
+<span class="text-blue-400">extends</span> = Base
+<span class="text-blue-400">*.module.param</span>   = <span class="text-emerald-400">${p=10,20,40}</span>     <span class="text-slate-500"># factor 1 (3 values)</span>
+<span class="text-blue-400">*.ctrl.strategy</span>  = <span class="text-emerald-400">${s="A","B"}</span>     <span class="text-slate-500"># factor 2 (2 values) → 6 combos</span>
+
+<span class="text-blue-400">repeat</span>   = <span class="text-pink-400">5</span>
+<span class="text-blue-400">seed-set</span> = <span class="text-emerald-400">${repetition}</span>          <span class="text-slate-500"># seeds 0..4 → 30 runs total</span>
+<span class="text-blue-400">output-dir</span> = <span class="text-emerald-400">results/${configname}</span>  <span class="text-slate-500"># keep runs separated</span></pre>
+          </div>
+          <p class="text-amber-300/90 text-sm mt-4">⚠️ A fixed <code class="text-cyan-400">seed-set</code> across all repeats reuses the same RNG stream — repetitions become identical and variance estimates are meaningless.</p>
+        </section>
+
+        <!-- Organisation -->
+        <section class="mb-16">
+          <h2 class="text-3xl font-bold mb-6">Traceable results</h2>
+          <div class="grid md:grid-cols-2 gap-6">
+            <div class="code-block rounded-xl overflow-hidden">
+              <div class="px-4 py-3 bg-slate-800/50 border-b border-slate-700 text-xs font-mono text-slate-400">results/</div>
+              <pre class="p-5 text-sm font-mono overflow-x-auto custom-scrollbar"><span class="text-cyan-400">2026-01-18-placement-study/</span>
+  README.txt   <span class="text-slate-500"># the dossier</span>
+  ini/         <span class="text-slate-500"># exact INI snapshot</span>
+  anf/         <span class="text-slate-500"># scave recipes</span>
+  raw/         <span class="text-slate-500"># .sca/.vec/.log</span>
+  export/      <span class="text-slate-500"># CSV</span>
+  plots/       <span class="text-slate-500"># figures</span></pre>
+            </div>
+            <div class="bg-slate-900/50 border border-slate-800 rounded-xl p-6">
+              <h4 class="font-bold text-white mb-3">Traceability minimums</h4>
+              <ul class="space-y-2 text-slate-300 text-sm">
+                <li>• Config path + section name</li>
+                <li>• Simcan2Fog commit / tag + INET/OMNeT++ versions</li>
+                <li>• <code class="text-cyan-400">repeat</code> + <code class="text-cyan-400">seed-set</code> policy</li>
+                <li>• The full swept-parameter list (copy from INI)</li>
+                <li>• <code class="text-cyan-400">.anf</code> kept beside the CSV/plots</li>
+              </ul>
+              <p class="text-slate-400 text-sm mt-3">Pipeline: <code class="text-cyan-400 text-xs">.sca/.vec → scave → CSV → Python/R</code></p>
+            </div>
+          </div>
+        </section>
+
+        <!-- Bias checklist -->
+        <section class="mb-16">
+          <h2 class="text-3xl font-bold mb-6">Bias checklist</h2>
+          <p class="text-slate-300 mb-6">Most “bad results” are workflow errors, not simulator bugs.</p>
+          <div class="overflow-x-auto"><table class="w-full text-sm border-collapse">
+            <thead><tr class="bg-slate-800/50 border-b border-slate-700"><th class="text-left p-3 font-bold text-cyan-400">Symptom</th><th class="text-left p-3 font-bold text-cyan-400">Likely cause</th><th class="text-left p-3 font-bold text-cyan-400">First fix</th></tr></thead>
+            <tbody class="text-slate-300">
+              <tr class="border-b border-slate-800"><td class="p-3">Huge variance across runs</td><td class="p-3">Too few repeats; uncontrolled randomness</td><td class="p-3">↑ <code class="text-cyan-400">repeat</code>; lock controls; document seeds</td></tr>
+              <tr class="border-b border-slate-800"><td class="p-3">No meaningful differences</td><td class="p-3">Confounded factor; wrong metric; saturated</td><td class="p-3">Check sanity metrics; verify the factor applied</td></tr>
+              <tr class="border-b border-slate-800"><td class="p-3">Result explosion (GBs)</td><td class="p-3">Vectors/logging everywhere</td><td class="p-3">Record only what you study; aggregate to scalars</td></tr>
+              <tr class="border-b border-slate-800"><td class="p-3">Comparisons not fair</td><td class="p-3">Different load/topology/time limit</td><td class="p-3">One <code class="text-cyan-400">extends</code> base; change one factor</td></tr>
+              <tr class="border-b border-slate-800"><td class="p-3">Not reproducible</td><td class="p-3">Implicit code/INI/NEDPATH changes</td><td class="p-3">Snapshot INIs; pin versions &amp; commits</td></tr>
+            </tbody>
+          </table></div>
+          <div class="mt-6 bg-slate-900/50 border-l-4 border-cyan-500 rounded-r-xl p-5">
+            <p class="text-slate-300 text-sm"><strong class="text-white">Final ritual</strong> — before trusting any plot: the factor values were applied, the run count matches the sweep, the primary metric is computed identically across configs, and at least one sanity metric is comparable.</p>
+          </div>
+        </section>
+
+        <!-- Reference -->
+        <section class="p-8 rounded-2xl bg-cyan-500/5 border border-cyan-500/20 mb-16">
+          <div class="flex gap-6">
+            <div class="hidden sm:flex shrink-0 w-12 h-12 items-center justify-center rounded-full bg-cyan-500 text-white text-2xl">📚</div>
+            <div>
+              <h3 class="text-2xl font-bold mb-3">Learn More</h3>
+              <p class="text-slate-400 mb-6 leading-relaxed">The workflow rests on what you record and the scenarios you start from.</p>
+              <div class="flex flex-wrap gap-4">
+                <a href="observability.html" class="inline-flex items-center gap-2 font-bold text-cyan-400 hover:text-cyan-300 transition">Observability →</a>
+                <a href="recipes.html" class="inline-flex items-center gap-2 font-bold text-cyan-400 hover:text-cyan-300 transition">Scenario Recipes →</a>
+                <a href="iniTemplates.html" class="inline-flex items-center gap-2 font-bold text-cyan-400 hover:text-cyan-300 transition">INI Templates →</a>
+              </div>
+            </div>
+          </div>
+        </section>
+
+      </div>
+    </main>
+  </div>
+
+  <footer class="bg-slate-950 border-t border-slate-800 py-12 text-slate-400 text-center">
+    <div class="max-w-7xl mx-auto px-6">
+      <p class="text-lg">© 2026 Simcan2Fog • Open Source Fog Computing Simulation Framework</p>
+      <p class="mt-2">Built with OMNeT++ 6.3.0 &amp; INET 4.5.4 • Licensed under GPL-3.0</p>
+      <div class="mt-8 flex justify-center gap-12 text-sm">
+        <a href="https://github.com/UlyssesDeAguilar/Simcan2Fog" class="hover:text-cyan-400">GitHub</a>
+        <a href="https://ulyssesdeaguilar.github.io/s2f-ned-docs/" class="hover:text-cyan-400">Documentation</a>
+        <a href="https://github.com/UlyssesDeAguilar/Simcan2Fog/releases" class="hover:text-cyan-400">Releases</a>
+        <a href="https://www.sciencedirect.com/science/article/pii/S2352711025003905" class="hover:text-cyan-400">Paper</a>
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>

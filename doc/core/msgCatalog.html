@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Message Catalog - Simcan2Fog Documentation</title>
+  <meta name="description" content="Simcan2Fog message catalog (.msg): SIMCAN_Message hierarchy, INET_AppMessage wrapper, VM/app deployment, syscalls, DNS, RESTful, IoT and blockchain message types with operation codes."/>
+  <meta name="keywords" content="message catalog, SIMCAN_Message, INET_AppMessage, SM_UserVM, operation codes, .msg, fog computing"/>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../css/tailwind.min.css">
+  <style>
+    .custom-scrollbar::-webkit-scrollbar { width: 6px; height: 6px; }
+    .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
+    .custom-scrollbar::-webkit-scrollbar-thumb { background: #334155; border-radius: 10px; }
+    .code-block { background: #1e293b; border: 1px solid #334155; }
+  </style>
+</head>
+<body class="bg-slate-950 text-slate-100 antialiased">
+
+  <div class="fixed w-full h-full top-0 left-0 -z-10 bg-gradient-to-b from-slate-900 via-slate-950 to-slate-900"></div>
+
+  <nav class="sticky top-0 z-50 w-full bg-slate-900/80 backdrop-blur-xl border-b border-slate-700/40">
+    <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+      <div class="flex items-center gap-3">
+        <div class="w-11 h-11 rounded-xl bg-gradient-to-br from-cyan-500 to-blue-600 flex items-center justify-center font-bold text-white text-2xl shadow-lg">S2F</div>
+        <span class="text-2xl font-semibold tracking-tight">Simcan2Fog</span>
+      </div>
+      <div class="hidden md:flex gap-8 font-medium">
+        <a href="../../index.html" class="hover:text-cyan-300 transition-colors">Home</a>
+        <a href="../../features.html" class="hover:text-cyan-300 transition-colors">Features</a>
+        <a href="../../comparison.html" class="hover:text-cyan-300 transition-colors">Comparison</a>
+        <a href="../tutorial.html" class="hover:text-cyan-300 transition-colors">Tutorial</a>
+        <a href="../documentation.html" class="text-cyan-300">Documentation</a>
+        <a href="../../publications.html" class="hover:text-cyan-300 transition-colors">Publications</a>
+      </div>
+    </div>
+  </nav>
+
+  <div class="max-w-[1440px] mx-auto flex">
+
+        <aside class="hidden lg:block w-72 h-[calc(100vh-76px)] sticky top-[76px] border-r border-slate-800 p-6 overflow-y-auto custom-scrollbar">
+      <div class="flex flex-col gap-6">
+        <nav class="flex flex-col gap-5">
+          <section>
+            <h3 class="text-xs font-bold uppercase tracking-wider text-slate-400 mb-3 px-3">Core Concepts</h3>
+            <ul class="flex flex-col gap-1">
+              <li><a class="flex items-center gap-3 px-3 py-2 text-sm font-medium hover:bg-slate-800 rounded-lg transition" href="architecture.html"><span>🏗️</span>Architecture</a></li>
+              <li><a class="flex items-center gap-3 px-3 py-2 text-sm font-medium hover:bg-slate-800 rounded-lg transition" href="fogNodes.html"><span>🌫️</span>Fog Nodes</a></li>
+              <li><a class="flex items-center gap-3 px-3 py-2 text-sm font-medium hover:bg-slate-800 rounded-lg transition" href="iotDevices.html"><span>💡</span>IoT Devices</a></li>
+              <li><a class="flex items-center gap-3 px-3 py-2 text-sm font-medium hover:bg-slate-800 rounded-lg transition" href="datacentre.html"><span>🏢</span>DataCentre &amp; Cloud</a></li>
+              <li><a class="flex items-center gap-3 px-3 py-2 text-sm font-medium hover:bg-slate-800 rounded-lg transition" href="edgeuser.html"><span>👤</span>EdgeUser &amp; EdgeTile</a></li>
+            </ul>
+          </section>
+          <section>
+            <h3 class="text-xs font-bold uppercase tracking-wider text-slate-400 mb-3 px-3">Services &amp; Networking</h3>
+            <ul class="flex flex-col gap-1">
+              <li><a class="flex items-center gap-3 px-3 py-2 text-sm font-medium hover:bg-slate-800 rounded-lg transition" href="dns.html"><span>🌐</span>DNS</a></li>
+              <li><a class="flex items-center gap-3 px-3 py-2 text-sm font-medium hover:bg-slate-800 rounded-lg transition" href="messageQueue.html"><span>📨</span>Message Queue</a></li>
+              <li><a class="flex items-center gap-3 px-3 py-2 text-sm font-medium hover:bg-slate-800 rounded-lg transition" href="queueClient.html"><span>🔌</span>Queue Client</a></li>
+              <li><a class="flex items-center gap-3 px-3 py-2 text-sm font-medium hover:bg-slate-800 rounded-lg transition" href="appProxy.html"><span>🔀</span>AppProxy</a></li>
+              <li><a class="flex items-center gap-3 px-3 py-2 text-sm font-medium hover:bg-slate-800 rounded-lg transition" href="protocols.html"><span>🔗</span>Application Protocols</a></li>
+            </ul>
+          </section>
+          <section>
+            <h3 class="text-xs font-bold uppercase tracking-wider text-slate-400 mb-3 px-3">Orchestration &amp; Compute</h3>
+            <ul class="flex flex-col gap-1">
+              <li><a class="flex items-center gap-3 px-3 py-2 text-sm font-medium hover:bg-slate-800 rounded-lg transition" href="resourceManager.html"><span>⚖️</span>ResourceManager</a></li>
+              <li><a class="flex items-center gap-3 px-3 py-2 text-sm font-medium hover:bg-slate-800 rounded-lg transition" href="placement.html"><span>🎯</span>Placement Strategies</a></li>
+              <li><a class="flex items-center gap-3 px-3 py-2 text-sm font-medium hover:bg-slate-800 rounded-lg transition" href="dcManager.html"><span>♻️</span>DcManager &amp; VM lifecycle</a></li>
+            </ul>
+          </section>
+          <section>
+            <h3 class="text-xs font-bold uppercase tracking-wider text-slate-400 mb-3 px-3">Experiments &amp; Ops</h3>
+            <ul class="flex flex-col gap-1">
+              <li><a class="flex items-center gap-3 px-3 py-2 text-sm font-medium hover:bg-slate-800 rounded-lg transition" href="recipes.html"><span>🍳</span>Scenario Recipes</a></li>
+              <li><a class="flex items-center gap-3 px-3 py-2 text-sm font-medium hover:bg-slate-800 rounded-lg transition" href="workflow.html"><span>🧪</span>Experimental Workflow</a></li>
+              <li><a class="flex items-center gap-3 px-3 py-2 text-sm font-medium hover:bg-slate-800 rounded-lg transition" href="observability.html"><span>📈</span>Observability</a></li>
+              <li><a class="flex items-center gap-3 px-3 py-2 text-sm font-medium hover:bg-slate-800 rounded-lg transition" href="troubleshooting.html"><span>🩺</span>Troubleshooting</a></li>
+            </ul>
+          </section>
+          <section>
+            <h3 class="text-xs font-bold uppercase tracking-wider text-slate-400 mb-3 px-3">Reference</h3>
+            <ul class="flex flex-col gap-1">
+              <li><a class="flex items-center gap-3 px-3 py-2 text-sm font-medium text-cyan-400 bg-cyan-500/10 rounded-lg border-l-2 border-cyan-500" href="#"><span>📇</span>Message Catalog</a></li>
+              <li><a class="flex items-center gap-3 px-3 py-2 text-sm font-medium hover:bg-slate-800 rounded-lg transition" href="parameters.html"><span>🎛️</span>Parameters</a></li>
+              <li><a class="flex items-center gap-3 px-3 py-2 text-sm font-medium hover:bg-slate-800 rounded-lg transition" href="iniTemplates.html"><span>📄</span>INI Templates</a></li>
+            </ul>
+          </section>
+        </nav>
+        <div class="pt-6 border-t border-slate-800">
+          <a href="../documentation.html" class="text-sm text-slate-400 hover:text-cyan-400 transition flex items-center gap-2">← Back to Documentation</a>
+        </div>
+      </div>
+    </aside>
+
+    <main class="flex-1 min-w-0 p-6 lg:p-12 overflow-hidden">
+      <div class="max-w-4xl mx-auto">
+
+        <nav class="flex items-center gap-2 mb-8 text-sm text-slate-400 font-medium" aria-label="Breadcrumb">
+          <a href="../../index.html" class="hover:text-cyan-400 transition-colors">Home</a><span>›</span>
+          <a href="../documentation.html" class="hover:text-cyan-400 transition-colors">Documentation</a><span>›</span>
+          <span class="text-slate-100">Message Catalog</span>
+        </nav>
+
+        <div class="mb-12 border-b border-slate-800 pb-8">
+          <div class="flex items-center gap-3 mb-4">
+            <div class="w-14 h-14 rounded-xl bg-gradient-to-br from-pink-500/20 to-rose-600/20 flex items-center justify-center text-3xl border border-pink-500/30">📇</div>
+            <div>
+              <h1 class="text-4xl md:text-5xl font-black tracking-tight">Message Catalog</h1>
+              <p class="text-slate-400 mt-1">The typed <code class="text-pink-400 text-2xl">.msg</code> vocabulary</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Overview -->
+        <section class="mb-16">
+          <h2 class="text-3xl font-bold mb-6">Two message families</h2>
+          <div class="bg-slate-900/50 border border-slate-800 rounded-xl p-6 mb-6">
+            <p class="text-slate-300 leading-relaxed">
+              Every interaction in Simcan2Fog is a <strong class="text-white">typed message</strong> declared in an OMNeT++ <code class="text-pink-400">.msg</code> file
+              (≈47 types). Internal traffic descends from <code class="text-cyan-400">SIMCAN_Message</code>; network protocols (DNS, REST, IoT, blockchain) extend
+              INET's <code class="text-emerald-400">FieldsChunk</code>. An <code class="text-purple-400">INET_AppMessage</code> wrapper bridges the two so SIMCAN
+              traffic can ride the real network stack.
+            </p>
+          </div>
+          <figure class="bg-slate-900/50 border border-slate-800 rounded-xl p-6">
+            <svg viewBox="0 0 960 320" class="w-full h-auto" font-family="Inter, system-ui, sans-serif" role="img" aria-label="Message inheritance hierarchy">
+              <defs>
+                <marker id="mcA" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto" markerUnits="strokeWidth"><path d="M0,0 L7,3 L0,6 Z" fill="#64748b"/></marker>
+                <marker id="mcP" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto" markerUnits="strokeWidth"><path d="M0,0 L7,3 L0,6 Z" fill="#a855f7"/></marker>
+              </defs>
+              <!-- internal family -->
+              <rect x="20" y="30" width="200" height="44" rx="9" fill="#0f172a" stroke="#475569"/><text x="120" y="50" text-anchor="middle" fill="#cbd5e1" font-size="11" font-family="'JetBrains Mono', monospace">omnetpp::cPacket</text><text x="120" y="65" text-anchor="middle" fill="#64748b" font-size="8">OMNeT++ base</text>
+              <line x1="120" y1="74" x2="120" y2="96" stroke="#64748b" stroke-width="1.4" marker-end="url(#mcA)"/>
+              <rect x="20" y="98" width="200" height="58" rx="9" fill="#0c1f2b" stroke="#22d3ee" stroke-width="1.6"/><text x="120" y="120" text-anchor="middle" fill="#22d3ee" font-size="12" font-weight="700" font-family="'JetBrains Mono', monospace">SIMCAN_Message</text><text x="120" y="137" text-anchor="middle" fill="#94a3b8" font-size="8">operation · isResponse · result</text><text x="120" y="149" text-anchor="middle" fill="#64748b" font-size="8">trace[ ] · destination/returnTopic</text>
+              <line x1="120" y1="156" x2="120" y2="180" stroke="#64748b" stroke-width="1.4" marker-end="url(#mcA)"/>
+              <rect x="14" y="182" width="212" height="118" rx="9" fill="#0f172a" stroke="#334155"/><text x="120" y="202" text-anchor="middle" fill="#7dd3fc" font-size="9.5" font-weight="700">internal SM_ messages</text>
+              <g font-size="8.5" fill="#cbd5e1" font-family="'JetBrains Mono', monospace" text-anchor="middle">
+                <text x="120" y="222">SM_UserVM · SM_UserAPP</text>
+                <text x="120" y="240">SM_VmExtend · SM_AppSettings</text>
+                <text x="120" y="258">Syscall · DiskSyscall</text>
+                <text x="120" y="276">SM_CPU_Message · InnerRequest</text>
+                <text x="120" y="294">NodeUpdate (SM_Node_Update)</text>
+              </g>
+
+              <!-- bridge -->
+              <rect x="290" y="100" width="200" height="80" rx="11" fill="#1a1430" stroke="#a855f7" stroke-width="1.6"/>
+              <text x="390" y="128" text-anchor="middle" fill="#c084fc" font-size="12" font-weight="700" font-family="'JetBrains Mono', monospace">INET_AppMessage</text>
+              <text x="390" y="146" text-anchor="middle" fill="#94a3b8" font-size="8.5">wraps a SIMCAN_Message</text>
+              <text x="390" y="162" text-anchor="middle" fill="#64748b" font-size="8">so it can ride TCP/IP (20-byte chunk)</text>
+              <line x1="226" y1="127" x2="288" y2="127" stroke="#a855f7" stroke-width="1.5" marker-end="url(#mcP)"/>
+              <text x="258" y="119" text-anchor="middle" fill="#94a3b8" font-size="8">wrap</text>
+              <line x1="490" y1="140" x2="552" y2="140" stroke="#a855f7" stroke-width="1.5" marker-end="url(#mcP)"/>
+              <text x="521" y="132" text-anchor="middle" fill="#94a3b8" font-size="8">network</text>
+
+              <!-- network family -->
+              <rect x="556" y="30" width="220" height="44" rx="9" fill="#0f172a" stroke="#475569"/><text x="666" y="50" text-anchor="middle" fill="#cbd5e1" font-size="11" font-family="'JetBrains Mono', monospace">inet::FieldsChunk</text><text x="666" y="65" text-anchor="middle" fill="#64748b" font-size="8">INET packet base</text>
+              <line x1="666" y1="74" x2="666" y2="96" stroke="#64748b" stroke-width="1.4" marker-end="url(#mcA)"/>
+              <rect x="554" y="98" width="224" height="64" rx="9" fill="#06281c" stroke="#10b981" stroke-width="1.4"/><text x="666" y="120" text-anchor="middle" fill="#34d399" font-size="10" font-weight="700">network-protocol messages</text><text x="666" y="138" text-anchor="middle" fill="#94a3b8" font-size="8" font-family="'JetBrains Mono', monospace">DnsRequest · RestMsg</text><text x="666" y="152" text-anchor="middle" fill="#94a3b8" font-size="8" font-family="'JetBrains Mono', monospace">RestfulRequest/Response · IotPayload</text>
+              <rect x="554" y="172" width="224" height="62" rx="9" fill="#0f172a" stroke="#334155"/><text x="666" y="192" text-anchor="middle" fill="#cbd5e1" font-size="9" font-weight="700">blockchain (PoW) suite</text><text x="666" y="210" text-anchor="middle" fill="#64748b" font-size="8" font-family="'JetBrains Mono', monospace">Version · Inv · Block · Tx</text><text x="666" y="224" text-anchor="middle" fill="#64748b" font-size="8" font-family="'JetBrains Mono', monospace">CmpctBlock · MerkleBlock · PingPong</text>
+
+              <text x="810" y="120" text-anchor="middle" fill="#64748b" font-size="9" transform="rotate(90 810 120)">bypass SIMCAN</text>
+            </svg>
+            <figcaption class="text-sm text-slate-400 mt-4 text-center">The <span class="text-cyan-400 font-medium">SIMCAN_Message</span> base carries operation codes, the request/response flag, and a per-hop <code class="text-cyan-400">trace[]</code> for debugging. Protocol messages stay close to INET so they interoperate with packet dissection.</figcaption>
+          </figure>
+        </section>
+
+        <!-- Operation codes -->
+        <section class="mb-16">
+          <h2 class="text-3xl font-bold mb-6">Key operation &amp; result codes</h2>
+          <p class="text-slate-300 mb-6">The <code class="text-cyan-400">operation</code> field uses symbolic constants from <code class="text-pink-400">SIMCAN_types.h</code> (≈500–1005). Responses set <code class="text-cyan-400">isResponse=true</code> and a <code class="text-cyan-400">result</code> code.</p>
+          <div class="grid md:grid-cols-3 gap-4">
+            <div class="bg-slate-900/50 border border-slate-800 rounded-xl p-5">
+              <h4 class="font-bold text-cyan-400 mb-2">VM &amp; app</h4>
+              <ul class="space-y-1 text-slate-300 text-sm font-mono">
+                <li>SM_VM_Req <span class="text-slate-500">= 500</span></li>
+                <li>SM_VM_Sub <span class="text-slate-500">= 502</span></li>
+                <li>SM_APP_Req</li>
+                <li>SM_ExtensionOffer</li>
+              </ul>
+            </div>
+            <div class="bg-slate-900/50 border border-slate-800 rounded-xl p-5">
+              <h4 class="font-bold text-emerald-400 mb-2">Results</h4>
+              <ul class="space-y-1 text-slate-300 text-sm font-mono">
+                <li>SM_VM_Res_Accept <span class="text-slate-500">10001</span></li>
+                <li>SM_VM_Res_Reject <span class="text-slate-500">10002</span></li>
+                <li>SM_APP_Sub_Timeout</li>
+                <li>SM_Node_Update</li>
+              </ul>
+            </div>
+            <div class="bg-slate-900/50 border border-slate-800 rounded-xl p-5">
+              <h4 class="font-bold text-purple-400 mb-2">Queue &amp; REST</h4>
+              <ul class="space-y-1 text-slate-300 text-sm font-mono">
+                <li>SM_QueueAck <span class="text-slate-500">= 100</span></li>
+                <li>verbs: GET/POST/PUT…</li>
+                <li>OK 200 · NOT_FOUND 403</li>
+                <li>INTERNAL_ERROR 503</li>
+              </ul>
+            </div>
+          </div>
+        </section>
+
+        <!-- Tables -->
+        <section class="mb-16">
+          <h2 class="text-3xl font-bold mb-6">By domain</h2>
+
+          <h3 class="text-xl font-bold mb-3 text-cyan-400">VM &amp; application deployment</h3>
+          <div class="overflow-x-auto mb-8"><table class="w-full text-sm border-collapse">
+            <thead><tr class="bg-slate-800/50 border-b border-slate-700"><th class="text-left p-3 font-bold text-cyan-400">Message</th><th class="text-left p-3 font-bold text-cyan-400">Parent</th><th class="text-left p-3 font-bold text-cyan-400">Use case</th></tr></thead>
+            <tbody class="text-slate-300">
+              <tr class="border-b border-slate-800"><td class="p-3 font-mono text-pink-300">SM_UserVM</td><td class="p-3 font-mono text-xs">SIMCAN_Message</td><td class="p-3">VM deployment request (array of VM_Request)</td></tr>
+              <tr class="border-b border-slate-800"><td class="p-3 font-mono text-pink-300">SM_UserVM_Cost</td><td class="p-3 font-mono text-xs">SM_UserVM</td><td class="p-3">Economic / billing modelling</td></tr>
+              <tr class="border-b border-slate-800"><td class="p-3 font-mono text-pink-300">SM_UserAPP</td><td class="p-3 font-mono text-xs">SIMCAN_Message</td><td class="p-3">Application process deployment in a VM</td></tr>
+              <tr class="border-b border-slate-800"><td class="p-3 font-mono text-pink-300">SM_AppSettings</td><td class="p-3 font-mono text-xs">SIMCAN_Message</td><td class="p-3">Key-value app configuration</td></tr>
+              <tr class="border-b border-slate-800"><td class="p-3 font-mono text-pink-300">SM_VmExtend</td><td class="p-3 font-mono text-xs">SIMCAN_Message</td><td class="p-3">Vertical scaling / rental extension</td></tr>
+              <tr class="border-b border-slate-800"><td class="p-3 font-mono text-pink-300">NodeUpdate</td><td class="p-3 font-mono text-xs">SIMCAN_Message</td><td class="p-3">DataCentre → CloudProvider capacity sync</td></tr>
+            </tbody>
+          </table></div>
+
+          <h3 class="text-xl font-bold mb-3 text-emerald-400">System calls &amp; compute</h3>
+          <div class="overflow-x-auto mb-8"><table class="w-full text-sm border-collapse">
+            <thead><tr class="bg-slate-800/50 border-b border-slate-700"><th class="text-left p-3 font-bold text-cyan-400">Message</th><th class="text-left p-3 font-bold text-cyan-400">Parent</th><th class="text-left p-3 font-bold text-cyan-400">Use case</th></tr></thead>
+            <tbody class="text-slate-300">
+              <tr class="border-b border-slate-800"><td class="p-3 font-mono text-pink-300">Syscall</td><td class="p-3 font-mono text-xs">SIMCAN_Message</td><td class="p-3">READ/WRITE/EXEC/SEND/RECV/RESOLVE…</td></tr>
+              <tr class="border-b border-slate-800"><td class="p-3 font-mono text-pink-300">DiskSyscall</td><td class="p-3 font-mono text-xs">Syscall</td><td class="p-3">Storage I/O (bufferSize, abortIOs)</td></tr>
+              <tr class="border-b border-slate-800"><td class="p-3 font-mono text-pink-300">SM_CPU_Message</td><td class="p-3 font-mono text-xs">SIMCAN_Message</td><td class="p-3">CPU work (instructions, cpuTime, coreId)</td></tr>
+            </tbody>
+          </table></div>
+
+          <h3 class="text-xl font-bold mb-3 text-purple-400">DNS &amp; RESTful</h3>
+          <div class="overflow-x-auto mb-8"><table class="w-full text-sm border-collapse">
+            <thead><tr class="bg-slate-800/50 border-b border-slate-700"><th class="text-left p-3 font-bold text-cyan-400">Message</th><th class="text-left p-3 font-bold text-cyan-400">Parent</th><th class="text-left p-3 font-bold text-cyan-400">Use case</th></tr></thead>
+            <tbody class="text-slate-300">
+              <tr class="border-b border-slate-800"><td class="p-3 font-mono text-pink-300">DnsRequest</td><td class="p-3 font-mono text-xs">FieldsChunk</td><td class="p-3">DNS query / response (questions + records)</td></tr>
+              <tr class="border-b border-slate-800"><td class="p-3 font-mono text-pink-300">DnsRegistrationRequest</td><td class="p-3 font-mono text-xs">cMessage</td><td class="p-3">Dynamic service registration (REST :443)</td></tr>
+              <tr class="border-b border-slate-800"><td class="p-3 font-mono text-pink-300">RestfulRequest</td><td class="p-3 font-mono text-xs">RestMsg</td><td class="p-3">HTTP-style request (verb, host, path)</td></tr>
+              <tr class="border-b border-slate-800"><td class="p-3 font-mono text-pink-300">RestfulResponse</td><td class="p-3 font-mono text-xs">RestMsg</td><td class="p-3">HTTP-style response (statusCode)</td></tr>
+              <tr class="border-b border-slate-800"><td class="p-3 font-mono text-pink-300">ProxyServiceRequest</td><td class="p-3 font-mono text-xs">cMessage</td><td class="p-3">AppProxy service-table (register/route)</td></tr>
+            </tbody>
+          </table></div>
+
+          <h3 class="text-xl font-bold mb-3 text-amber-400">IoT, P2P &amp; blockchain</h3>
+          <div class="overflow-x-auto"><table class="w-full text-sm border-collapse">
+            <thead><tr class="bg-slate-800/50 border-b border-slate-700"><th class="text-left p-3 font-bold text-cyan-400">Message</th><th class="text-left p-3 font-bold text-cyan-400">Parent</th><th class="text-left p-3 font-bold text-cyan-400">Use case</th></tr></thead>
+            <tbody class="text-slate-300">
+              <tr class="border-b border-slate-800"><td class="p-3 font-mono text-pink-300">IotPayload</td><td class="p-3 font-mono text-xs">FieldsChunk</td><td class="p-3">Sensor reading (tag, value, unit)</td></tr>
+              <tr class="border-b border-slate-800"><td class="p-3 font-mono text-pink-300">IotCommand</td><td class="p-3 font-mono text-xs">FieldsChunk</td><td class="p-3">Actuator control (powerState…)</td></tr>
+              <tr class="border-b border-slate-800"><td class="p-3 font-mono text-pink-300">InnerRequest</td><td class="p-3 font-mono text-xs">SIMCAN_Message</td><td class="p-3">App-layer P2P requests</td></tr>
+              <tr class="border-b border-slate-800"><td class="p-3 font-mono text-pink-300">Block · Tx · Inv …</td><td class="p-3 font-mono text-xs">FieldsChunk</td><td class="p-3">Bitcoin-style PoW protocol (15 types)</td></tr>
+            </tbody>
+          </table></div>
+        </section>
+
+        <!-- Extending -->
+        <section class="mb-16">
+          <h2 class="text-3xl font-bold mb-6">Extending the catalogue</h2>
+          <p class="text-slate-300 mb-6">Custom protocols subclass an existing message — inheriting routing &amp; tracing for free. Use the <code class="text-cyan-400">SM_</code> prefix and extend <code class="text-emerald-400">FieldsChunk</code> instead when the type must interoperate with INET.</p>
+          <div class="code-block rounded-xl overflow-hidden">
+            <div class="px-4 py-3 bg-slate-800/50 border-b border-slate-700 text-xs font-mono text-slate-400">MyMessage.msg</div>
+            <pre class="p-5 text-sm font-mono overflow-x-auto custom-scrollbar"><span class="text-blue-400">import</span> s2f.messages.SIMCAN_Message;
+
+<span class="text-blue-400">message</span> <span class="text-cyan-400">SM_FederatedLearning</span> <span class="text-blue-400">extends</span> SIMCAN_Message {
+  <span class="text-blue-400">int</span> roundNumber;
+  <span class="text-blue-400">double</span> modelWeights[];
+  <span class="text-blue-400">double</span> accuracy;
+  <span class="text-blue-400">string</span> aggregatorAddress;
+}</pre>
+          </div>
+          <p class="text-slate-400 text-sm mt-4">💡 In Qtenv, right-click a message to inspect every field — including the <code class="text-cyan-400">trace[]</code> path through the topology, the fastest way to diagnose routing bugs.</p>
+        </section>
+
+        <!-- Reference -->
+        <section class="p-8 rounded-2xl bg-cyan-500/5 border border-cyan-500/20 mb-16">
+          <div class="flex gap-6">
+            <div class="hidden sm:flex shrink-0 w-12 h-12 items-center justify-center rounded-full bg-cyan-500 text-white text-2xl">📚</div>
+            <div>
+              <h3 class="text-2xl font-bold mb-3">Learn More</h3>
+              <p class="text-slate-400 mb-6 leading-relaxed">These messages flow over the Message Queue and the application protocols.</p>
+              <div class="flex flex-wrap gap-4">
+                <a href="messageQueue.html" class="inline-flex items-center gap-2 font-bold text-cyan-400 hover:text-cyan-300 transition">Message Queue →</a>
+                <a href="protocols.html" class="inline-flex items-center gap-2 font-bold text-cyan-400 hover:text-cyan-300 transition">Application Protocols →</a>
+                <a href="parameters.html" class="inline-flex items-center gap-2 font-bold text-cyan-400 hover:text-cyan-300 transition">Parameters →</a>
+              </div>
+            </div>
+          </div>
+        </section>
+
+      </div>
+    </main>
+  </div>
+
+  <footer class="bg-slate-950 border-t border-slate-800 py-12 text-slate-400 text-center">
+    <div class="max-w-7xl mx-auto px-6">
+      <p class="text-lg">© 2026 Simcan2Fog • Open Source Fog Computing Simulation Framework</p>
+      <p class="mt-2">Built with OMNeT++ 6.3.0 &amp; INET 4.5.4 • Licensed under GPL-3.0</p>
+      <div class="mt-8 flex justify-center gap-12 text-sm">
+        <a href="https://github.com/UlyssesDeAguilar/Simcan2Fog" class="hover:text-cyan-400">GitHub</a>
+        <a href="https://ulyssesdeaguilar.github.io/s2f-ned-docs/" class="hover:text-cyan-400">Documentation</a>
+        <a href="https://github.com/UlyssesDeAguilar/Simcan2Fog/releases" class="hover:text-cyan-400">Releases</a>
+        <a href="https://www.sciencedirect.com/science/article/pii/S2352711025003905" class="hover:text-cyan-400">Paper</a>
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>

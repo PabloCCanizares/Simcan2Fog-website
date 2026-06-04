@@ -44,34 +44,57 @@
   <div class="max-w-[1440px] mx-auto flex">
 
     <!-- SIDEBAR -->
-    <aside class="hidden lg:block w-72 h-[calc(100vh-76px)] sticky top-[76px] border-r border-slate-800 p-6 overflow-y-auto custom-scrollbar">
+        <aside class="hidden lg:block w-72 h-[calc(100vh-76px)] sticky top-[76px] border-r border-slate-800 p-6 overflow-y-auto custom-scrollbar">
       <div class="flex flex-col gap-6">
-        <nav class="flex flex-col gap-6">
+        <nav class="flex flex-col gap-5">
           <section>
             <h3 class="text-xs font-bold uppercase tracking-wider text-slate-400 mb-3 px-3">Core Concepts</h3>
             <ul class="flex flex-col gap-1">
               <li><a class="flex items-center gap-3 px-3 py-2 text-sm font-medium text-cyan-400 bg-cyan-500/10 rounded-lg border-l-2 border-cyan-500" href="#"><span>🏗️</span>Architecture</a></li>
               <li><a class="flex items-center gap-3 px-3 py-2 text-sm font-medium hover:bg-slate-800 rounded-lg transition" href="fogNodes.html"><span>🌫️</span>Fog Nodes</a></li>
               <li><a class="flex items-center gap-3 px-3 py-2 text-sm font-medium hover:bg-slate-800 rounded-lg transition" href="iotDevices.html"><span>💡</span>IoT Devices</a></li>
-              <li><a class="flex items-center gap-3 px-3 py-2 text-sm font-medium hover:bg-slate-800 rounded-lg transition" href="datacentre.html"><span>🏢</span>DataCentre & Cloud</a></li>
-              <li><a class="flex items-center gap-3 px-3 py-2 text-sm font-medium hover:bg-slate-800 rounded-lg transition" href="edgeuser.html"><span>👤</span>EdgeUser & EdgeTile</a></li>
+              <li><a class="flex items-center gap-3 px-3 py-2 text-sm font-medium hover:bg-slate-800 rounded-lg transition" href="datacentre.html"><span>🏢</span>DataCentre &amp; Cloud</a></li>
+              <li><a class="flex items-center gap-3 px-3 py-2 text-sm font-medium hover:bg-slate-800 rounded-lg transition" href="edgeuser.html"><span>👤</span>EdgeUser &amp; EdgeTile</a></li>
             </ul>
           </section>
           <section>
-            <h3 class="text-xs font-bold uppercase tracking-wider text-slate-400 mb-3 px-3">Services & Networking</h3>
+            <h3 class="text-xs font-bold uppercase tracking-wider text-slate-400 mb-3 px-3">Services &amp; Networking</h3>
             <ul class="flex flex-col gap-1">
               <li><a class="flex items-center gap-3 px-3 py-2 text-sm font-medium hover:bg-slate-800 rounded-lg transition" href="dns.html"><span>🌐</span>DNS</a></li>
               <li><a class="flex items-center gap-3 px-3 py-2 text-sm font-medium hover:bg-slate-800 rounded-lg transition" href="messageQueue.html"><span>📨</span>Message Queue</a></li>
               <li><a class="flex items-center gap-3 px-3 py-2 text-sm font-medium hover:bg-slate-800 rounded-lg transition" href="queueClient.html"><span>🔌</span>Queue Client</a></li>
               <li><a class="flex items-center gap-3 px-3 py-2 text-sm font-medium hover:bg-slate-800 rounded-lg transition" href="appProxy.html"><span>🔀</span>AppProxy</a></li>
+              <li><a class="flex items-center gap-3 px-3 py-2 text-sm font-medium hover:bg-slate-800 rounded-lg transition" href="protocols.html"><span>🔗</span>Application Protocols</a></li>
+            </ul>
+          </section>
+          <section>
+            <h3 class="text-xs font-bold uppercase tracking-wider text-slate-400 mb-3 px-3">Orchestration &amp; Compute</h3>
+            <ul class="flex flex-col gap-1">
+              <li><a class="flex items-center gap-3 px-3 py-2 text-sm font-medium hover:bg-slate-800 rounded-lg transition" href="resourceManager.html"><span>⚖️</span>ResourceManager</a></li>
+              <li><a class="flex items-center gap-3 px-3 py-2 text-sm font-medium hover:bg-slate-800 rounded-lg transition" href="placement.html"><span>🎯</span>Placement Strategies</a></li>
+              <li><a class="flex items-center gap-3 px-3 py-2 text-sm font-medium hover:bg-slate-800 rounded-lg transition" href="dcManager.html"><span>♻️</span>DcManager &amp; VM lifecycle</a></li>
+            </ul>
+          </section>
+          <section>
+            <h3 class="text-xs font-bold uppercase tracking-wider text-slate-400 mb-3 px-3">Experiments &amp; Ops</h3>
+            <ul class="flex flex-col gap-1">
+              <li><a class="flex items-center gap-3 px-3 py-2 text-sm font-medium hover:bg-slate-800 rounded-lg transition" href="recipes.html"><span>🍳</span>Scenario Recipes</a></li>
+              <li><a class="flex items-center gap-3 px-3 py-2 text-sm font-medium hover:bg-slate-800 rounded-lg transition" href="workflow.html"><span>🧪</span>Experimental Workflow</a></li>
+              <li><a class="flex items-center gap-3 px-3 py-2 text-sm font-medium hover:bg-slate-800 rounded-lg transition" href="observability.html"><span>📈</span>Observability</a></li>
+              <li><a class="flex items-center gap-3 px-3 py-2 text-sm font-medium hover:bg-slate-800 rounded-lg transition" href="troubleshooting.html"><span>🩺</span>Troubleshooting</a></li>
+            </ul>
+          </section>
+          <section>
+            <h3 class="text-xs font-bold uppercase tracking-wider text-slate-400 mb-3 px-3">Reference</h3>
+            <ul class="flex flex-col gap-1">
+              <li><a class="flex items-center gap-3 px-3 py-2 text-sm font-medium hover:bg-slate-800 rounded-lg transition" href="msgCatalog.html"><span>📇</span>Message Catalog</a></li>
+              <li><a class="flex items-center gap-3 px-3 py-2 text-sm font-medium hover:bg-slate-800 rounded-lg transition" href="parameters.html"><span>🎛️</span>Parameters</a></li>
+              <li><a class="flex items-center gap-3 px-3 py-2 text-sm font-medium hover:bg-slate-800 rounded-lg transition" href="iniTemplates.html"><span>📄</span>INI Templates</a></li>
             </ul>
           </section>
         </nav>
-
         <div class="pt-6 border-t border-slate-800">
-          <a href="../documentation.html" class="text-sm text-slate-400 hover:text-cyan-400 transition flex items-center gap-2">
-            ← Back to Documentation
-          </a>
+          <a href="../documentation.html" class="text-sm text-slate-400 hover:text-cyan-400 transition flex items-center gap-2">← Back to Documentation</a>
         </div>
       </div>
     </aside>
@@ -471,6 +494,147 @@
               <li>• <strong class="text-white">MX records:</strong> Mail exchange routing</li>
               <li>• <strong class="text-white">Recursive resolver:</strong> With caching for improved performance</li>
             </ul>
+          </div>
+        </section>
+
+        <!-- Central services: how they fit together -->
+        <section class="mb-16">
+          <h2 class="text-3xl font-bold mb-6">Central Services: How They Fit Together</h2>
+          <p class="text-slate-300 mb-6 leading-relaxed">
+            The central services are the glue that makes a large scenario behave like a fog <em>platform</em> rather than a pile of
+            independent nodes. They cleanly separate <strong class="text-white">how messages move</strong> from
+            <strong class="text-white">what the application means</strong> — covering discovery &amp; naming, application steering,
+            and asynchronous coordination.
+          </p>
+
+          <figure class="bg-slate-900/50 border border-slate-800 rounded-xl p-6 mb-8">
+            <svg viewBox="0 0 960 290" class="w-full h-auto" font-family="Inter, system-ui, sans-serif" role="img" aria-label="Interaction map between central services and compute nodes">
+              <defs>
+                <marker id="arA" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto" markerUnits="strokeWidth"><path d="M0,0 L7,3 L0,6 Z" fill="#22d3ee"/></marker>
+                <marker id="arG" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto" markerUnits="strokeWidth"><path d="M0,0 L7,3 L0,6 Z" fill="#64748b"/></marker>
+              </defs>
+              <!-- sync nodes -->
+              <rect x="16" y="46" width="124" height="48" rx="10" fill="#0c1f2b" stroke="#22d3ee" stroke-width="1.3"/><text x="78" y="68" text-anchor="middle" fill="#22d3ee" font-size="11.5" font-weight="700">EdgeUser</text><text x="78" y="83" text-anchor="middle" fill="#64748b" font-size="8.5">client</text>
+              <rect x="200" y="46" width="130" height="48" rx="10" fill="#0f172a" stroke="#334155"/><text x="265" y="68" text-anchor="middle" fill="#cbd5e1" font-size="11.5" font-weight="700">DNS</text><text x="265" y="83" text-anchor="middle" fill="#64748b" font-size="8.5">naming · optional</text>
+              <rect x="390" y="46" width="130" height="48" rx="10" fill="#0f172a" stroke="#a855f7" stroke-width="1.2"/><text x="455" y="68" text-anchor="middle" fill="#c084fc" font-size="11.5" font-weight="700">AppProxy</text><text x="455" y="83" text-anchor="middle" fill="#64748b" font-size="8.5">steering</text>
+              <rect x="390" y="120" width="130" height="42" rx="10" fill="#0f172a" stroke="#334155" stroke-dasharray="4 3"/><text x="455" y="138" text-anchor="middle" fill="#cbd5e1" font-size="10.5" font-weight="600">ServiceTable</text><text x="455" y="152" text-anchor="middle" fill="#64748b" font-size="8">local directory</text>
+              <rect x="600" y="24" width="150" height="44" rx="10" fill="#0c1f2b" stroke="#22d3ee" stroke-width="1.1"/><text x="675" y="50" text-anchor="middle" fill="#e2e8f0" font-size="10.5" font-weight="600">FogNode / Edge</text>
+              <rect x="600" y="80" width="150" height="44" rx="10" fill="#0c1828" stroke="#3b82f6" stroke-width="1.1"/><text x="675" y="106" text-anchor="middle" fill="#e2e8f0" font-size="10.5" font-weight="600">DataCentre / Cloud</text>
+              <!-- sync arrows -->
+              <g stroke="#22d3ee" stroke-width="1.5">
+                <line x1="140" y1="70" x2="198" y2="70" marker-end="url(#arA)"/>
+                <line x1="330" y1="70" x2="388" y2="70" marker-end="url(#arA)"/>
+                <line x1="520" y1="62" x2="598" y2="46" marker-end="url(#arA)"/>
+                <line x1="520" y1="78" x2="598" y2="102" marker-end="url(#arA)"/>
+              </g>
+              <line x1="455" y1="94" x2="455" y2="118" stroke="#64748b" stroke-width="1.2" stroke-dasharray="3 3" marker-end="url(#arG)"/>
+              <text x="234" y="62" text-anchor="middle" fill="#94a3b8" font-size="8">by name</text>
+              <text x="360" y="62" text-anchor="middle" fill="#94a3b8" font-size="8">IP / endpoint</text>
+              <text x="490" y="111" text-anchor="middle" fill="#64748b" font-size="8">consults</text>
+              <!-- response arc -->
+              <path d="M675,22 C675,2 78,2 78,44" fill="none" stroke="#64748b" stroke-width="1.3" stroke-dasharray="5 4" marker-end="url(#arG)"/>
+              <text x="377" y="14" text-anchor="middle" fill="#64748b" font-size="8.5">response → back to client</text>
+              <!-- async strip -->
+              <line x1="16" y1="192" x2="944" y2="192" stroke="#1e293b" stroke-width="1"/>
+              <text x="20" y="186" fill="#475569" font-size="9" font-weight="600">ASYNCHRONOUS PATH — enabled per scenario</text>
+              <rect x="16" y="214" width="118" height="44" rx="9" fill="#0f172a" stroke="#334155"/><text x="75" y="240" text-anchor="middle" fill="#cbd5e1" font-size="10" font-weight="600">Producer</text>
+              <rect x="184" y="214" width="128" height="44" rx="9" fill="#0f172a" stroke="#f472b6" stroke-width="1.1"/><text x="248" y="236" text-anchor="middle" fill="#f9a8d4" font-size="10" font-weight="600">QueueClient</text><text x="248" y="249" text-anchor="middle" fill="#64748b" font-size="7.5">nodeTopic</text>
+              <rect x="362" y="214" width="160" height="44" rx="9" fill="#1f1320" stroke="#f472b6" stroke-width="1.3"/><text x="442" y="236" text-anchor="middle" fill="#f9a8d4" font-size="10.5" font-weight="700">MessageQueue · SMQ</text><text x="442" y="249" text-anchor="middle" fill="#64748b" font-size="7.5">push 8444 · pull 8443</text>
+              <rect x="572" y="214" width="128" height="44" rx="9" fill="#0f172a" stroke="#f472b6" stroke-width="1.1"/><text x="636" y="240" text-anchor="middle" fill="#f9a8d4" font-size="10" font-weight="600">QueueClient</text>
+              <rect x="750" y="214" width="118" height="44" rx="9" fill="#0f172a" stroke="#334155"/><text x="809" y="240" text-anchor="middle" fill="#cbd5e1" font-size="10" font-weight="600">Consumer</text>
+              <g stroke="#f472b6" stroke-width="1.4">
+                <line x1="134" y1="236" x2="182" y2="236" marker-end="url(#arA)"/>
+                <line x1="312" y1="236" x2="360" y2="236" marker-end="url(#arA)"/>
+                <line x1="522" y1="236" x2="570" y2="236" marker-end="url(#arA)"/>
+                <line x1="700" y1="236" x2="748" y2="236" marker-end="url(#arA)"/>
+              </g>
+            </svg>
+            <figcaption class="text-sm text-slate-400 mt-4 text-center">Synchronous steering (top) decoupled from asynchronous, topic-based delivery (bottom). The exact gates and message types live in each component's page.</figcaption>
+          </figure>
+
+          <!-- Roles table -->
+          <h3 class="text-xl font-bold mb-4">Who is responsible for what</h3>
+          <div class="overflow-x-auto mb-8"><table class="w-full text-sm border-collapse">
+            <thead><tr class="bg-slate-800/50 border-b border-slate-700"><th class="text-left p-3 font-bold text-cyan-400">Component</th><th class="text-left p-3 font-bold text-cyan-400">Primary responsibility</th><th class="text-left p-3 font-bold text-cyan-400">Symptom when misconfigured</th></tr></thead>
+            <tbody class="text-slate-300">
+              <tr class="border-b border-slate-800"><td class="p-3 font-mono text-cyan-300 whitespace-nowrap">DNS</td><td class="p-3">Resolve logical names consistently within a TTL policy</td><td class="p-3 text-slate-400">“Name doesn’t resolve”, stale mapping</td></tr>
+              <tr class="border-b border-slate-800"><td class="p-3 font-mono text-cyan-300 whitespace-nowrap">ServiceTable</td><td class="p-3">Local directory: what “a service exists here” means</td><td class="p-3 text-slate-400">“Service Not Found”, dead endpoints</td></tr>
+              <tr class="border-b border-slate-800"><td class="p-3 font-mono text-cyan-300 whitespace-nowrap">AppProxy</td><td class="p-3">Steer traffic to the right endpoint (local vs remote)</td><td class="p-3 text-slate-400">Requests black-hole, never reach compute</td></tr>
+              <tr class="border-b border-slate-800"><td class="p-3 font-mono text-cyan-300 whitespace-nowrap">MessageQueue</td><td class="p-3">Decouple sender/receiver; buffer burstiness</td><td class="p-3 text-slate-400">Drops under burst, stuck consumers</td></tr>
+              <tr class="border-b border-slate-800"><td class="p-3 font-mono text-cyan-300 whitespace-nowrap">QueueClient</td><td class="p-3">Node-side connect, retry, subscribe / publish</td><td class="p-3 text-slate-400">Retry loops, replies can’t return</td></tr>
+            </tbody>
+          </table></div>
+
+          <!-- Startup ladder -->
+          <h3 class="text-xl font-bold mb-4">Start-up order = debugging ladder</h3>
+          <p class="text-slate-300 mb-5">Don’t assume “everything starts at <code class="text-cyan-400">t=0</code>”. Bring services up one layer at a time — each step removes one degree of freedom.</p>
+          <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+            <div class="bg-slate-900/50 border border-slate-800 rounded-xl p-5"><div class="text-cyan-400 font-bold text-sm mb-1">① Baseline</div><p class="text-xs text-slate-400">Explicit endpoints, no discovery. Proves request/response works. <span class="text-slate-500">Fails → topology / routing / proxy.</span></p></div>
+            <div class="bg-slate-900/50 border border-slate-800 rounded-xl p-5"><div class="text-cyan-400 font-bold text-sm mb-1">② + DNS</div><p class="text-xs text-slate-400">Requests by name succeed; caching doesn’t hide updates. <span class="text-slate-500">Fails → DNS / naming.</span></p></div>
+            <div class="bg-slate-900/50 border border-slate-800 rounded-xl p-5"><div class="text-cyan-400 font-bold text-sm mb-1">③ + ServiceTable</div><p class="text-xs text-slate-400">Proxy routes to dynamically deployed services. <span class="text-slate-500">Fails → directory update path.</span></p></div>
+            <div class="bg-slate-900/50 border border-slate-800 rounded-xl p-5"><div class="text-cyan-400 font-bold text-sm mb-1">④ + SMQ</div><p class="text-xs text-slate-400">Async flows under steady &amp; bursty load. <span class="text-slate-500">Fails → QueueClient / capacity.</span></p></div>
+          </div>
+
+          <!-- Planes -->
+          <h3 class="text-xl font-bold mb-4">Control plane vs data plane</h3>
+          <div class="grid md:grid-cols-2 gap-6">
+            <div class="bg-slate-900/50 border border-slate-800 rounded-xl p-6">
+              <h4 class="font-bold text-amber-400 mb-2">Control plane (coordination)</h4>
+              <ul class="space-y-1.5 text-sm text-slate-300"><li>• Name resolution &amp; cache management (DNS)</li><li>• Service presence / endpoint updates (ServiceTable)</li><li>• Subscriptions, retries, housekeeping (QueueClient ↔ SMQ)</li></ul>
+            </div>
+            <div class="bg-slate-900/50 border border-slate-800 rounded-xl p-6">
+              <h4 class="font-bold text-emerald-400 mb-2">Data plane (payload)</h4>
+              <ul class="space-y-1.5 text-sm text-slate-300"><li>• Client requests &amp; responses (REST-like)</li><li>• Internal forwarding done by the proxy</li><li>• Work-triggering messages that run compute</li></ul>
+            </div>
+          </div>
+          <p class="text-amber-300/90 text-sm mt-4">⚠️ Mixing planes silently skews results — when you report end-to-end latency, state whether it includes name resolution, proxy processing, compute, and the return path.</p>
+        </section>
+
+        <!-- INET network stack -->
+        <section class="mb-16">
+          <h2 class="text-3xl font-bold mb-6">The INET Network Stack</h2>
+          <p class="text-slate-300 mb-6 leading-relaxed">
+            Above the logical platform, every entity still has to <em>exchange packets</em>. Simcan2Fog leans on
+            <strong class="text-white">INET</strong> for the “physics” of connectivity — addressing, routing, link layers, and
+            packet delivery — wrapped into two reusable building blocks.
+          </p>
+
+          <div class="grid md:grid-cols-2 gap-6 mb-8">
+            <div class="bg-slate-900/50 border border-slate-800 rounded-xl p-6">
+              <h3 class="text-lg font-bold mb-2 text-cyan-400">🖥️ NetworkStack</h3>
+              <p class="text-sm text-slate-300">The end-host bundle: INET host networking (interfaces, IPv4, ARP) plus a <code class="text-cyan-400">QueueClient</code> bound by <code class="text-cyan-400">nodeTopic = fullName()</code>. What edge devices and compute users use to reach the queue and the rest of the system.</p>
+            </div>
+            <div class="bg-slate-900/50 border border-slate-800 rounded-xl p-6">
+              <h3 class="text-lg font-bold mb-2 text-purple-400">🔁 RoutingNetworkStack</h3>
+              <p class="text-sm text-slate-300">The forwarding-capable variant: adds IP routing/forwarding state so a node can relay packets between segments and tiers — used where traffic must cross from edge to fog to cloud.</p>
+            </div>
+          </div>
+
+          <h3 class="text-xl font-bold mb-4">What “connectivity” actually requires</h3>
+          <p class="text-slate-300 mb-5">Most “the simulator is broken” reports are really one missing layer. Debug by following the stack in order:</p>
+          <div class="flex flex-wrap items-center gap-2 mb-8 text-sm">
+            <span class="px-3 py-1.5 rounded-lg bg-slate-800 border border-slate-700 font-mono text-cyan-300">① Address</span>
+            <span class="text-slate-600">→</span>
+            <span class="px-3 py-1.5 rounded-lg bg-slate-800 border border-slate-700 font-mono text-cyan-300">② Route</span>
+            <span class="text-slate-600">→</span>
+            <span class="px-3 py-1.5 rounded-lg bg-slate-800 border border-slate-700 font-mono text-cyan-300">③ ARP / L2</span>
+            <span class="text-slate-600">→</span>
+            <span class="px-3 py-1.5 rounded-lg bg-slate-800 border border-slate-700 font-mono text-cyan-300">④ Transport</span>
+            <span class="text-slate-600">→</span>
+            <span class="px-3 py-1.5 rounded-lg bg-slate-800 border border-slate-700 font-mono text-cyan-300">⑤ Wireless assoc. (if any)</span>
+          </div>
+
+          <div class="overflow-x-auto mb-6"><table class="w-full text-sm border-collapse">
+            <thead><tr class="bg-slate-800/50 border-b border-slate-700"><th class="text-left p-3 font-bold text-cyan-400">Symptom</th><th class="text-left p-3 font-bold text-cyan-400">Most likely cause</th><th class="text-left p-3 font-bold text-cyan-400">First checks</th></tr></thead>
+            <tbody class="text-slate-300">
+              <tr class="border-b border-slate-800"><td class="p-3">No packets leave the sender</td><td class="p-3">App not generating; socket unbound; wrong destination</td><td class="p-3 text-slate-400">Traffic gen enabled? Does the app schedule sends?</td></tr>
+              <tr class="border-b border-slate-800"><td class="p-3">Packets leave, never arrive</td><td class="p-3">No route, wrong subnet, miswired gates/links</td><td class="p-3 text-slate-400">Routing tables; NED connections; Eventlog last hop</td></tr>
+              <tr class="border-b border-slate-800"><td class="p-3">ARP never resolves</td><td class="p-3">L2 mismatch, no shared medium, wrong interface</td><td class="p-3 text-slate-400">Interfaces &amp; link types; ARP module; Eventlog ARP</td></tr>
+              <tr class="border-b border-slate-800"><td class="p-3">Only one direction works</td><td class="p-3">Missing reverse route, asymmetric config</td><td class="p-3 text-slate-400">Verify routes both ways; trace the return path</td></tr>
+            </tbody>
+          </table></div>
+          <div class="bg-slate-900/50 border-l-4 border-cyan-500 rounded-r-xl p-5">
+            <p class="text-slate-300 text-sm"><strong class="text-white">Minimal drill</strong> for any new topology: confirm addresses → confirm forward &amp; reverse routes → trace one packet in the Eventlog → note the last module that handled it. If it stops <em>before</em> IP routing, suspect L2 (ARP/link); if <em>after</em>, suspect transport or app logic.</p>
           </div>
         </section>
 
