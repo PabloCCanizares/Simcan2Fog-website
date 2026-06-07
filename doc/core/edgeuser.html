@@ -151,6 +151,42 @@
         <!-- Gate Interfaces -->
         <section class="mb-16">
           <h2 class="text-3xl font-bold mb-6">Gate Interfaces</h2>
+          <p class="text-slate-300 mb-6 leading-relaxed">EdgeUser exposes <strong class="text-white">four gates</strong> reflecting its dual role — a <strong class="text-emerald-400">cloud path</strong> (TCP/IP through a NetworkStack + message queue) and a <strong class="text-purple-400">local path</strong> (a lightweight serial link to the controller). The two are fully independent: a cloud outage never blocks the local control loop.</p>
+
+          <figure class="bg-slate-900/50 border border-slate-800 rounded-xl p-6 mb-8">
+            <svg viewBox="0 0 960 230" class="w-full h-auto" font-family="Inter, system-ui, sans-serif" role="img" aria-label="EdgeUser dual-socket architecture: cloud path and local path">
+              <defs>
+                <marker id="euG" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto" markerUnits="strokeWidth"><path d="M0,0 L6,3 L0,6 Z" fill="#34d399"/></marker>
+                <marker id="euP" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto" markerUnits="strokeWidth"><path d="M0,0 L6,3 L0,6 Z" fill="#a855f7"/></marker>
+              </defs>
+              <text x="240" y="30" text-anchor="middle" fill="#34d399" font-size="10" font-weight="700">CLOUD PATH — TCP/IP via Message Queue</text>
+              <text x="742" y="30" text-anchor="middle" fill="#c084fc" font-size="10" font-weight="700">LOCAL PATH — serial, no TCP</text>
+              <line x1="566" y1="44" x2="566" y2="196" stroke="#1e293b" stroke-width="1.2" stroke-dasharray="4 4"/>
+              <!-- boxes -->
+              <rect x="14" y="96" width="128" height="58" rx="10" fill="#0c1828" stroke="#3b82f6" stroke-width="1.2"/><text x="78" y="120" text-anchor="middle" fill="#e2e8f0" font-size="10" font-weight="600">DataCentre /</text><text x="78" y="134" text-anchor="middle" fill="#e2e8f0" font-size="10" font-weight="600">CloudProvider</text>
+              <rect x="170" y="96" width="120" height="58" rx="10" fill="#1f1320" stroke="#f472b6" stroke-width="1.2"/><text x="230" y="129" text-anchor="middle" fill="#f9a8d4" font-size="10.5" font-weight="700">MessageQueue</text>
+              <rect x="326" y="96" width="128" height="58" rx="10" fill="#0c1f1a" stroke="#34d399" stroke-width="1.2"/><text x="390" y="121" text-anchor="middle" fill="#6ee7b7" font-size="10.5" font-weight="700">NetworkStack</text><text x="390" y="136" text-anchor="middle" fill="#64748b" font-size="7.5">TCP/IP + QueueClient</text>
+              <rect x="500" y="84" width="132" height="82" rx="12" fill="#1f1a08" stroke="#fbbf24" stroke-width="1.5"/><text x="566" y="118" text-anchor="middle" fill="#fcd34d" font-size="13" font-weight="800">EdgeUser</text><text x="566" y="135" text-anchor="middle" fill="#64748b" font-size="8">cloud consumer +</text><text x="566" y="146" text-anchor="middle" fill="#64748b" font-size="8">local controller</text>
+              <rect x="676" y="96" width="120" height="58" rx="10" fill="#160c20" stroke="#a855f7" stroke-width="1.2"/><text x="736" y="121" text-anchor="middle" fill="#c084fc" font-size="10.5" font-weight="700">EdgeNode</text><text x="736" y="136" text-anchor="middle" fill="#64748b" font-size="7.5">controller (Raspberry)</text>
+              <rect x="822" y="96" width="124" height="58" rx="10" fill="#0f172a" stroke="#475569" stroke-width="1.2"/><text x="884" y="120" text-anchor="middle" fill="#cbd5e1" font-size="10" font-weight="600">Sensors /</text><text x="884" y="134" text-anchor="middle" fill="#cbd5e1" font-size="10" font-weight="600">Actuators</text>
+              <!-- cloud-path bidirectional links (emerald) -->
+              <g stroke="#34d399" stroke-width="1.4">
+                <line x1="146" y1="121" x2="166" y2="121" marker-end="url(#euG)"/><line x1="166" y1="129" x2="146" y2="129" marker-end="url(#euG)"/>
+                <line x1="294" y1="121" x2="322" y2="121" marker-end="url(#euG)"/><line x1="322" y1="129" x2="294" y2="129" marker-end="url(#euG)"/>
+                <line x1="458" y1="121" x2="496" y2="121" marker-end="url(#euG)"/><line x1="496" y1="129" x2="458" y2="129" marker-end="url(#euG)"/>
+              </g>
+              <text x="476" y="92" text-anchor="middle" fill="#6ee7b7" font-size="7.5" font-family="'JetBrains Mono', monospace">queueOut / queueIn</text>
+              <!-- local-path bidirectional links (purple) -->
+              <g stroke="#a855f7" stroke-width="1.4">
+                <line x1="636" y1="121" x2="672" y2="121" marker-end="url(#euP)"/><line x1="672" y1="129" x2="636" y2="129" marker-end="url(#euP)"/>
+                <line x1="800" y1="121" x2="820" y2="121" marker-end="url(#euP)"/><line x1="820" y1="129" x2="800" y2="129" marker-end="url(#euP)"/>
+              </g>
+              <text x="654" y="92" text-anchor="middle" fill="#c084fc" font-size="7.5" font-family="'JetBrains Mono', monospace">serialOut / serialIn</text>
+              <text x="884" y="172" text-anchor="middle" fill="#64748b" font-size="7.5">802.15.4 wireless</text>
+              <text x="566" y="216" text-anchor="middle" fill="#94a3b8" font-size="9">Fault isolation — the two sockets share no state, so cloud failures don't stall local sensing/actuation.</text>
+            </svg>
+          </figure>
+
           <div class="grid md:grid-cols-2 gap-6">
             <div class="bg-slate-900/50 border border-slate-800 rounded-xl p-6">
               <h3 class="text-lg font-bold mb-3 text-emerald-400">queueIn / queueOut</h3>
@@ -192,29 +228,91 @@
               </div>
             </div>
           </div>
+
+          <figure class="bg-slate-900/50 border border-slate-800 rounded-xl p-6 mt-8">
+            <svg viewBox="0 0 960 350" class="w-full h-auto" font-family="Inter, system-ui, sans-serif" role="img" aria-label="VM deployment message sequence across EdgeUser, MessageQueue, CloudProvider, DataCentre and Controller">
+              <defs>
+                <marker id="seqG" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto" markerUnits="strokeWidth"><path d="M0,0 L6,3 L0,6 Z" fill="#34d399"/></marker>
+                <marker id="seqP" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto" markerUnits="strokeWidth"><path d="M0,0 L6,3 L0,6 Z" fill="#a855f7"/></marker>
+                <marker id="seqS" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto" markerUnits="strokeWidth"><path d="M0,0 L6,3 L0,6 Z" fill="#64748b"/></marker>
+              </defs>
+              <!-- heads -->
+              <rect x="24" y="14" width="136" height="38" rx="8" fill="#1f1a08" stroke="#fbbf24" stroke-width="1.2"/><text x="92" y="38" text-anchor="middle" fill="#fcd34d" font-size="10.5" font-weight="700">EdgeUser</text>
+              <rect x="214" y="14" width="136" height="38" rx="8" fill="#1f1320" stroke="#f472b6" stroke-width="1.1"/><text x="282" y="38" text-anchor="middle" fill="#f9a8d4" font-size="10" font-weight="600">MessageQueue</text>
+              <rect x="402" y="14" width="136" height="38" rx="8" fill="#0f172a" stroke="#334155"/><text x="470" y="38" text-anchor="middle" fill="#cbd5e1" font-size="10" font-weight="600">CloudProvider</text>
+              <rect x="596" y="14" width="144" height="38" rx="8" fill="#0c1828" stroke="#3b82f6" stroke-width="1.1"/><text x="668" y="33" text-anchor="middle" fill="#e2e8f0" font-size="10" font-weight="600">DataCentre</text><text x="668" y="45" text-anchor="middle" fill="#64748b" font-size="7">DcManager · RM · hv</text>
+              <rect x="804" y="14" width="140" height="38" rx="8" fill="#160c20" stroke="#a855f7" stroke-width="1.1"/><text x="874" y="33" text-anchor="middle" fill="#c084fc" font-size="10" font-weight="600">Controller</text><text x="874" y="45" text-anchor="middle" fill="#64748b" font-size="7">local (serial)</text>
+              <!-- lifelines -->
+              <g stroke="#1e293b" stroke-width="1.1" stroke-dasharray="3 4">
+                <line x1="92" y1="52" x2="92" y2="338"/><line x1="282" y1="52" x2="282" y2="338"/><line x1="470" y1="52" x2="470" y2="338"/><line x1="668" y1="52" x2="668" y2="338"/><line x1="874" y1="52" x2="874" y2="338"/>
+              </g>
+              <!-- 1 -->
+              <text x="187" y="74" text-anchor="middle" fill="#6ee7b7" font-size="7.5" font-family="'JetBrains Mono', monospace">SM_UserVM · SM_VM_Req(500) → cloudProvider</text>
+              <line x1="92" y1="80" x2="280" y2="80" stroke="#34d399" stroke-width="1.4" marker-end="url(#seqG)"/>
+              <!-- 2 -->
+              <text x="376" y="100" text-anchor="middle" fill="#6ee7b7" font-size="7.5">deliver</text>
+              <line x1="282" y1="106" x2="468" y2="106" stroke="#34d399" stroke-width="1.4" marker-end="url(#seqG)"/>
+              <!-- 3 -->
+              <text x="569" y="126" text-anchor="middle" fill="#94a3b8" font-size="7.5">placement → allocate</text>
+              <line x1="470" y1="132" x2="666" y2="132" stroke="#64748b" stroke-width="1.4" marker-end="url(#seqS)"/>
+              <!-- 4 self -->
+              <rect x="663" y="146" width="10" height="26" fill="#0c1828" stroke="#3b82f6" stroke-width="1"/>
+              <text x="684" y="163" fill="#64748b" font-size="7.5">RM reserves cores/RAM · blade boots VM</text>
+              <!-- 5 -->
+              <text x="380" y="190" text-anchor="middle" fill="#6ee7b7" font-size="7.5" font-family="'JetBrains Mono', monospace">SM_VM_Res_Accept(10001) · IP + hypervisorUrl</text>
+              <line x1="668" y1="196" x2="94" y2="196" stroke="#34d399" stroke-width="1.4" marker-end="url(#seqG)"/>
+              <!-- 6 -->
+              <text x="380" y="216" text-anchor="middle" fill="#6ee7b7" font-size="7.5" font-family="'JetBrains Mono', monospace">SM_UserAPP · SM_APP_Req → hypervisorUrl</text>
+              <line x1="92" y1="222" x2="666" y2="222" stroke="#34d399" stroke-width="1.4" marker-end="url(#seqG)"/>
+              <!-- 7 self -->
+              <rect x="663" y="236" width="10" height="24" fill="#0c1828" stroke="#3b82f6" stroke-width="1"/>
+              <text x="684" y="252" fill="#64748b" font-size="7.5">deploy apps · service reports UP</text>
+              <!-- 8 -->
+              <text x="483" y="284" text-anchor="middle" fill="#c084fc" font-size="7.5" font-family="'JetBrains Mono', monospace">SM_AppSettings (serial) · serviceName = name.domain</text>
+              <line x1="92" y1="290" x2="872" y2="290" stroke="#a855f7" stroke-width="1.4" marker-end="url(#seqP)"/>
+              <!-- 9 self -->
+              <rect x="869" y="304" width="10" height="24" fill="#160c20" stroke="#a855f7" stroke-width="1"/>
+              <text x="862" y="320" text-anchor="end" fill="#64748b" font-size="7.5">start dependent local app</text>
+            </svg>
+            <figcaption class="text-sm text-slate-400 mt-4 text-center">End-to-end latency stacks as <code class="text-cyan-300">3×network + placement + app-deploy</code>; a rejection (<code class="text-cyan-300">SM_VM_Res_Reject 10002</code>) leaves remote apps PENDING and cascades to any <code class="text-cyan-300">dependsOn</code> local apps.</figcaption>
+          </figure>
         </section>
 
         <!-- dependsOn -->
         <section class="mb-16">
           <h2 class="text-3xl font-bold mb-6">The dependsOn Mechanism</h2>
           <p class="text-slate-300 mb-6 leading-relaxed">
-            Local applications can declare a <code class="bg-slate-800 px-2 py-1 rounded text-sm text-pink-400">dependsOn</code> field specifying a remote service name. The local app will not start until that remote service is confirmed UP.
+            A local app can declare a <code class="bg-slate-800 px-2 py-1 rounded text-sm text-pink-400">dependsOn</code> field naming a remote app it needs. The value must match a <strong class="text-white">remote app's <code class="text-emerald-300">name</code></strong> — the code compares <code class="text-cyan-300">strcmp(remoteApp.name, localApp.dependsOn)</code>, so there is no separate “service name” field. The local app stays <code class="text-amber-300">PENDING</code> until that remote app reports <code class="text-emerald-300">UP</code>, at which point the EdgeUser pushes <code class="text-cyan-300">SM_AppSettings</code> over serial with the service URL <code class="text-cyan-300">name.domain</code>.
           </p>
+
+          <figure class="bg-slate-900/50 border border-slate-800 rounded-xl p-6 mb-6">
+            <svg viewBox="0 0 820 200" class="w-full h-auto" font-family="Inter, system-ui, sans-serif" role="img" aria-label="dependsOn resolution graph: local app depends on a remote app deployed on a VM">
+              <defs><marker id="depM" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto" markerUnits="strokeWidth"><path d="M0,0 L6,3 L0,6 Z" fill="#64748b"/></marker></defs>
+              <rect x="20" y="58" width="190" height="74" rx="11" fill="#160c20" stroke="#a855f7" stroke-width="1.3"/><text x="115" y="82" text-anchor="middle" fill="#c084fc" font-size="11" font-weight="700">localApp "local"</text><text x="115" y="98" text-anchor="middle" fill="#64748b" font-size="8.5">SmallIotApp · serial</text><text x="115" y="118" text-anchor="middle" fill="#fbbf24" font-size="8.5" font-weight="600">PENDING → UP</text>
+              <rect x="315" y="58" width="190" height="74" rx="11" fill="#0c1f1a" stroke="#34d399" stroke-width="1.3"/><text x="410" y="82" text-anchor="middle" fill="#6ee7b7" font-size="11" font-weight="700">remoteApp "my-service"</text><text x="410" y="98" text-anchor="middle" fill="#64748b" font-size="8.5">SmallIotService</text><text x="410" y="118" text-anchor="middle" fill="#64748b" font-size="8.5">platform = "my-vm"</text>
+              <rect x="610" y="58" width="190" height="74" rx="11" fill="#0c1828" stroke="#3b82f6" stroke-width="1.3"/><text x="705" y="86" text-anchor="middle" fill="#e2e8f0" font-size="11" font-weight="700">VM "my-vm"</text><text x="705" y="104" text-anchor="middle" fill="#64748b" font-size="8.5">VM_small</text>
+              <line x1="210" y1="95" x2="313" y2="95" stroke="#64748b" stroke-width="1.5" marker-end="url(#depM)"/><text x="261" y="86" text-anchor="middle" fill="#94a3b8" font-size="8">dependsOn (by name)</text>
+              <line x1="505" y1="95" x2="608" y2="95" stroke="#64748b" stroke-width="1.5" marker-end="url(#depM)"/><text x="556" y="86" text-anchor="middle" fill="#94a3b8" font-size="8">platform</text>
+              <text x="410" y="166" text-anchor="middle" fill="#64748b" font-size="9">Resolution runs right→left: VM UP → service UP → SM_AppSettings(serial) → local starts. Must be a DAG (no cycles).</text>
+            </svg>
+          </figure>
+
           <div class="code-block rounded-xl overflow-hidden">
             <div class="flex items-center justify-between px-4 py-3 bg-slate-800/50 border-b border-slate-700">
-              <span class="text-xs font-mono text-slate-400">omnetpp.ini - dependsOn example</span>
+              <span class="text-xs font-mono text-slate-400">omnetpp.ini — dependsOn matches the remote app name</span>
             </div>
-            <pre class="p-6 text-sm font-mono overflow-x-auto custom-scrollbar"><span class="text-blue-400">*.user.localApps</span> = <span class="text-emerald-400">[{
-  "name": "MyClient",
-  "type": "ProbingEndpoint",
-  "dependsOn": "myservice"
-}]</span>
+            <pre class="p-6 text-sm font-mono overflow-x-auto custom-scrollbar"><span class="text-blue-400">*.user.vms</span> = <span class="text-emerald-400">[{"name":"my-vm", "type":"VM_small"}]</span>
 
 <span class="text-blue-400">*.user.remoteApps</span> = <span class="text-emerald-400">[{
-  "name": "MyServer",
-  "type": "ServiceEndpoint",
-  "platform": "vm-us-east-1",
-  "serviceName": "myservice"
+  "name": "my-service",            <span class="text-slate-500">// ← the dependency target</span>
+  "type": "SmallIotService",
+  "platform": "my-vm"              <span class="text-slate-500">// ← must match a vms[].name</span>
+}]</span>
+
+<span class="text-blue-400">*.user.localApps</span> = <span class="text-emerald-400">[{
+  "name": "local",
+  "type": "SmallIotApp",
+  "dependsOn": "my-service"         <span class="text-slate-500">// ← equals remoteApps[].name</span>
 }]</span></pre>
           </div>
         </section>
@@ -223,28 +321,76 @@
         <section class="mb-16">
           <h2 class="text-3xl font-bold mb-6">EdgeTile</h2>
           <p class="text-slate-300 mb-6 leading-relaxed">
-            EdgeTile is a <strong class="text-white">compound module</strong> that packages everything needed for a self-contained edge deployment:
+            EdgeTile is a <strong class="text-white">compound module</strong> packaging a complete edge deployment — <strong class="text-white">seven submodules</strong> wired across three communication domains (serial, queue, wired) plus a wireless medium, exposed through a single external <code class="text-cyan-300">ethernet</code> uplink gate.
           </p>
-          <div class="grid md:grid-cols-2 gap-4 mb-6">
-            <div class="bg-slate-900/50 border border-slate-700 rounded-lg p-4">
-              <p class="text-sm font-bold text-emerald-400 mb-2">EdgeUser</p>
-              <p class="text-xs text-slate-400">Cloud consumer + local controller</p>
-            </div>
-            <div class="bg-slate-900/50 border border-slate-700 rounded-lg p-4">
-              <p class="text-sm font-bold text-purple-400 mb-2">EdgeNode (Raspberry Pi)</p>
-              <p class="text-xs text-slate-400">Local compute with IoT applications</p>
-            </div>
-            <div class="bg-slate-900/50 border border-slate-700 rounded-lg p-4">
-              <p class="text-sm font-bold text-blue-400 mb-2">Wireless Medium</p>
-              <p class="text-xs text-slate-400">IEEE 802.15.4 for sensor/actuator communication</p>
-            </div>
-            <div class="bg-slate-900/50 border border-slate-700 rounded-lg p-4">
-              <p class="text-sm font-bold text-yellow-400 mb-2">Sensors & Actuators</p>
-              <p class="text-xs text-slate-400">Configurable IoT device arrays</p>
-            </div>
+
+          <figure class="bg-slate-900/50 border border-slate-800 rounded-xl p-6 mb-6">
+            <svg viewBox="0 0 960 300" class="w-full h-auto" font-family="Inter, system-ui, sans-serif" role="img" aria-label="EdgeTile internal composition and three communication domains">
+              <defs>
+                <marker id="tileC" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto" markerUnits="strokeWidth"><path d="M0,0 L6,3 L0,6 Z" fill="#22d3ee"/></marker>
+                <marker id="tileS" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto" markerUnits="strokeWidth"><path d="M0,0 L6,3 L0,6 Z" fill="#64748b"/></marker>
+              </defs>
+              <text x="26" y="24" fill="#22d3ee" font-size="11" font-weight="700">EdgeTile — compound module</text>
+              <rect x="8" y="32" width="944" height="234" rx="14" fill="#0a0f1a" stroke="#155e75" stroke-width="1.2" stroke-dasharray="5 4"/>
+              <!-- devices -->
+              <rect x="30" y="70" width="128" height="40" rx="8" fill="#1f1a08" stroke="#eab308" stroke-width="1.1"/><text x="94" y="87" text-anchor="middle" fill="#fcd34d" font-size="9.5" font-weight="700">sensor[]</text><text x="94" y="100" text-anchor="middle" fill="#64748b" font-size="7.5">LuminositySensor</text>
+              <rect x="30" y="118" width="128" height="40" rx="8" fill="#1f1a08" stroke="#eab308" stroke-width="1.1"/><text x="94" y="135" text-anchor="middle" fill="#fcd34d" font-size="9.5" font-weight="700">actuator[]</text><text x="94" y="148" text-anchor="middle" fill="#64748b" font-size="7.5">WirelessHost</text>
+              <rect x="30" y="176" width="128" height="36" rx="8" fill="#0f172a" stroke="#475569"/><text x="94" y="191" text-anchor="middle" fill="#cbd5e1" font-size="9.5" font-weight="600">radioMedium</text><text x="94" y="203" text-anchor="middle" fill="#64748b" font-size="7.5">802.15.4 PHY</text>
+              <!-- middle column -->
+              <rect x="300" y="68" width="160" height="46" rx="9" fill="#160c20" stroke="#a855f7" stroke-width="1.2"/><text x="380" y="88" text-anchor="middle" fill="#c084fc" font-size="10.5" font-weight="700">controller</text><text x="380" y="102" text-anchor="middle" fill="#64748b" font-size="7.5">EdgeNode (Raspberry)</text>
+              <rect x="300" y="132" width="160" height="52" rx="9" fill="#1f1a08" stroke="#fbbf24" stroke-width="1.4"/><text x="380" y="154" text-anchor="middle" fill="#fcd34d" font-size="11.5" font-weight="800">user</text><text x="380" y="170" text-anchor="middle" fill="#64748b" font-size="7.5">EdgeUser</text>
+              <rect x="300" y="202" width="160" height="44" rx="9" fill="#0c1f1a" stroke="#34d399" stroke-width="1.2"/><text x="380" y="221" text-anchor="middle" fill="#6ee7b7" font-size="10.5" font-weight="700">netStack</text><text x="380" y="234" text-anchor="middle" fill="#64748b" font-size="7.5">NetworkStack</text>
+              <!-- router -->
+              <rect x="540" y="128" width="120" height="58" rx="9" fill="#0f172a" stroke="#22d3ee" stroke-width="1.2"/><text x="600" y="153" text-anchor="middle" fill="#67e8f9" font-size="10.5" font-weight="700">router</text><text x="600" y="167" text-anchor="middle" fill="#64748b" font-size="7.5">Router</text>
+              <!-- ext gate -->
+              <rect x="858" y="134" width="56" height="46" rx="8" fill="#0c1828" stroke="#3b82f6" stroke-width="1.1"/><text x="886" y="154" text-anchor="middle" fill="#93c5fd" font-size="9" font-weight="600">ethg</text><text x="886" y="167" text-anchor="middle" fill="#64748b" font-size="7">uplink</text>
+              <!-- wireless (slate dashed) -->
+              <g stroke="#64748b" stroke-width="1.2" stroke-dasharray="3 3">
+                <line x1="158" y1="90" x2="120" y2="176" marker-end="url(#tileS)"/>
+                <line x1="158" y1="138" x2="120" y2="178" marker-end="url(#tileS)"/>
+                <line x1="158" y1="194" x2="298" y2="96" marker-end="url(#tileS)"/>
+              </g>
+              <text x="232" y="150" text-anchor="middle" fill="#64748b" font-size="7.5">802.15.4</text>
+              <!-- serial (purple) -->
+              <line x1="470" y1="100" x2="470" y2="130" stroke="#a855f7" stroke-width="1.6"/><text x="478" y="120" fill="#c084fc" font-size="7.5">serial</text>
+              <line x1="462" y1="91" x2="468" y2="91" stroke="#a855f7" stroke-width="1.6"/>
+              <!-- queue (emerald) -->
+              <line x1="470" y1="184" x2="470" y2="204" stroke="#34d399" stroke-width="1.6"/><text x="478" y="198" fill="#6ee7b7" font-size="7.5">queue</text>
+              <!-- wired Eth10M (cyan) -->
+              <g stroke="#22d3ee" stroke-width="1.4">
+                <line x1="460" y1="98" x2="538" y2="140" marker-end="url(#tileC)"/>
+                <line x1="460" y1="224" x2="538" y2="172" marker-end="url(#tileC)"/>
+                <line x1="660" y1="157" x2="856" y2="157" marker-end="url(#tileC)"/>
+              </g>
+              <text x="505" y="112" text-anchor="middle" fill="#67e8f9" font-size="7.5">Eth10M</text>
+              <text x="758" y="150" text-anchor="middle" fill="#67e8f9" font-size="7.5">Eth10M</text>
+              <line x1="914" y1="157" x2="946" y2="157" stroke="#3b82f6" stroke-width="1.6" marker-end="url(#tileC)"/><text x="930" y="148" text-anchor="middle" fill="#93c5fd" font-size="7.5">ethernet</text>
+              <!-- legend -->
+              <g font-size="8" fill="#94a3b8">
+                <rect x="300" y="256" width="10" height="6" fill="#a855f7"/><text x="314" y="262">serial</text>
+                <rect x="360" y="256" width="10" height="6" fill="#34d399"/><text x="374" y="262">queue</text>
+                <rect x="424" y="256" width="10" height="6" fill="#22d3ee"/><text x="438" y="262">wired Eth10M</text>
+                <line x1="528" y1="259" x2="540" y2="259" stroke="#64748b" stroke-width="1.4" stroke-dasharray="3 2"/><text x="544" y="262">802.15.4 wireless</text>
+              </g>
+            </svg>
+          </figure>
+
+          <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-3 mb-6">
+            <div class="bg-slate-900/50 border border-slate-700 rounded-lg p-4"><p class="text-sm font-bold text-yellow-400 mb-1">user</p><p class="text-xs text-slate-400"><span class="font-mono text-slate-300">EdgeUser</span> — VMs, apps, sensors</p></div>
+            <div class="bg-slate-900/50 border border-slate-700 rounded-lg p-4"><p class="text-sm font-bold text-purple-400 mb-1">controller</p><p class="text-xs text-slate-400"><span class="font-mono text-slate-300">EdgeNode</span> — local edge compute</p></div>
+            <div class="bg-slate-900/50 border border-slate-700 rounded-lg p-4"><p class="text-sm font-bold text-emerald-400 mb-1">netStack</p><p class="text-xs text-slate-400"><span class="font-mono text-slate-300">NetworkStack</span> — cloud uplink + queue</p></div>
+            <div class="bg-slate-900/50 border border-slate-700 rounded-lg p-4"><p class="text-sm font-bold text-cyan-400 mb-1">router</p><p class="text-xs text-slate-400"><span class="font-mono text-slate-300">Router</span> — local ↔ external IP</p></div>
+            <div class="bg-slate-900/50 border border-slate-700 rounded-lg p-4"><p class="text-sm font-bold text-yellow-400 mb-1">sensor[] / actuator[]</p><p class="text-xs text-slate-400"><span class="font-mono text-slate-300">LuminositySensor</span> · <span class="font-mono text-slate-300">WirelessHost</span></p></div>
+            <div class="bg-slate-900/50 border border-slate-700 rounded-lg p-4"><p class="text-sm font-bold text-slate-300 mb-1">radioMedium</p><p class="text-xs text-slate-400">802.15.4 narrowband PHY</p></div>
           </div>
+
+          <div class="bg-slate-900/50 border-l-4 border-cyan-500 rounded-r-xl p-5 mb-6">
+            <p class="font-semibold text-cyan-300 mb-1">LightEdgeTile — optimized variant</p>
+            <p class="text-slate-300 text-sm">Swaps the Router for an <code class="text-cyan-300">EthernetSwitch</code> and uses <code class="text-cyan-300">Eth100M</code> links (faster L2 sims, fewer artificial bottlenecks). Adds a per-tile <code class="text-cyan-300">serviceName</code> for multi-tenant scenarios and an optional <code class="text-cyan-300">enableRouterAsUplink</code> when L3 isolation is needed.</p>
+          </div>
+
           <p class="text-slate-400 text-sm">
-            EdgeTile enables scenarios like SmartBuilding, SmartCity, Industrial IoT, and Smart Farming by providing a reusable deployment unit.
+            EdgeTile enables scenarios like SmartBuilding, SmartCity, Industrial IoT, and Smart Farming — instantiate a tile array and connect each tile's <code class="text-cyan-300">ethernet</code> gate to the fog/cloud network.
           </p>
         </section>
 
@@ -258,6 +404,42 @@
 <span class="text-blue-400">*.user.localApps</span> = <span class="text-emerald-400">[{"name":"cli", "type":"ProbingEndpoint", "dependsOn":"svc"}]</span>
 <span class="text-blue-400">*.user.sensors</span> = <span class="text-emerald-400">["sensor1", "sensor2"]</span></pre>
           </div>
+        </section>
+
+        <!-- QoE metrics -->
+        <section class="mb-16">
+          <h2 class="text-3xl font-bold mb-6">User-Centric Metrics (QoE)</h2>
+          <p class="text-slate-300 mb-6 leading-relaxed">EdgeUser turns infrastructure counters into <strong class="text-white">quality-of-experience</strong> outcomes — distinguishing <em>infrastructure success</em> (a VM was allocated) from <em>user success</em> (the full service stack is operational).</p>
+          <div class="grid md:grid-cols-3 gap-5">
+            <div class="bg-slate-900/50 border border-slate-800 rounded-xl p-5">
+              <h3 class="font-bold text-cyan-400 mb-2">Deployment success</h3>
+              <p class="text-sm text-slate-300">Fraction of users with <em>all</em> VMs and apps in <code class="text-emerald-300">UP</code>. A high VM-acceptance rate can still mask low user success if app deploy or <code class="text-pink-400">dependsOn</code> resolution fails.</p>
+            </div>
+            <div class="bg-slate-900/50 border border-slate-800 rounded-xl p-5">
+              <h3 class="font-bold text-emerald-400 mb-2">Service availability</h3>
+              <p class="text-sm text-slate-300 mb-2">Time with all services UP, after warm-up:</p>
+              <p class="text-center font-mono text-sm text-cyan-300">A = T<sub>up</sub> / (T<sub>total</sub> − T<sub>startup</sub>)</p>
+            </div>
+            <div class="bg-slate-900/50 border border-slate-800 rounded-xl p-5">
+              <h3 class="font-bold text-amber-400 mb-2">Response time</h3>
+              <p class="text-sm text-slate-300"><span class="font-mono text-xs text-slate-300">T<sub>local</sub>+T<sub>net</sub>+T<sub>proc</sub>+T<sub>ret</sub></span> — watch <strong class="text-white">tail</strong> latency (p95/p99), not just the mean, for interactive services.</p>
+            </div>
+          </div>
+        </section>
+
+        <!-- Pitfalls -->
+        <section class="mb-16">
+          <h2 class="text-3xl font-bold mb-6">Common Pitfalls</h2>
+          <div class="overflow-x-auto"><table class="w-full text-sm border-collapse">
+            <thead><tr class="bg-slate-800/50 border-b border-slate-700"><th class="text-left p-3 font-bold text-cyan-400">Symptom</th><th class="text-left p-3 font-bold text-cyan-400">Cause &amp; fix</th></tr></thead>
+            <tbody class="text-slate-300">
+              <tr class="border-b border-slate-800"><td class="p-3">JSON parse error (“expected object”)</td><td class="p-3">Missing quotes / bad nesting / trailing comma — validate the JSON; quote every string</td></tr>
+              <tr class="border-b border-slate-800"><td class="p-3">“App platform '<span class="font-mono">x</span>' not found”</td><td class="p-3"><code class="text-cyan-300">platform</code> must equal a <code class="text-cyan-300">vms[].name</code> exactly (case-sensitive)</td></tr>
+              <tr class="border-b border-slate-800"><td class="p-3">Local app stuck <code class="text-amber-300">PENDING</code></td><td class="p-3"><code class="text-pink-400">dependsOn</code> names a non-existent remote app, or a cycle — must equal a <code class="text-cyan-300">remoteApps[].name</code>; keep a DAG</td></tr>
+              <tr class="border-b border-slate-800"><td class="p-3">“No sensors matched pattern”</td><td class="p-3">Pattern doesn’t match module names — use <code class="text-cyan-300">sensor*</code> or <code class="text-cyan-300">sensor[0..3]</code></td></tr>
+              <tr class="border-b border-slate-800"><td class="p-3">“gate not connected” on <code class="text-cyan-300">queueOut</code></td><td class="p-3">Wire <code class="text-cyan-300">queueIn/Out ↔ netStack</code> and set <code class="text-cyan-300">netStack.nodeTopic</code></td></tr>
+            </tbody>
+          </table></div>
         </section>
 
         <!-- Reference -->

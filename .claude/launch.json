@@ -4,7 +4,7 @@
     {
       "name": "static-site",
       "runtimeExecutable": "python3",
-      "runtimeArgs": ["-m", "http.server", "8099"],
+      "runtimeArgs": ["-c", "import sys;sys.path=[p for p in sys.path if p];import functools,http.server,socketserver as S;d='/tmp/s2fsite';H=functools.partial(http.server.SimpleHTTPRequestHandler,directory=d);S.TCPServer.allow_reuse_address=True;S.TCPServer(('127.0.0.1',8099),H).serve_forever()"],
       "port": 8099
     }
   ]

@@ -4,8 +4,8 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Simcan2Fog Documentation - NED Reference, API Docs & Configuration Guide</title>
-  <meta name="description" content="Comprehensive Simcan2Fog documentation: NED API reference, fog nodes, IoT devices, DNS, message queue, architecture guide, config templates examples, and showcases for fog computing simulation."/>
-  <meta name="keywords" content="Simcan2Fog documentation, NED reference, fog node documentation, IoT device API, message queue guide, DNS config templates, architecture overview"/>
+  <meta name="description" content="Comprehensive Simcan2Fog documentation: NED API reference, fog nodes, IoT devices, DNS, message queue, architecture guide, configuration examples, and showcases for fog computing simulation."/>
+  <meta name="keywords" content="Simcan2Fog documentation, NED reference, fog node documentation, IoT device API, message queue guide, DNS configuration, architecture overview"/>
 
   <!-- Schema.org FAQPage -->
   <script type="application/ld+json">
@@ -18,7 +18,7 @@
         "name": "What is Simcan2Fog?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Simcan2Fog is an open-source discrete-event simulation framework for modeling fog, edge, and cloud computing environments. It extends OMNeT++ and INET with fog-specific modules including hierarchical fog architectures, task , DNS service discovery, and MQTT-style message queues."
+          "text": "Simcan2Fog is an open-source discrete-event simulation framework for modeling fog, edge, and cloud computing environments. It extends OMNeT++ and INET with fog-specific modules including hierarchical fog architectures, task offloading, DNS service discovery, and MQTT-style message queues."
         }
       },
       {
@@ -34,7 +34,7 @@
         "name": "How is Simcan2Fog different from iFogSim?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Unlike iFogSim (CloudSim-based), Simcan2Fog is built on OMNeT++ and INET, providing full network stack simulation with realistic protocols (IEEE 802.15.4, WiFi, Ethernet, 5G). It includes native DNS service discovery, MQTT-style message queues, and supports both event-driven and GUI-based simulation pipelines."
+          "text": "Unlike iFogSim (CloudSim-based), Simcan2Fog is built on OMNeT++ and INET, providing full network stack simulation with realistic protocols (IEEE 802.15.4, WiFi, Ethernet, 5G). It includes native DNS service discovery, MQTT-style message queues, and supports both event-driven and GUI-based simulation workflows."
         }
       },
       {
@@ -50,7 +50,7 @@
         "name": "Where can I find example simulations?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Simcan2Fog includes ready-to-run showcases in the showcases/ directory: Smart Home IoT (sensors, actuators, fog gateways), Data Centre (VM provisioning, cloud integration), Proxy & DNS, and Statistics examples. Each includes complete config templates files and documentation."
+          "text": "Simcan2Fog includes ready-to-run showcases in the showcases/ directory: Smart Home IoT (sensors, actuators, fog gateways), Data Centre (VM provisioning, cloud integration), Proxy & DNS, and Statistics examples. Each includes complete configuration files and documentation."
         }
       },
       {
@@ -84,26 +84,10 @@
     .code-block { background: #1e293b; border: 1px solid #334155; }
     /* ===== Interactive architecture map ===== */
     .archmap-bleed { position:relative; width:100vw; margin-left:calc(50% - 50vw); z-index:5; }
-    .archmap-band { width:100%; max-width:1180px; margin:0 auto 4rem; border:1px solid #16203a; border-radius:24px; background:linear-gradient(180deg,rgba(2,6,23,.58),rgba(2,6,23,.22)); overflow:hidden; box-shadow:0 24px 80px rgba(2,6,23,.42); }
-    .archmap-band-inner { max-width:100%; margin:0 auto; padding:24px clamp(14px,2.6vw,30px) 28px; box-sizing:border-box; }
-    .archmap-stage { width:100%; max-width:100%; overflow:hidden; border-radius:18px; scrollbar-color:#334155 transparent; }
-    .archmap-svg { display:block; width:100%; max-width:100%; min-width:0; height:auto; border-radius:18px; background: radial-gradient(circle at 20% 10%, rgba(249,115,22,.08), transparent 26%), radial-gradient(circle at 48% 15%, rgba(34,211,238,.10), transparent 32%), radial-gradient(circle at 80% 22%, rgba(168,85,247,.10), transparent 30%), #050b18; box-shadow:0 30px 90px rgba(2,6,23,.70); }
-    .archmap-tools { display:flex; align-items:center; justify-content:space-between; gap:14px; margin-bottom:12px; }
-    .archmap-tools p { margin:0; }
-    .archmap-expand { display:inline-flex; align-items:center; gap:8px; flex-shrink:0; padding:9px 12px; border-radius:12px; border:1px solid rgba(34,211,238,.34); background:rgba(14,116,144,.20); color:#cffafe; font-size:12px; font-weight:900; cursor:pointer; transition:border-color .15s ease, background .15s ease, transform .15s ease; }
-    .archmap-expand:hover, .archmap-expand:focus-visible { border-color:rgba(34,211,238,.85); background:rgba(14,116,144,.32); outline:none; transform:translateY(-1px); }
-    .archmap-close-full { display:none; position:fixed; top:18px; right:18px; z-index:1105; width:44px; height:44px; border-radius:999px; border:1px solid rgba(148,163,184,.45); background:rgba(2,6,23,.88); color:#e2e8f0; font-size:28px; line-height:1; cursor:pointer; box-shadow:0 14px 40px rgba(2,6,23,.65); }
-    .archmap-close-full:hover, .archmap-close-full:focus-visible { border-color:#22d3ee; color:#cffafe; outline:none; }
-    body.archmap-is-fullscreen { overflow:hidden; }
-    .archmap-band.archmap-fullscreen { position:fixed; inset:0; width:100vw; height:100vh; max-width:none; margin:0; z-index:1090; border:0; border-radius:0; background:radial-gradient(circle at 18% 8%, rgba(34,211,238,.12), transparent 30%), radial-gradient(circle at 82% 14%, rgba(168,85,247,.15), transparent 28%), linear-gradient(180deg, rgba(2,6,23,.98), rgba(15,23,42,.98)); overflow:hidden; box-shadow:none; }
-    .archmap-band.archmap-fullscreen .archmap-band-inner { width:100%; height:100%; min-height:100%; padding:8px; display:block; box-sizing:border-box; }
-    .archmap-band.archmap-fullscreen .archmap-tools { position:absolute; top:10px; left:10px; right:68px; z-index:1100; margin:0; padding:0; pointer-events:none; }
-    .archmap-band.archmap-fullscreen .archmap-tools p { display:inline-block; max-width:min(720px, calc(100vw - 104px)); padding:8px 11px; border:1px solid rgba(51,65,85,.70); border-radius:12px; background:rgba(2,6,23,.72); box-shadow:0 12px 35px rgba(2,6,23,.45); }
-    .archmap-band.archmap-fullscreen .archmap-expand { display:none; }
-    .archmap-band.archmap-fullscreen .archmap-close-full { display:block; }
-    .archmap-band.archmap-fullscreen .archmap { width:100%; height:100%; min-height:0; display:flex; }
-    .archmap-band.archmap-fullscreen .archmap-stage { width:100%; height:100%; display:flex; align-items:center; justify-content:center; min-height:0; overflow:hidden; border-radius:24px; background:rgba(2,6,23,.34); }
-    .archmap-band.archmap-fullscreen .archmap-svg { width:auto; height:auto; max-width:calc(100vw - 16px); max-height:calc(100vh - 16px); min-width:0; }
+    .archmap-band { border-top:1px solid #16203a; border-bottom:1px solid #16203a; background:linear-gradient(180deg,rgba(2,6,23,.45),rgba(2,6,23,.15)); }
+    .archmap-band-inner { max-width:1440px; margin:0 auto; padding:26px 24px 30px; }
+    .archmap-stage { width:100%; overflow-x:auto; overflow-y:hidden; border-radius:18px; scrollbar-color:#334155 transparent; }
+    .archmap-svg { display:block; width:100%; min-width:980px; height:auto; border-radius:18px; background: radial-gradient(circle at 20% 10%, rgba(249,115,22,.08), transparent 26%), radial-gradient(circle at 48% 15%, rgba(34,211,238,.10), transparent 32%), radial-gradient(circle at 80% 22%, rgba(168,85,247,.10), transparent 30%), #050b18; box-shadow:0 30px 90px rgba(2,6,23,.70); }
     .archmap .module { cursor:pointer; text-decoration:none; outline:none; }
     .archmap .module .box, .archmap .module .widebox, .archmap .module .smallbox { transition:filter .15s ease, stroke-width .15s ease, fill .15s ease; }
     .archmap .module:hover .box, .archmap .module:focus .box, .archmap .module:hover .widebox, .archmap .module:focus .widebox, .archmap .module:hover .smallbox, .archmap .module:focus .smallbox { filter:url(#strongGlow); stroke-width:2.6; fill-opacity:.98; }
@@ -123,15 +107,6 @@
     .am-body li { margin:6px 0; }
     .am-link { display:inline-flex; margin-top:20px; padding:11px 14px; border-radius:13px; border:1px solid rgba(34,211,238,.36); background:rgba(14,116,144,.23); color:#cffafe; text-decoration:none; font-weight:800; }
     .am-link:hover { border-color:rgba(34,211,238,.85); background:rgba(14,116,144,.34); }
-    @media (max-width: 768px) {
-      .archmap-band { border-radius:18px; margin-bottom:3rem; }
-      .archmap-band-inner { padding:18px 14px 22px; }
-      .archmap-svg { min-width:0; }
-      .archmap-tools { flex-direction:column; align-items:flex-start; }
-      .archmap-expand { width:100%; justify-content:center; }
-      .archmap-band.archmap-fullscreen .archmap-tools { padding-right:52px; }
-      .archmap-band.archmap-fullscreen .archmap-svg { max-height:calc(100vh - 122px); }
-    }
   </style>
 </head>
 <body class="bg-slate-950 text-slate-100 antialiased">
@@ -157,6 +132,305 @@
       </div>
     </div>
   </nav>
+
+  <!-- System Map (full-width band) -->
+        <!-- Interactive architecture map -->
+        <section class="archmap-band">
+          <div class="archmap-band-inner">
+          <p class="text-slate-400 text-sm mb-3">✦ Click a module for its quick reference — or <span class="text-slate-300">Ctrl/Cmd-click</span> to jump straight to its page.</p>
+          <div class="archmap">
+            <div class="archmap-stage custom-scrollbar">
+              <svg class="archmap-svg" viewBox="0 0 1600 960" role="img" aria-labelledby="amSvgTitle amSvgDesc">
+                <title id="amSvgTitle">Simcan2Fog architecture — how the four layers fit together</title>
+                <desc id="amSvgDesc">Interactive SVG diagram of the main Simcan2Fog modules. Each module can be selected to open an info card.</desc>
+                <defs>
+                  <linearGradient id="panelGrad" x1="0" x2="1" y1="0" y2="1"><stop offset="0%" stop-color="#111827" stop-opacity=".97"/><stop offset="100%" stop-color="#020617" stop-opacity=".97"/></linearGradient>
+                  <linearGradient id="cyanPanel" x1="0" x2="1"><stop offset="0%" stop-color="#083344" stop-opacity=".34"/><stop offset="100%" stop-color="#020617" stop-opacity=".72"/></linearGradient>
+                  <linearGradient id="purplePanel" x1="0" x2="1"><stop offset="0%" stop-color="#3b0764" stop-opacity=".24"/><stop offset="100%" stop-color="#020617" stop-opacity=".72"/></linearGradient>
+                  <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%"><feDropShadow dx="0" dy="14" stdDeviation="14" flood-color="#020617" flood-opacity=".68"/></filter>
+                  <filter id="strongGlow" x="-40%" y="-40%" width="180%" height="180%"><feDropShadow dx="0" dy="0" stdDeviation="6" flood-color="#22d3ee" flood-opacity=".55"/><feDropShadow dx="0" dy="12" stdDeviation="14" flood-color="#020617" flood-opacity=".65"/></filter>
+                  <filter id="textGlow" x="-40%" y="-40%" width="180%" height="180%"><feDropShadow dx="0" dy="0" stdDeviation="2.2" flood-color="#22d3ee" flood-opacity=".42"/></filter>
+                  <marker id="arrowCyan" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto" markerUnits="strokeWidth"><path d="M0,0 L10,5 L0,10 Z" fill="#22d3ee"/></marker>
+                  <marker id="arrowPink" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto" markerUnits="strokeWidth"><path d="M0,0 L10,5 L0,10 Z" fill="#ec4899"/></marker>
+                  <marker id="arrowPurple" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto" markerUnits="strokeWidth"><path d="M0,0 L10,5 L0,10 Z" fill="#a855f7"/></marker>
+                  <marker id="arrowGray" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto" markerUnits="strokeWidth"><path d="M0,0 L10,5 L0,10 Z" fill="#64748b"/></marker>
+                  <marker id="arrowOrange" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto" markerUnits="strokeWidth"><path d="M0,0 L10,5 L0,10 Z" fill="#f97316"/></marker>
+                  <marker id="arrowOrangeStart" markerWidth="10" markerHeight="10" refX="2" refY="5" orient="auto" markerUnits="strokeWidth"><path d="M10,0 L0,5 L10,10 Z" fill="#f97316"/></marker>
+                </defs>
+
+                <text x="800" y="48" text-anchor="middle" fill="#f8fafc" font-size="33" font-weight="900" letter-spacing=".01em">ARCHITECTURE — HOW THE FOUR LAYERS FIT TOGETHER</text>
+                <text x="800" y="77" text-anchor="middle" fill="#cbd5e1" font-size="17">Data and control flow from the <tspan fill="#f59e0b" font-weight="900">Edge to Cloud</tspan> and back. Each layer has clear responsibilities and defined contracts.</text>
+
+                <rect x="20" y="95" width="255" height="490" rx="14" fill="rgba(15,23,42,.40)" stroke="#f97316" stroke-width="1.3" stroke-dasharray="7 7"/>
+                <rect x="292" y="95" width="522" height="490" rx="14" fill="rgba(8,47,73,.22)" stroke="#06b6d4" stroke-width="1.3"/>
+                <rect x="830" y="95" width="356" height="490" rx="14" fill="rgba(20,184,166,.12)" stroke="#14b8a6" stroke-width="1.3"/>
+                <rect x="1202" y="95" width="378" height="490" rx="14" fill="rgba(88,28,135,.18)" stroke="#a855f7" stroke-width="1.3"/>
+
+                <text x="148" y="124" text-anchor="middle" fill="#f97316" font-size="17" font-weight="900">1. EDGE</text>
+                <text x="148" y="149" text-anchor="middle" fill="#cbd5e1" font-size="13">Devices &amp; users</text>
+                <text x="553" y="124" text-anchor="middle" fill="#22d3ee" font-size="17" font-weight="900">2. SERVICES &amp; NETWORKING</text>
+                <text x="553" y="149" text-anchor="middle" fill="#cbd5e1" font-size="13">Connectivity &amp; central services</text>
+                <text x="1008" y="124" text-anchor="middle" fill="#14b8a6" font-size="17" font-weight="900">3. FOG &amp; CLOUD</text>
+                <text x="1008" y="149" text-anchor="middle" fill="#cbd5e1" font-size="13">Distributed compute &amp; data</text>
+                <text x="1391" y="124" text-anchor="middle" fill="#c084fc" font-size="17" font-weight="900">4. ORCHESTRATION</text>
+                <text x="1391" y="149" text-anchor="middle" fill="#cbd5e1" font-size="13">Automation &amp; control</text>
+
+                <g fill="none" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M255 245 C300 220 308 210 335 210" stroke="#22d3ee" stroke-width="2" marker-end="url(#arrowCyan)" opacity=".82"/>
+                  <path d="M528 230 C575 258 600 300 616 326" stroke="#22d3ee" stroke-width="2" marker-end="url(#arrowCyan)" opacity=".82"/>
+                  <path d="M760 312 C820 256 828 236 852 226" stroke="#22d3ee" stroke-width="2" marker-end="url(#arrowCyan)" opacity=".82"/>
+                  <path d="M759 350 C891 347 930 333 1057 299" stroke="#22d3ee" stroke-width="2" marker-end="url(#arrowCyan)" opacity=".82"/>
+                  <path d="M895 442 L895 385" stroke="#22d3ee" stroke-width="2" marker-end="url(#arrowCyan)" opacity=".82"/>
+                  <path d="M713 455 C720 420 744 405 775 390" stroke="#22d3ee" stroke-width="1.8" stroke-dasharray="6 6" marker-end="url(#arrowCyan)" opacity=".65"/>
+                  <path d="M255 405 C340 357 470 294 565 252" stroke="#ec4899" stroke-width="2" marker-end="url(#arrowPink)" opacity=".82"/>
+                  <path d="M528 350 C536 303 560 270 592 250" stroke="#ec4899" stroke-width="1.8" stroke-dasharray="6 6" marker-end="url(#arrowPink)" opacity=".72"/>
+                  <path d="M528 350 C498 320 477 320 440 337" stroke="#ec4899" stroke-width="1.8" stroke-dasharray="6 6" marker-end="url(#arrowPink)" opacity=".72"/>
+                  <path d="M760 232 C815 232 835 232 858 232" stroke="#ec4899" stroke-width="2" stroke-dasharray="6 6" marker-end="url(#arrowPink)" opacity=".82"/>
+                  <path d="M760 232 L760 317" stroke="#22d3ee" stroke-width="1.8" stroke-dasharray="5 5" marker-end="url(#arrowCyan)" opacity=".72"/>
+                  <path d="M990 232 C1020 232 1040 232 1060 232" stroke="#ec4899" stroke-width="2" stroke-dasharray="6 6" marker-end="url(#arrowPink)" opacity=".82"/>
+                  <path d="M1128 375 C1098 423 1052 474 1045 505" stroke="#a855f7" stroke-width="2" marker-end="url(#arrowPurple)" opacity=".78"/>
+                  <path d="M1320 362 C1270 392 1270 455 1308 505" stroke="#a855f7" stroke-width="2" marker-end="url(#arrowPurple)" opacity=".78"/>
+                  <path d="M1402 362 L1402 505" stroke="#a855f7" stroke-width="2" marker-end="url(#arrowPurple)" opacity=".78"/>
+                  <path d="M1322 508 L1560 508 C1580 508 1580 560 1548 566" stroke="#a855f7" stroke-width="2" marker-end="url(#arrowPurple)" opacity=".78"/>
+                  <path d="M148 318 L148 365" stroke="#f97316" stroke-width="2" marker-start="url(#arrowOrangeStart)" marker-end="url(#arrowOrange)" opacity=".72"/>
+                </g>
+                <text x="467" y="307" fill="#ec4899" font-size="12" font-weight="800">SM_UserVM</text>
+                <text x="997" y="244" fill="#ec4899" font-size="12" font-weight="800">NodeUpdate</text>
+                <text x="868" y="444" fill="#22d3ee" font-size="12" font-weight="800">RestfulRequest</text>
+
+                <a href="core/iotDevices.html" class="module" data-module="iot">
+                  <rect class="box" x="40" y="167" width="215" height="172" rx="12" fill="url(#panelGrad)" stroke="#f97316" stroke-width="1.5" filter="url(#shadow)"/>
+                  <text x="93" y="229" text-anchor="middle" font-size="46">📡</text>
+                  <text x="168" y="232" text-anchor="middle" fill="#f8fafc" font-size="18" font-weight="850">IoT Devices</text>
+                  <text x="169" y="259" text-anchor="middle" fill="#e2e8f0" font-size="12">Field sensors, actuators</text>
+                  <text x="169" y="279" text-anchor="middle" fill="#e2e8f0" font-size="12">and controllers. Generate</text>
+                  <text x="169" y="299" text-anchor="middle" fill="#e2e8f0" font-size="12">data and run local actions.</text>
+                  <rect x="78" y="305" width="139" height="26" rx="6" fill="rgba(15,23,42,.88)" stroke="#334155"/>
+                  <text x="148" y="323" text-anchor="middle" fill="#e5e7eb" font-size="12" font-weight="750">Sensor · Actuator · 802.15.4</text>
+                </a>
+                <a href="core/edgeuser.html" class="module" data-module="edgeuser">
+                  <rect class="box" x="40" y="365" width="215" height="177" rx="12" fill="url(#panelGrad)" stroke="#f97316" stroke-width="1.5" filter="url(#shadow)"/>
+                  <text x="90" y="441" text-anchor="middle" font-size="48">👤</text>
+                  <text x="168" y="428" text-anchor="middle" fill="#f8fafc" font-size="18" font-weight="850">Edge User</text>
+                  <text x="169" y="457" text-anchor="middle" fill="#e2e8f0" font-size="12">Local users and apps</text>
+                  <text x="169" y="477" text-anchor="middle" fill="#e2e8f0" font-size="12">consuming low-latency</text>
+                  <text x="169" y="497" text-anchor="middle" fill="#e2e8f0" font-size="12">edge services; bridges</text>
+                  <text x="169" y="517" text-anchor="middle" fill="#e2e8f0" font-size="12">cloud and IoT.</text>
+                  <rect x="78" y="498" width="139" height="26" rx="6" fill="rgba(15,23,42,.88)" stroke="#334155"/>
+                  <text x="148" y="516" text-anchor="middle" fill="#e5e7eb" font-size="12" font-weight="750">VMs · apps · sensors</text>
+                </a>
+
+                <a href="core/dns.html" class="module" data-module="dns">
+                  <rect class="box" x="315" y="167" width="215" height="118" rx="12" fill="url(#cyanPanel)" stroke="#0284c7" stroke-width="1.5" filter="url(#shadow)"/>
+                  <text x="360" y="228" text-anchor="middle" font-size="44">🌐</text>
+                  <text x="432" y="211" text-anchor="middle" fill="#f8fafc" font-size="18" font-weight="850">DNS</text>
+                  <text x="433" y="237" text-anchor="middle" fill="#e2e8f0" font-size="12">Name resolution and</text>
+                  <text x="433" y="257" text-anchor="middle" fill="#e2e8f0" font-size="12">service discovery.</text>
+                </a>
+                <a href="core/messageQueue.html" class="module" data-module="messagequeue">
+                  <rect class="box" x="568" y="167" width="215" height="118" rx="12" fill="url(#cyanPanel)" stroke="#0284c7" stroke-width="1.5" filter="url(#shadow)"/>
+                  <text x="610" y="228" text-anchor="middle" font-size="40">✉️</text>
+                  <text x="695" y="211" text-anchor="middle" fill="#f8fafc" font-size="18" font-weight="850">Message Queue</text>
+                  <text x="695" y="237" text-anchor="middle" fill="#e2e8f0" font-size="12">Asynchronous, topic-based</text>
+                  <text x="695" y="257" text-anchor="middle" fill="#e2e8f0" font-size="12">event &amp; command routing.</text>
+                  <rect x="603" y="258" width="148" height="24" rx="6" fill="rgba(15,23,42,.88)" stroke="#334155"/>
+                  <text x="677" y="275" text-anchor="middle" fill="#e5e7eb" font-size="12" font-weight="750">push 8444 · pull 8443</text>
+                </a>
+                <a href="core/queueClient.html" class="module" data-module="queueclient">
+                  <rect class="box" x="315" y="330" width="215" height="112" rx="12" fill="url(#cyanPanel)" stroke="#0284c7" stroke-width="1.5" filter="url(#shadow)"/>
+                  <text x="360" y="388" text-anchor="middle" font-size="40">🔌</text>
+                  <text x="432" y="372" text-anchor="middle" fill="#f8fafc" font-size="18" font-weight="850">Queue Client</text>
+                  <text x="433" y="397" text-anchor="middle" fill="#e2e8f0" font-size="12">Node-side producers and</text>
+                  <text x="433" y="417" text-anchor="middle" fill="#e2e8f0" font-size="12">consumers of messages.</text>
+                  <rect x="370" y="413" width="108" height="24" rx="6" fill="rgba(15,23,42,.88)" stroke="#334155"/>
+                  <text x="424" y="430" text-anchor="middle" fill="#e5e7eb" font-size="12" font-weight="750">push · pull · topic</text>
+                </a>
+                <a href="core/appProxy.html" class="module" data-module="appproxy">
+                  <rect class="box" x="568" y="330" width="215" height="112" rx="12" fill="url(#cyanPanel)" stroke="#0284c7" stroke-width="1.5" filter="url(#shadow)"/>
+                  <text x="610" y="388" text-anchor="middle" font-size="40">🛡️</text>
+                  <text x="695" y="372" text-anchor="middle" fill="#f8fafc" font-size="18" font-weight="850">App Proxy</text>
+                  <text x="695" y="397" text-anchor="middle" fill="#e2e8f0" font-size="12">Secure entry point that</text>
+                  <text x="695" y="417" text-anchor="middle" fill="#e2e8f0" font-size="12">steers app traffic.</text>
+                  <rect x="600" y="413" width="150" height="24" rx="6" fill="rgba(15,23,42,.88)" stroke="#334155"/>
+                  <text x="675" y="430" text-anchor="middle" fill="#e5e7eb" font-size="12" font-weight="750">PASSTHROUGH · EDGE</text>
+                </a>
+                <a href="core/protocols.html" class="module" data-module="protocols">
+                  <rect class="widebox" x="385" y="482" width="330" height="94" rx="12" fill="url(#cyanPanel)" stroke="#0284c7" stroke-width="1.5" filter="url(#shadow)"/>
+                  <text x="430" y="533" text-anchor="middle" font-size="42">🔗</text>
+                  <text x="535" y="515" text-anchor="middle" fill="#f8fafc" font-size="18" font-weight="850">Protocols</text>
+                  <text x="535" y="545" text-anchor="middle" fill="#e2e8f0" font-size="12">Application message contracts &amp; semantics.</text>
+                  <rect x="442" y="545" width="209" height="24" rx="6" fill="rgba(15,23,42,.88)" stroke="#334155"/>
+                  <text x="547" y="562" text-anchor="middle" fill="#e5e7eb" font-size="12" font-weight="750">RestfulRequest / Response · verbs · codes</text>
+                </a>
+
+                <a href="core/fogNodes.html" class="module" data-module="fognodes">
+                  <rect class="box" x="852" y="181" width="138" height="220" rx="12" fill="rgba(4,47,46,.42)" stroke="#14b8a6" stroke-width="1.5" filter="url(#shadow)"/>
+                  <text x="920" y="245" text-anchor="middle" font-size="44">🖥️</text>
+                  <text x="920" y="284" text-anchor="middle" fill="#f8fafc" font-size="18" font-weight="850">Fog Nodes</text>
+                  <text x="920" y="327" text-anchor="middle" fill="#e2e8f0" font-size="12">Compute close to the</text>
+                  <text x="920" y="347" text-anchor="middle" fill="#e2e8f0" font-size="12">source. Filtering,</text>
+                  <text x="920" y="367" text-anchor="middle" fill="#e2e8f0" font-size="12">aggregation, offloading.</text>
+                  <rect x="860" y="368" width="123" height="24" rx="6" fill="rgba(15,23,42,.88)" stroke="#334155"/>
+                  <text x="922" y="385" text-anchor="middle" fill="#e5e7eb" font-size="11" font-weight="750">blades · VMs · zones</text>
+                </a>
+                <a href="core/datacentre.html" class="module" data-module="datacentre">
+                  <rect class="box" x="1066" y="179" width="222" height="222" rx="12" fill="rgba(15,23,42,.82)" stroke="#64748b" stroke-width="1.5" filter="url(#shadow)"/>
+                  <text x="1177" y="248" text-anchor="middle" font-size="46">🏢</text>
+                  <text x="1177" y="283" text-anchor="middle" fill="#f8fafc" font-size="18" font-weight="850">Data Centre</text>
+                  <text x="1177" y="329" text-anchor="middle" fill="#e2e8f0" font-size="12">Central storage and heavy</text>
+                  <text x="1177" y="349" text-anchor="middle" fill="#e2e8f0" font-size="12">compute, fronted by the</text>
+                  <text x="1177" y="369" text-anchor="middle" fill="#e2e8f0" font-size="12">CloudProvider broker.</text>
+                  <rect x="1098" y="370" width="158" height="24" rx="6" fill="rgba(15,23,42,.88)" stroke="#334155"/>
+                  <text x="1177" y="387" text-anchor="middle" fill="#e5e7eb" font-size="12" font-weight="750">CloudProvider · NodeDb</text>
+                </a>
+
+                <rect x="1000" y="438" width="560" height="146" rx="12" fill="rgba(59,7,100,.17)" stroke="#a855f7" stroke-width="1.3"/>
+                <a href="core/dcManager.html" class="module" data-module="dcmanager">
+                  <rect class="smallbox" x="1022" y="456" width="164" height="112" rx="12" fill="url(#purplePanel)" stroke="#a855f7" stroke-width="1.5" filter="url(#shadow)"/>
+                  <text x="1104" y="503" text-anchor="middle" font-size="40">♻️</text>
+                  <text x="1104" y="528" text-anchor="middle" fill="#f8fafc" font-size="17" font-weight="850">DcManager</text>
+                  <text x="1104" y="548" text-anchor="middle" fill="#e2e8f0" font-size="11">VM deployment lifecycle,</text>
+                  <text x="1104" y="565" text-anchor="middle" fill="#e2e8f0" font-size="11">gates and callback</text>
+                  <text x="1104" y="582" text-anchor="middle" fill="#e2e8f0" font-size="11">routing.</text>
+                </a>
+                <a href="core/resourceManager.html" class="module" data-module="resourcemgr">
+                  <rect class="smallbox" x="1195" y="456" width="164" height="112" rx="12" fill="url(#purplePanel)" stroke="#a855f7" stroke-width="1.5" filter="url(#shadow)"/>
+                  <text x="1277" y="503" text-anchor="middle" font-size="40">⚖️</text>
+                  <text x="1277" y="528" text-anchor="middle" fill="#f8fafc" font-size="17" font-weight="850">ResourceMgr</text>
+                  <text x="1277" y="548" text-anchor="middle" fill="#e2e8f0" font-size="11">Allocation &amp; accounting</text>
+                  <text x="1277" y="565" text-anchor="middle" fill="#e2e8f0" font-size="11">of resources (CPU, RAM,</text>
+                  <text x="1277" y="582" text-anchor="middle" fill="#e2e8f0" font-size="11">VMs).</text>
+                </a>
+                <a href="core/placement.html" class="module" data-module="placement">
+                  <rect class="smallbox" x="1368" y="456" width="164" height="112" rx="12" fill="url(#purplePanel)" stroke="#a855f7" stroke-width="1.5" filter="url(#shadow)"/>
+                  <text x="1450" y="503" text-anchor="middle" font-size="40">🎯</text>
+                  <text x="1450" y="528" text-anchor="middle" fill="#f8fafc" font-size="17" font-weight="850">Placement</text>
+                  <text x="1450" y="548" text-anchor="middle" fill="#e2e8f0" font-size="11">Two-level placement</text>
+                  <text x="1450" y="565" text-anchor="middle" fill="#e2e8f0" font-size="11">decisions for workloads</text>
+                  <text x="1450" y="582" text-anchor="middle" fill="#e2e8f0" font-size="11">and services.</text>
+                </a>
+
+                <rect x="20" y="623" width="1560" height="168" rx="12" fill="rgba(15,23,42,.46)" stroke="#1e40af" stroke-width="1.2"/>
+                <text x="800" y="647" text-anchor="middle" fill="#3b82f6" font-size="18" font-weight="900" letter-spacing=".12em">5. EXPERIMENTS · OPS · REFERENCE</text>
+                <text x="800" y="671" text-anchor="middle" fill="#cbd5e1" font-size="13">Tools and practices to build, operate and continuously improve.</text>
+                <g stroke="#64748b" stroke-width="1.8" stroke-dasharray="6 6" marker-end="url(#arrowGray)" opacity=".68" fill="none">
+                  <path d="M148 623 L148 590"/><path d="M375 623 L375 590"/><path d="M700 623 L700 590"/><path d="M1130 623 L1130 590"/><path d="M1390 623 L1390 590"/>
+                </g>
+
+                <a href="core/recipes.html" class="module" data-module="recipes">
+                  <rect class="smallbox" x="40" y="672" width="210" height="102" rx="12" fill="rgba(15,23,42,.82)" stroke="#475569" stroke-width="1.4"/>
+                  <text x="83" y="730" text-anchor="middle" font-size="35">🍳</text>
+                  <text x="150" y="716" text-anchor="middle" fill="#f8fafc" font-size="17" font-weight="850">Recipes</text>
+                  <text x="150" y="744" text-anchor="middle" fill="#e2e8f0" font-size="12">Tested scenario</text>
+                  <text x="150" y="764" text-anchor="middle" fill="#e2e8f0" font-size="12">patterns and</text>
+                  <text x="150" y="784" text-anchor="middle" fill="#e2e8f0" font-size="12">guides.</text>
+                </a>
+                <a href="core/workflow.html" class="module" data-module="workflow">
+                  <rect class="smallbox" x="266" y="672" width="210" height="102" rx="12" fill="rgba(15,23,42,.82)" stroke="#475569" stroke-width="1.4"/>
+                  <text x="309" y="730" text-anchor="middle" font-size="35">🧬</text>
+                  <text x="376" y="716" text-anchor="middle" fill="#f8fafc" font-size="17" font-weight="850">Workflow</text>
+                  <text x="376" y="744" text-anchor="middle" fill="#e2e8f0" font-size="12">Experiment method</text>
+                  <text x="376" y="764" text-anchor="middle" fill="#e2e8f0" font-size="12">and result</text>
+                  <text x="376" y="784" text-anchor="middle" fill="#e2e8f0" font-size="12">pipeline.</text>
+                </a>
+                <a href="core/observability.html" class="module" data-module="observability">
+                  <rect class="smallbox" x="492" y="672" width="210" height="102" rx="12" fill="rgba(15,23,42,.82)" stroke="#475569" stroke-width="1.4"/>
+                  <text x="535" y="730" text-anchor="middle" font-size="35">📈</text>
+                  <text x="608" y="716" text-anchor="middle" fill="#f8fafc" font-size="17" font-weight="850">Observability</text>
+                  <text x="608" y="744" text-anchor="middle" fill="#e2e8f0" font-size="12">Signals, recorders,</text>
+                  <text x="608" y="764" text-anchor="middle" fill="#e2e8f0" font-size="12">metrics and</text>
+                  <text x="608" y="784" text-anchor="middle" fill="#e2e8f0" font-size="12">traces.</text>
+                </a>
+                <a href="core/troubleshooting.html" class="module" data-module="troubleshoot">
+                  <rect class="smallbox" x="718" y="672" width="210" height="102" rx="12" fill="rgba(15,23,42,.82)" stroke="#475569" stroke-width="1.4"/>
+                  <text x="761" y="730" text-anchor="middle" font-size="35">🔧</text>
+                  <text x="834" y="716" text-anchor="middle" fill="#f8fafc" font-size="17" font-weight="850">Troubleshoot</text>
+                  <text x="834" y="744" text-anchor="middle" fill="#e2e8f0" font-size="12">Diagnosis: symptom,</text>
+                  <text x="834" y="764" text-anchor="middle" fill="#e2e8f0" font-size="12">cause and</text>
+                  <text x="834" y="784" text-anchor="middle" fill="#e2e8f0" font-size="12">resolution.</text>
+                </a>
+                <a href="core/msgCatalog.html" class="module" data-module="msgcatalog">
+                  <rect class="smallbox" x="950" y="672" width="210" height="102" rx="12" fill="rgba(15,23,42,.82)" stroke="#475569" stroke-width="1.4"/>
+                  <text x="993" y="730" text-anchor="middle" font-size="35">📇</text>
+                  <text x="1064" y="716" text-anchor="middle" fill="#f8fafc" font-size="17" font-weight="850">Msg Catalog</text>
+                  <text x="1064" y="744" text-anchor="middle" fill="#e2e8f0" font-size="12">Message &amp; op-code</text>
+                  <text x="1064" y="764" text-anchor="middle" fill="#e2e8f0" font-size="12">reference and</text>
+                  <text x="1064" y="784" text-anchor="middle" fill="#e2e8f0" font-size="12">schemas.</text>
+                </a>
+                <a href="core/parameters.html" class="module" data-module="parameters">
+                  <rect class="smallbox" x="1180" y="672" width="210" height="102" rx="12" fill="rgba(15,23,42,.82)" stroke="#475569" stroke-width="1.4"/>
+                  <text x="1223" y="730" text-anchor="middle" font-size="35">🎛️</text>
+                  <text x="1294" y="716" text-anchor="middle" fill="#f8fafc" font-size="17" font-weight="850">Parameters</text>
+                  <text x="1294" y="744" text-anchor="middle" fill="#e2e8f0" font-size="12">Parameter resolution</text>
+                  <text x="1294" y="764" text-anchor="middle" fill="#e2e8f0" font-size="12">and dynamic</text>
+                  <text x="1294" y="784" text-anchor="middle" fill="#e2e8f0" font-size="12">tuning.</text>
+                </a>
+                <a href="core/iniTemplates.html" class="module" data-module="initemplates">
+                  <rect class="smallbox" x="1408" y="672" width="150" height="102" rx="12" fill="rgba(15,23,42,.82)" stroke="#475569" stroke-width="1.4"/>
+                  <text x="1435" y="730" text-anchor="middle" font-size="35">📄</text>
+                  <text x="1490" y="716" text-anchor="middle" fill="#f8fafc" font-size="17" font-weight="850">INI Templates</text>
+                  <text x="1490" y="744" text-anchor="middle" fill="#e2e8f0" font-size="12">Reusable config</text>
+                  <text x="1490" y="764" text-anchor="middle" fill="#e2e8f0" font-size="12">templates for</text>
+                  <text x="1490" y="784" text-anchor="middle" fill="#e2e8f0" font-size="12">deployment.</text>
+                </a>
+
+                <rect x="20" y="825" width="1560" height="102" rx="12" fill="rgba(15,23,42,.62)" stroke="#334155" stroke-width="1.2"/>
+                <text x="65" y="849" fill="#f8fafc" font-size="12" font-weight="900" letter-spacing=".12em">LEGEND</text>
+                <line x1="65" y1="870" x2="105" y2="870" stroke="#22d3ee" stroke-width="2" marker-end="url(#arrowCyan)"/>
+                <text x="118" y="875" fill="#e2e8f0" font-size="12">Data flow / events</text>
+                <line x1="65" y1="892" x2="105" y2="892" stroke="#ec4899" stroke-width="2" marker-end="url(#arrowPink)"/>
+                <text x="118" y="897" fill="#e2e8f0" font-size="12">Update / sync</text>
+                <line x1="65" y1="914" x2="105" y2="914" stroke="#a855f7" stroke-width="2" marker-end="url(#arrowPurple)"/>
+                <text x="118" y="919" fill="#e2e8f0" font-size="12">Control / orchestration</text>
+
+                <line x1="307" y1="832" x2="307" y2="922" stroke="#475569" stroke-dasharray="5 5"/>
+                <text x="338" y="849" fill="#f8fafc" font-size="12" font-weight="900" letter-spacing=".12em">KEY PRINCIPLES</text>
+                <text x="338" y="879" fill="#e2e8f0" font-size="12">🛡️ Message-based decoupling</text>
+                <text x="338" y="907" fill="#e2e8f0" font-size="12">🌐 Horizontal scalability</text>
+                <text x="540" y="879" fill="#e2e8f0" font-size="12">🔐 Security by design</text>
+                <text x="540" y="907" fill="#e2e8f0" font-size="12">⚙️ Resilience &amp; fault tolerance</text>
+                <text x="745" y="879" fill="#e2e8f0" font-size="12">📈 End-to-end observability</text>
+
+                <line x1="910" y1="832" x2="910" y2="922" stroke="#475569" stroke-dasharray="5 5"/>
+                <text x="945" y="849" fill="#f8fafc" font-size="12" font-weight="900" letter-spacing=".12em">BENEFITS</text>
+                <text x="945" y="877" fill="#e2e8f0" font-size="12">🚀 Low latency at the Edge</text>
+                <text x="945" y="900" fill="#e2e8f0" font-size="12">✓ Efficient Fog processing</text>
+                <text x="945" y="923" fill="#e2e8f0" font-size="12">✓ Cloud-scale analytics</text>
+
+                <line x1="1225" y1="832" x2="1225" y2="922" stroke="#475569" stroke-dasharray="5 5"/>
+                <text x="1295" y="849" fill="#f8fafc" font-size="12" font-weight="900" letter-spacing=".12em">MODELLED ON</text>
+                <text x="1295" y="883" fill="#e2e8f0" font-size="13" font-weight="800">📨 MQTT</text>
+                <text x="1378" y="883" fill="#e2e8f0" font-size="13" font-weight="800">🐇 RabbitMQ</text>
+                <text x="1480" y="883" fill="#e2e8f0" font-size="13" font-weight="800">🌐 REST</text>
+                <text x="1295" y="913" fill="#e2e8f0" font-size="13" font-weight="800">⚙️ OMNeT++</text>
+                <text x="1400" y="913" fill="#e2e8f0" font-size="13" font-weight="800">🔗 INET</text>
+                <text x="1480" y="913" fill="#e2e8f0" font-size="13" font-weight="800">📊 Scave</text>
+              </svg>
+            </div>
+          </div>
+
+          <!-- module modal -->
+          <div class="am-backdrop" id="am-backdrop" role="dialog" aria-modal="true" aria-labelledby="am-title">
+            <article class="am-modal">
+              <div class="am-head">
+                <div>
+                  <span class="am-kicker" id="am-kicker">Module</span>
+                  <h2 class="am-title" id="am-title">Title</h2>
+                </div>
+                <button class="am-close" id="am-close" type="button" aria-label="Close">×</button>
+              </div>
+              <div class="am-body">
+                <p id="am-summary"></p>
+                <h3>Responsibilities</h3>
+                <ul id="am-resp"></ul>
+                <h3>Typical interfaces</h3>
+                <ul id="am-iface"></ul>
+                <a href="#" class="am-link" id="am-link">Open documentation →</a>
+              </div>
+            </article>
+          </div>
+          </div>
+        </section>
 
   <div class="max-w-[1440px] mx-auto flex">
     
@@ -344,7 +618,7 @@
                 </a>
               </li>
               <li>
-                <a class="flex items-center gap-3 px-3 py-2 text-sm font-medium hover:bg-slate-800 rounded-lg transition" href="#config templates">
+                <a class="flex items-center gap-3 px-3 py-2 text-sm font-medium hover:bg-slate-800 rounded-lg transition" href="#configuration">
                   <span>⚙️</span>Configuration
                 </a>
               </li>
@@ -421,299 +695,6 @@
           </div>
         </div>
 
-      </div>
-
-      <!-- Interactive architecture map -->
-        <section class="archmap-band" id="architecture">
-          <div class="archmap-band-inner">
-          <div class="archmap-tools">
-            <p class="text-slate-400 text-sm">✦ Interactive architecture map. Click the map background to enlarge it; click a module for its quick reference — or <span class="text-slate-300">Ctrl/Cmd-click</span> to jump straight to its page.</p>
-            <button class="archmap-expand" id="archmap-expand" type="button" aria-label="Expand architecture map to fullscreen">⛶ Fullscreen</button>
-          </div>
-          <button class="archmap-close-full" id="archmap-close-full" type="button" aria-label="Close fullscreen architecture map">×</button>
-          <div class="archmap">
-            <div class="archmap-stage custom-scrollbar" id="archmap-stage" role="button" tabindex="0" aria-label="Expand architecture map to fullscreen">
-              <svg class="archmap-svg" viewBox="0 0 1600 960" role="img" aria-labelledby="amSvgTitle amSvgDesc">
-                <title id="amSvgTitle">Simcan2Fog architecture — how the four layers fit together</title>
-                <desc id="amSvgDesc">Interactive SVG diagram of the main Simcan2Fog modules. Each module can be selected to open an info card.</desc>
-                <defs>
-                  <linearGradient id="panelGrad" x1="0" x2="1" y1="0" y2="1"><stop offset="0%" stop-color="#111827" stop-opacity=".97"/><stop offset="100%" stop-color="#020617" stop-opacity=".97"/></linearGradient>
-                  <linearGradient id="cyanPanel" x1="0" x2="1"><stop offset="0%" stop-color="#083344" stop-opacity=".34"/><stop offset="100%" stop-color="#020617" stop-opacity=".72"/></linearGradient>
-                  <linearGradient id="purplePanel" x1="0" x2="1"><stop offset="0%" stop-color="#3b0764" stop-opacity=".24"/><stop offset="100%" stop-color="#020617" stop-opacity=".72"/></linearGradient>
-                  <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%"><feDropShadow dx="0" dy="14" stdDeviation="14" flood-color="#020617" flood-opacity=".68"/></filter>
-                  <filter id="strongGlow" x="-40%" y="-40%" width="180%" height="180%"><feDropShadow dx="0" dy="0" stdDeviation="6" flood-color="#22d3ee" flood-opacity=".55"/><feDropShadow dx="0" dy="12" stdDeviation="14" flood-color="#020617" flood-opacity=".65"/></filter>
-                  <filter id="textGlow" x="-40%" y="-40%" width="180%" height="180%"><feDropShadow dx="0" dy="0" stdDeviation="2.2" flood-color="#22d3ee" flood-opacity=".42"/></filter>
-                  <marker id="arrowCyan" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto" markerUnits="strokeWidth"><path d="M0,0 L10,5 L0,10 Z" fill="#22d3ee"/></marker>
-                  <marker id="arrowPink" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto" markerUnits="strokeWidth"><path d="M0,0 L10,5 L0,10 Z" fill="#ec4899"/></marker>
-                  <marker id="arrowPurple" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto" markerUnits="strokeWidth"><path d="M0,0 L10,5 L0,10 Z" fill="#a855f7"/></marker>
-                  <marker id="arrowGray" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto" markerUnits="strokeWidth"><path d="M0,0 L10,5 L0,10 Z" fill="#64748b"/></marker>
-                  <marker id="arrowOrange" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto" markerUnits="strokeWidth"><path d="M0,0 L10,5 L0,10 Z" fill="#f97316"/></marker>
-                  <marker id="arrowOrangeStart" markerWidth="10" markerHeight="10" refX="2" refY="5" orient="auto" markerUnits="strokeWidth"><path d="M10,0 L0,5 L10,10 Z" fill="#f97316"/></marker>
-                </defs>
-
-                <text x="800" y="48" text-anchor="middle" fill="#f8fafc" font-size="33" font-weight="900" letter-spacing=".01em">ARCHITECTURE — FOUR LAYERS</text>
-                <text x="800" y="77" text-anchor="middle" fill="#cbd5e1" font-size="17">Edge-to-Cloud data flow, orchestration and reference modules.</text>
-
-                <rect x="20" y="95" width="255" height="490" rx="14" fill="rgba(15,23,42,.40)" stroke="#f97316" stroke-width="1.3" stroke-dasharray="7 7"/>
-                <rect x="292" y="95" width="522" height="490" rx="14" fill="rgba(8,47,73,.22)" stroke="#06b6d4" stroke-width="1.3"/>
-                <rect x="830" y="95" width="356" height="490" rx="14" fill="rgba(20,184,166,.12)" stroke="#14b8a6" stroke-width="1.3"/>
-                <rect x="1202" y="95" width="378" height="490" rx="14" fill="rgba(88,28,135,.18)" stroke="#a855f7" stroke-width="1.3"/>
-
-                <text x="148" y="124" text-anchor="middle" fill="#f97316" font-size="17" font-weight="900">1. EDGE</text>
-                <text x="148" y="149" text-anchor="middle" fill="#cbd5e1" font-size="13">Devices &amp; users</text>
-                <text x="553" y="124" text-anchor="middle" fill="#22d3ee" font-size="17" font-weight="900">2. SERVICES &amp; NETWORKING</text>
-                <text x="553" y="149" text-anchor="middle" fill="#cbd5e1" font-size="13">Connectivity &amp; central services</text>
-                <text x="1008" y="124" text-anchor="middle" fill="#14b8a6" font-size="17" font-weight="900">3. FOG &amp; CLOUD</text>
-                <text x="1008" y="149" text-anchor="middle" fill="#cbd5e1" font-size="13">Distributed compute &amp; data</text>
-                <text x="1391" y="124" text-anchor="middle" fill="#c084fc" font-size="17" font-weight="900">4. ORCHESTRATION</text>
-                <text x="1391" y="149" text-anchor="middle" fill="#cbd5e1" font-size="13">Automation &amp; control</text>
-
-                <g fill="none" stroke-linecap="round" stroke-linejoin="round">
-                  <path d="M255 245 H286 Q300 245 315 226" stroke="#22d3ee" stroke-width="2" marker-end="url(#arrowCyan)" opacity=".82"/>
-                  <path d="M530 226 H548 Q566 226 576 244 V304 Q576 318 610 330" stroke="#22d3ee" stroke-width="2" marker-end="url(#arrowCyan)" opacity=".82"/>
-                  <path d="M783 255 H814 Q830 255 842 242 L852 226" stroke="#22d3ee" stroke-width="2" marker-end="url(#arrowCyan)" opacity=".82"/>
-                  <path d="M783 386 H822 C900 386 986 342 1066 303" stroke="#22d3ee" stroke-width="2" marker-end="url(#arrowCyan)" opacity=".82"/>
-                  <path d="M715 520 V470 H820 Q850 470 870 440 L895 401" stroke="#22d3ee" stroke-width="2" marker-end="url(#arrowCyan)" opacity=".78"/>
-                  <path d="M675 482 V455 Q675 442 690 442 H775" stroke="#22d3ee" stroke-width="1.8" stroke-dasharray="6 6" marker-end="url(#arrowCyan)" opacity=".65"/>
-                  <path d="M255 404 H280 V160 H548 V233 H568" stroke="#ec4899" stroke-width="2" marker-end="url(#arrowPink)" opacity=".82"/>
-                  <path d="M530 350 V320 Q530 300 548 294 H592" stroke="#ec4899" stroke-width="1.8" stroke-dasharray="6 6" marker-end="url(#arrowPink)" opacity=".72"/>
-                  <path d="M433 285 V305 Q433 322 448 330 H500 Q518 330 530 350" stroke="#ec4899" stroke-width="1.8" stroke-dasharray="6 6" marker-end="url(#arrowPink)" opacity=".72"/>
-                  <path d="M783 232 H852" stroke="#ec4899" stroke-width="2" stroke-dasharray="6 6" marker-end="url(#arrowPink)" opacity=".82"/>
-                  <path d="M760 285 V330" stroke="#22d3ee" stroke-width="1.8" stroke-dasharray="5 5" marker-end="url(#arrowCyan)" opacity=".72"/>
-                  <path d="M1130 401 V428 Q1130 444 1120 450 L1104 456" stroke="#a855f7" stroke-width="2" marker-end="url(#arrowPurple)" opacity=".82"/>
-                  <path d="M1186 512 H1208" stroke="#a855f7" stroke-width="2" marker-end="url(#arrowPurple)" opacity=".82"/>
-                  <path d="M1372 512 H1394" stroke="#a855f7" stroke-width="2" marker-end="url(#arrowPurple)" opacity=".82"/>
-                  <path d="M1476 456 V426 Q1476 406 1456 406 H1325 Q1300 406 1288 392 V360" stroke="#a855f7" stroke-width="1.8" stroke-dasharray="6 6" marker-end="url(#arrowPurple)" opacity=".70"/>
-                  <path d="M148 339 V365" stroke="#f97316" stroke-width="2" marker-start="url(#arrowOrangeStart)" marker-end="url(#arrowOrange)" opacity=".72"/>
-                </g>
-                <text x="432" y="175" fill="#ec4899" font-size="12" font-weight="800">SM_UserVM</text>
-                <text x="915" y="244" fill="#ec4899" font-size="12" font-weight="800">NodeUpdate</text>
-                <text x="760" y="456" fill="#22d3ee" font-size="12" font-weight="800">RestfulRequest</text>
-
-                <a href="core/iotDevices.html" class="module" data-module="iot">
-                  <rect class="box" x="40" y="167" width="215" height="172" rx="12" fill="url(#panelGrad)" stroke="#f97316" stroke-width="1.5" filter="url(#shadow)"/>
-                  <text x="93" y="229" text-anchor="middle" font-size="46">📡</text>
-                  <text x="168" y="232" text-anchor="middle" fill="#f8fafc" font-size="18" font-weight="850">IoT Devices</text>
-                  <text x="169" y="259" text-anchor="middle" fill="#e2e8f0" font-size="12">Sensors &amp; actuators</text>
-                  <text x="169" y="279" text-anchor="middle" fill="#e2e8f0" font-size="12">local actions</text>
-                  <rect x="78" y="305" width="139" height="26" rx="6" fill="rgba(15,23,42,.88)" stroke="#334155"/>
-                  <text x="148" y="323" text-anchor="middle" fill="#e5e7eb" font-size="12" font-weight="750">Sensor · Actuator</text>
-                </a>
-                <a href="core/edgeuser.html" class="module" data-module="edgeuser">
-                  <rect class="box" x="40" y="365" width="215" height="177" rx="12" fill="url(#panelGrad)" stroke="#f97316" stroke-width="1.5" filter="url(#shadow)"/>
-                  <text x="90" y="441" text-anchor="middle" font-size="48">👤</text>
-                  <text x="168" y="428" text-anchor="middle" fill="#f8fafc" font-size="18" font-weight="850">Edge User</text>
-                  <text x="169" y="457" text-anchor="middle" fill="#e2e8f0" font-size="12">Local apps</text>
-                  <text x="169" y="477" text-anchor="middle" fill="#e2e8f0" font-size="12">edge/cloud access</text>
-                  <rect x="78" y="498" width="139" height="26" rx="6" fill="rgba(15,23,42,.88)" stroke="#334155"/>
-                  <text x="148" y="516" text-anchor="middle" fill="#e5e7eb" font-size="12" font-weight="750">Apps · VMs</text>
-                </a>
-
-                <a href="core/dns.html" class="module" data-module="dns">
-                  <rect class="box" x="315" y="167" width="215" height="118" rx="12" fill="url(#cyanPanel)" stroke="#0284c7" stroke-width="1.5" filter="url(#shadow)"/>
-                  <text x="360" y="228" text-anchor="middle" font-size="44">🌐</text>
-                  <text x="432" y="211" text-anchor="middle" fill="#f8fafc" font-size="18" font-weight="850">DNS</text>
-                  <text x="433" y="237" text-anchor="middle" fill="#e2e8f0" font-size="12">Name resolution</text>
-                  <text x="433" y="257" text-anchor="middle" fill="#e2e8f0" font-size="12">service discovery</text>
-                </a>
-                <a href="core/messageQueue.html" class="module" data-module="messagequeue">
-                  <rect class="box" x="568" y="167" width="215" height="118" rx="12" fill="url(#cyanPanel)" stroke="#0284c7" stroke-width="1.5" filter="url(#shadow)"/>
-                  <text x="610" y="228" text-anchor="middle" font-size="40">✉️</text>
-                  <text x="695" y="211" text-anchor="middle" fill="#f8fafc" font-size="18" font-weight="850">Message Queue</text>
-                  <text x="695" y="237" text-anchor="middle" fill="#e2e8f0" font-size="12">Async events</text>
-                  <text x="695" y="257" text-anchor="middle" fill="#e2e8f0" font-size="12">topic routing</text>
-                  <rect x="603" y="258" width="148" height="24" rx="6" fill="rgba(15,23,42,.88)" stroke="#334155"/>
-                  <text x="677" y="275" text-anchor="middle" fill="#e5e7eb" font-size="12" font-weight="750">push 8444 · pull 8443</text>
-                </a>
-                <a href="core/queueClient.html" class="module" data-module="queueclient">
-                  <rect class="box" x="315" y="330" width="215" height="112" rx="12" fill="url(#cyanPanel)" stroke="#0284c7" stroke-width="1.5" filter="url(#shadow)"/>
-                  <text x="360" y="388" text-anchor="middle" font-size="40">🔌</text>
-                  <text x="432" y="372" text-anchor="middle" fill="#f8fafc" font-size="18" font-weight="850">Queue Client</text>
-                  <text x="433" y="397" text-anchor="middle" fill="#e2e8f0" font-size="12">Pub/Sub adapter</text>
-                  <rect x="370" y="413" width="108" height="24" rx="6" fill="rgba(15,23,42,.88)" stroke="#334155"/>
-                  <text x="424" y="430" text-anchor="middle" fill="#e5e7eb" font-size="12" font-weight="750">push · pull · topic</text>
-                </a>
-                <a href="core/appProxy.html" class="module" data-module="appproxy">
-                  <rect class="box" x="568" y="330" width="215" height="112" rx="12" fill="url(#cyanPanel)" stroke="#0284c7" stroke-width="1.5" filter="url(#shadow)"/>
-                  <text x="610" y="388" text-anchor="middle" font-size="40">🛡️</text>
-                  <text x="695" y="372" text-anchor="middle" fill="#f8fafc" font-size="18" font-weight="850">App Proxy</text>
-                  <text x="695" y="397" text-anchor="middle" fill="#e2e8f0" font-size="12">Service routing</text>
-                  <rect x="600" y="413" width="150" height="24" rx="6" fill="rgba(15,23,42,.88)" stroke="#334155"/>
-                  <text x="675" y="430" text-anchor="middle" fill="#e5e7eb" font-size="12" font-weight="750">PASSTHROUGH · EDGE</text>
-                </a>
-                <a href="core/protocols.html" class="module" data-module="protocols">
-                  <rect class="widebox" x="385" y="482" width="330" height="94" rx="12" fill="url(#cyanPanel)" stroke="#0284c7" stroke-width="1.5" filter="url(#shadow)"/>
-                  <text x="430" y="533" text-anchor="middle" font-size="42">🔗</text>
-                  <text x="535" y="515" text-anchor="middle" fill="#f8fafc" font-size="18" font-weight="850">Protocols</text>
-                  <text x="535" y="545" text-anchor="middle" fill="#e2e8f0" font-size="12">Message contracts</text>
-                  <rect x="442" y="545" width="209" height="24" rx="6" fill="rgba(15,23,42,.88)" stroke="#334155"/>
-                  <text x="547" y="562" text-anchor="middle" fill="#e5e7eb" font-size="12" font-weight="750">REST verbs · codes</text>
-                </a>
-
-                <a href="core/fogNodes.html" class="module" data-module="fognodes">
-                  <rect class="box" x="852" y="181" width="138" height="220" rx="12" fill="rgba(4,47,46,.42)" stroke="#14b8a6" stroke-width="1.5" filter="url(#shadow)"/>
-                  <text x="920" y="245" text-anchor="middle" font-size="44">🖥️</text>
-                  <text x="920" y="284" text-anchor="middle" fill="#f8fafc" font-size="18" font-weight="850">Fog Nodes</text>
-                  <text x="920" y="327" text-anchor="middle" fill="#e2e8f0" font-size="12">Fog compute</text>
-                  <text x="920" y="347" text-anchor="middle" fill="#e2e8f0" font-size="12">filter · aggregate</text>
-                  <rect x="860" y="368" width="123" height="24" rx="6" fill="rgba(15,23,42,.88)" stroke="#334155"/>
-                  <text x="922" y="385" text-anchor="middle" fill="#e5e7eb" font-size="11" font-weight="750">blades · VMs</text>
-                </a>
-                <a href="core/datacentre.html" class="module" data-module="datacentre">
-                  <rect class="box" x="1066" y="179" width="222" height="222" rx="12" fill="rgba(15,23,42,.82)" stroke="#64748b" stroke-width="1.5" filter="url(#shadow)"/>
-                  <text x="1177" y="248" text-anchor="middle" font-size="46">🏢</text>
-                  <text x="1177" y="283" text-anchor="middle" fill="#f8fafc" font-size="18" font-weight="850">Data Centre</text>
-                  <text x="1177" y="329" text-anchor="middle" fill="#e2e8f0" font-size="12">Cloud capacity</text>
-                  <text x="1177" y="349" text-anchor="middle" fill="#e2e8f0" font-size="12">storage · compute</text>
-                  <rect x="1098" y="370" width="158" height="24" rx="6" fill="rgba(15,23,42,.88)" stroke="#334155"/>
-                  <text x="1177" y="387" text-anchor="middle" fill="#e5e7eb" font-size="12" font-weight="750">CloudProvider · NodeDb</text>
-                </a>
-
-                <rect x="1000" y="438" width="560" height="146" rx="12" fill="rgba(59,7,100,.17)" stroke="#a855f7" stroke-width="1.3"/>
-                <a href="core/dcManager.html" class="module" data-module="dcmanager">
-                  <rect class="smallbox" x="1022" y="456" width="164" height="128" rx="12" fill="url(#purplePanel)" stroke="#a855f7" stroke-width="1.5" filter="url(#shadow)"/>
-                  <text x="1104" y="503" text-anchor="middle" font-size="40">♻️</text>
-                  <text x="1104" y="528" text-anchor="middle" fill="#f8fafc" font-size="17" font-weight="850">DcManager</text>
-                  <text x="1104" y="548" text-anchor="middle" fill="#e2e8f0" font-size="11">VM lifecycle</text>
-                  <text x="1104" y="563" text-anchor="middle" fill="#e2e8f0" font-size="11">deploy gates</text>
-                </a>
-                <a href="core/resourceManager.html" class="module" data-module="resourcemgr">
-                  <rect class="smallbox" x="1208" y="456" width="164" height="128" rx="12" fill="url(#purplePanel)" stroke="#a855f7" stroke-width="1.5" filter="url(#shadow)"/>
-                  <text x="1290" y="503" text-anchor="middle" font-size="40">⚖️</text>
-                  <text x="1290" y="528" text-anchor="middle" fill="#f8fafc" font-size="16" font-weight="850">ResourceMgr</text>
-                  <text x="1290" y="548" text-anchor="middle" fill="#e2e8f0" font-size="11">Capacity control</text>
-                  <text x="1290" y="563" text-anchor="middle" fill="#e2e8f0" font-size="11">CPU · RAM · VMs</text>
-                  
-                </a>
-                <a href="core/placement.html" class="module" data-module="placement">
-                  <rect class="smallbox" x="1394" y="456" width="164" height="128" rx="12" fill="url(#purplePanel)" stroke="#a855f7" stroke-width="1.5" filter="url(#shadow)"/>
-                  <text x="1476" y="503" text-anchor="middle" font-size="40">🎯</text>
-                  <text x="1476" y="528" text-anchor="middle" fill="#f8fafc" font-size="17" font-weight="850">Placement</text>
-                  <text x="1476" y="548" text-anchor="middle" fill="#e2e8f0" font-size="11">Workload placement</text>
-                  <text x="1476" y="563" text-anchor="middle" fill="#e2e8f0" font-size="11">policy · latency</text>
-                </a>
-
-                <rect x="20" y="623" width="1560" height="168" rx="12" fill="rgba(15,23,42,.46)" stroke="#1e40af" stroke-width="1.2"/>
-                <text x="800" y="647" text-anchor="middle" fill="#3b82f6" font-size="18" font-weight="900" letter-spacing=".12em">5. EXPERIMENTS · OPS · REFERENCE</text>
-                <text x="800" y="671" text-anchor="middle" fill="#cbd5e1" font-size="13">Tools and practices for repeatable simulations.</text>
-                <g stroke="#64748b" stroke-width="1.8" stroke-dasharray="6 6" marker-end="url(#arrowGray)" opacity=".68" fill="none">
-                  <path d="M148 623 L148 590"/><path d="M375 623 L375 590"/><path d="M700 623 L700 590"/><path d="M1130 623 L1130 590"/><path d="M1390 623 L1390 590"/>
-                </g>
-
-                <a href="core/recipes.html" class="module" data-module="recipes">
-                  <rect class="smallbox" x="40" y="672" width="210" height="102" rx="12" fill="rgba(15,23,42,.82)" stroke="#475569" stroke-width="1.4"/>
-                  <text x="83" y="730" text-anchor="middle" font-size="35">🍳</text>
-                  <text x="150" y="716" text-anchor="middle" fill="#f8fafc" font-size="17" font-weight="850">Recipes</text>
-                  <text x="150" y="744" text-anchor="middle" fill="#e2e8f0" font-size="12">Scenario</text>
-                </a>
-                <a href="core/workflow.html" class="module" data-module="workflow">
-                  <rect class="smallbox" x="266" y="672" width="210" height="102" rx="12" fill="rgba(15,23,42,.82)" stroke="#475569" stroke-width="1.4"/>
-                  <text x="309" y="730" text-anchor="middle" font-size="35">🧬</text>
-                  <text x="376" y="716" text-anchor="middle" fill="#f8fafc" font-size="17" font-weight="850">Workflow</text>
-                  <text x="376" y="744" text-anchor="middle" fill="#e2e8f0" font-size="12">Experiment</text>
-                  <text x="376" y="764" text-anchor="middle" fill="#e2e8f0" font-size="12">pipeline</text>
-                  
-                </a>
-                <a href="core/observability.html" class="module" data-module="observability">
-                  <rect class="smallbox" x="492" y="672" width="210" height="102" rx="12" fill="rgba(15,23,42,.82)" stroke="#475569" stroke-width="1.4"/>
-                  <text x="535" y="730" text-anchor="middle" font-size="35">📈</text>
-                  <text x="608" y="716" text-anchor="middle" fill="#f8fafc" font-size="16" font-weight="850">Observability</text>
-                  <text x="608" y="744" text-anchor="middle" fill="#e2e8f0" font-size="12">Signals</text>
-                  <text x="608" y="764" text-anchor="middle" fill="#e2e8f0" font-size="12">metrics · traces</text>
-                  
-                </a>
-                <a href="core/troubleshooting.html" class="module" data-module="troubleshoot">
-                  <rect class="smallbox" x="718" y="672" width="210" height="102" rx="12" fill="rgba(15,23,42,.82)" stroke="#475569" stroke-width="1.4"/>
-                  <text x="761" y="730" text-anchor="middle" font-size="35">🔧</text>
-                  <text x="834" y="716" text-anchor="middle" fill="#f8fafc" font-size="17" font-weight="850">Troubleshoot</text>
-                  <text x="834" y="744" text-anchor="middle" fill="#e2e8f0" font-size="12">Symptoms</text>
-                  <text x="834" y="764" text-anchor="middle" fill="#e2e8f0" font-size="12">causes → fixes</text>
-                  
-                </a>
-                <a href="core/msgCatalog.html" class="module" data-module="msgcatalog">
-                  <rect class="smallbox" x="950" y="672" width="210" height="102" rx="12" fill="rgba(15,23,42,.82)" stroke="#475569" stroke-width="1.4"/>
-                  <text x="993" y="730" text-anchor="middle" font-size="35">📇</text>
-                  <text x="1064" y="716" text-anchor="middle" fill="#f8fafc" font-size="17" font-weight="850">Msg Catalog</text>
-                  <text x="1064" y="744" text-anchor="middle" fill="#e2e8f0" font-size="12">Messages</text>
-                  <text x="1064" y="764" text-anchor="middle" fill="#e2e8f0" font-size="12">op-codes · schemas</text>
-                  
-                </a>
-                <a href="core/parameters.html" class="module" data-module="parameters">
-                  <rect class="smallbox" x="1180" y="672" width="210" height="102" rx="12" fill="rgba(15,23,42,.82)" stroke="#475569" stroke-width="1.4"/>
-                  <text x="1223" y="730" text-anchor="middle" font-size="35">🎛️</text>
-                  <text x="1294" y="716" text-anchor="middle" fill="#f8fafc" font-size="17" font-weight="850">Parameters</text>
-                  <text x="1294" y="744" text-anchor="middle" fill="#e2e8f0" font-size="12">Config</text>
-                  <text x="1294" y="764" text-anchor="middle" fill="#e2e8f0" font-size="12">parameters · sweeps</text>
-                  
-                </a>
-                <a href="core/iniTemplates.html" class="module" data-module="initemplates">
-                  <rect class="smallbox" x="1408" y="672" width="150" height="102" rx="12" fill="rgba(15,23,42,.82)" stroke="#475569" stroke-width="1.4"/>
-                  <text x="1435" y="730" text-anchor="middle" font-size="35">📄</text>
-                  <text x="1490" y="716" text-anchor="middle" fill="#f8fafc" font-size="15" font-weight="850">INI Templates</text>
-                  <text x="1490" y="744" text-anchor="middle" fill="#e2e8f0" font-size="12">Reusable</text>
-                  <text x="1490" y="764" text-anchor="middle" fill="#e2e8f0" font-size="12">config templates</text>
-                  
-                </a>
-
-                <rect x="20" y="825" width="1560" height="102" rx="12" fill="rgba(15,23,42,.62)" stroke="#334155" stroke-width="1.2"/>
-                <text x="65" y="849" fill="#f8fafc" font-size="12" font-weight="900" letter-spacing=".12em">LEGEND</text>
-                <line x1="65" y1="870" x2="105" y2="870" stroke="#22d3ee" stroke-width="2" marker-end="url(#arrowCyan)"/>
-                <text x="118" y="875" fill="#e2e8f0" font-size="12">Data flow / events</text>
-                <line x1="65" y1="892" x2="105" y2="892" stroke="#ec4899" stroke-width="2" marker-end="url(#arrowPink)"/>
-                <text x="118" y="897" fill="#e2e8f0" font-size="12">Update / sync</text>
-                <line x1="65" y1="914" x2="105" y2="914" stroke="#a855f7" stroke-width="2" marker-end="url(#arrowPurple)"/>
-                <text x="118" y="919" fill="#e2e8f0" font-size="12">Control / orchestration</text>
-
-                <line x1="307" y1="832" x2="307" y2="922" stroke="#475569" stroke-dasharray="5 5"/>
-                <text x="338" y="849" fill="#f8fafc" font-size="12" font-weight="900" letter-spacing=".12em">KEY PRINCIPLES</text>
-                <text x="338" y="879" fill="#e2e8f0" font-size="12">🛡️ Decoupled messages</text>
-                <text x="338" y="907" fill="#e2e8f0" font-size="12">🌐 Scalable modules</text>
-                <text x="540" y="879" fill="#e2e8f0" font-size="12">🔐 Security by design</text>
-                <text x="540" y="907" fill="#e2e8f0" font-size="12">⚙️ Resilience</text>
-                <text x="745" y="879" fill="#e2e8f0" font-size="12">📈 Observability</text>
-
-                <line x1="910" y1="832" x2="910" y2="922" stroke="#475569" stroke-dasharray="5 5"/>
-                <text x="945" y="849" fill="#f8fafc" font-size="12" font-weight="900" letter-spacing=".12em">BENEFITS</text>
-                <text x="945" y="877" fill="#e2e8f0" font-size="12">🚀 Low edge latency</text>
-                <text x="945" y="900" fill="#e2e8f0" font-size="12">✓ Fog processing</text>
-                <text x="945" y="923" fill="#e2e8f0" font-size="12">✓ Cloud analytics</text>
-
-                <line x1="1225" y1="832" x2="1225" y2="922" stroke="#475569" stroke-dasharray="5 5"/>
-                <text x="1295" y="849" fill="#f8fafc" font-size="12" font-weight="900" letter-spacing=".12em">MODELLED ON</text>
-                <text x="1295" y="883" fill="#e2e8f0" font-size="13" font-weight="800">📨 MQTT</text>
-                <text x="1378" y="883" fill="#e2e8f0" font-size="13" font-weight="800">🐇 RabbitMQ</text>
-                <text x="1480" y="883" fill="#e2e8f0" font-size="13" font-weight="800">🌐 REST</text>
-                <text x="1295" y="913" fill="#e2e8f0" font-size="13" font-weight="800">⚙️ OMNeT++</text>
-                <text x="1400" y="913" fill="#e2e8f0" font-size="13" font-weight="800">🔗 INET</text>
-                <text x="1480" y="913" fill="#e2e8f0" font-size="13" font-weight="800">📊 Scave</text>
-              </svg>
-            </div>
-          </div>
-
-          <!-- module modal -->
-          <div class="am-backdrop" id="am-backdrop" role="dialog" aria-modal="true" aria-labelledby="am-title">
-            <article class="am-modal">
-              <div class="am-head">
-                <div>
-                  <span class="am-kicker" id="am-kicker">Module</span>
-                  <h2 class="am-title" id="am-title">Title</h2>
-                </div>
-                <button class="am-close" id="am-close" type="button" aria-label="Close">×</button>
-              </div>
-              <div class="am-body">
-                <p id="am-summary"></p>
-                <h3>Responsibilities</h3>
-                <ul id="am-resp"></ul>
-                <h3>Typical interfaces</h3>
-                <ul id="am-iface"></ul>
-                <a href="#" class="am-link" id="am-link">Open documentation →</a>
-              </div>
-            </article>
-          </div>
-          </div>
-        </section>
-
-      <div class="max-w-4xl mx-auto">
         <!-- Quick Start Grid -->
         <section id="introduction" class="mb-16">
           <h2 class="text-3xl font-bold mb-6">Quick Start Guides</h2>
@@ -750,7 +731,7 @@
         </section>
 
         <!-- Example Configuration -->
-        <section id="config templates" class="mb-16 space-y-6">
+        <section id="configuration" class="mb-16 space-y-6">
           <div class="flex items-center justify-between">
             <h2 class="text-3xl font-bold">Example Configuration</h2>
             <a href="https://github.com/UlyssesDeAguilar/Simcan2Fog/tree/master/showcases" target="_blank" class="text-cyan-400 text-sm font-semibold hover:underline">
@@ -816,7 +797,7 @@
               <ul class="space-y-2 text-slate-300">
                 <li>• Local processing to reduce latency</li>
                 <li>• Resource management and virtualization</li>
-                <li>• Dynamic task  decisions</li>
+                <li>• Dynamic task offloading decisions</li>
                 <li>• Mesh networking capabilities using <a href="core/dns.html" class="text-cyan-400 hover:text-cyan-300 underline">DNS</a> for service discovery</li>
               </ul>
             </div>
@@ -836,7 +817,7 @@
           </div>
 
           <p class="text-slate-300 mt-6 text-center">
-            See these concepts in action: <a href="../showcases/iot.html" class="text-cyan-400 hover:text-cyan-300 underline">IoT Showcase</a> demonstrates sensor-actuator  with <a href="core/iotDevices.html" class="text-cyan-400 hover:text-cyan-300 underline">IoT devices</a>, while the <a href="../showcases/dc.html" class="text-cyan-400 hover:text-cyan-300 underline">Data Centre Showcase</a> shows VM provisioning with the <a href="core/messageQueue.html" class="text-cyan-400 hover:text-cyan-300 underline">message queue</a>.
+            See these concepts in action: <a href="../showcases/iot.html" class="text-cyan-400 hover:text-cyan-300 underline">IoT Showcase</a> demonstrates sensor-actuator patterns with <a href="core/iotDevices.html" class="text-cyan-400 hover:text-cyan-300 underline">IoT devices</a>, while the <a href="../showcases/dc.html" class="text-cyan-400 hover:text-cyan-300 underline">Data Centre Showcase</a> shows VM provisioning with the <a href="core/messageQueue.html" class="text-cyan-400 hover:text-cyan-300 underline">message queue</a>.
           </p>
         </section>
 
@@ -859,7 +840,7 @@
             <a href="../showcases/dc.html" class="bg-slate-900/50 border border-slate-800 rounded-xl p-6 hover:border-cyan-500/50 transition cursor-pointer">
               <h3 class="text-lg font-bold mb-2">🏢 Data Centre</h3>
               <p class="text-sm text-slate-400 mb-3">
-                VM provisioning, service deployment, and cloud-to-edge communication .
+                VM provisioning, service deployment, and cloud-to-edge communication patterns.
               </p>
               <code class="text-xs text-cyan-400">showcases/Datacentre/</code>
             </a>
@@ -867,7 +848,7 @@
             <a href="../showcases/proxy.html" class="bg-slate-900/50 border border-slate-800 rounded-xl p-6 hover:border-cyan-500/50 transition cursor-pointer">
               <h3 class="text-lg font-bold mb-2">🔗 Proxy & DNS</h3>
               <p class="text-sm text-slate-400 mb-3">
-                Demonstrates proxy module functionality with optional DNS integration for service discovery
+                Demonstrates proxy module functionality with optional DNS integration for service discovery.
               </p>
               <code class="text-xs text-cyan-400">showcases/Proxy/</code>
             </a>
@@ -930,7 +911,7 @@
                 <span class="text-cyan-400 group-open:rotate-180 transition-transform">▼</span>
               </summary>
               <div class="px-6 py-5 text-slate-300 leading-relaxed">
-                Simcan2Fog is an open-source discrete-event simulation framework for modeling fog, edge, and cloud computing environments. It extends OMNeT++ and INET with fog-specific modules including hierarchical fog architectures, task , DNS service discovery, and MQTT-style message queues.
+                Simcan2Fog is an open-source discrete-event simulation framework for modeling fog, edge, and cloud computing environments. It extends OMNeT++ and INET with fog-specific modules including hierarchical fog architectures, task offloading, DNS service discovery, and MQTT-style message queues.
               </div>
             </details>
 
@@ -952,7 +933,7 @@
                 <span class="text-cyan-400 group-open:rotate-180 transition-transform">▼</span>
               </summary>
               <div class="px-6 py-5 text-slate-300 leading-relaxed">
-                Unlike iFogSim (CloudSim-based), Simcan2Fog is built on <strong>OMNeT++</strong> and <strong>INET</strong>, providing full network stack simulation with realistic protocols (IEEE 802.15.4, WiFi, Ethernet, 5G). It includes native DNS service discovery, MQTT-style message queues, and supports both event-driven and GUI-based simulation pipelines. See our <a href="../comparison.html" class="text-cyan-400 hover:text-cyan-300 underline">detailed comparison table</a> for more information.
+                Unlike iFogSim (CloudSim-based), Simcan2Fog is built on <strong>OMNeT++</strong> and <strong>INET</strong>, providing full network stack simulation with realistic protocols (IEEE 802.15.4, WiFi, Ethernet, 5G). It includes native DNS service discovery, MQTT-style message queues, and supports both event-driven and GUI-based simulation workflows. See our <a href="../comparison.html" class="text-cyan-400 hover:text-cyan-300 underline">detailed comparison table</a> for more information.
               </div>
             </details>
 
@@ -981,7 +962,7 @@
                   <li>• <a href="../showcases/proxy.html" class="text-cyan-400 hover:text-cyan-300 underline">Proxy & DNS</a> - service discovery demonstration</li>
                   <li>• <a href="../showcases/stats.html" class="text-cyan-400 hover:text-cyan-300 underline">Statistics</a> - result analysis examples</li>
                 </ul>
-                Each includes complete config templates files and documentation.
+                Each includes complete configuration files and documentation.
               </div>
             </details>
 
@@ -1028,7 +1009,7 @@
         <ul class="flex flex-col gap-3 text-sm font-medium text-slate-400">
           <li><a class="hover:text-cyan-400 border-l-2 border-transparent hover:border-cyan-400 pl-4 transition" href="#introduction">Introduction</a></li>
           <li><a class="border-l-2 border-cyan-500 text-cyan-400 pl-4" href="#introduction">Quick Start Guides</a></li>
-          <li><a class="hover:text-cyan-400 border-l-2 border-transparent hover:border-cyan-400 pl-4 transition" href="#config templates">Configuration</a></li>
+          <li><a class="hover:text-cyan-400 border-l-2 border-transparent hover:border-cyan-400 pl-4 transition" href="#configuration">Configuration</a></li>
           <li><a class="hover:text-cyan-400 border-l-2 border-transparent hover:border-cyan-400 pl-4 transition" href="#architecture">Key Concepts</a></li>
           <li><a class="hover:text-cyan-400 border-l-2 border-transparent hover:border-cyan-400 pl-4 transition" href="#examples">Examples</a></li>
           <li><a class="hover:text-cyan-400 border-l-2 border-transparent hover:border-cyan-400 pl-4 transition" href="#faq">FAQ</a></li>
@@ -1080,53 +1061,53 @@
       dns: { layer: "2. Services & Networking", title: "DNS", summary: "Resolution and discovery service that decouples clients and services from their concrete locations.",
         responsibilities: ["Resolve logical service names.", "Enable discovery across Edge, Fog and Cloud.", "Keep naming explicit and consistent."],
         interfaces: ["A / CNAME / NS / MX records", "AppProxy queries", "zoneConfig (readJSON)"], href: "core/dns.html" },
-      messagequeue: { layer: "2. Services & Networking", title: "Message Queue", summary: "Async events coordination plane (SMQ) for events, commands and node updates.",
+      messagequeue: { layer: "2. Services & Networking", title: "Message Queue", summary: "Asynchronous, topic-based coordination plane (SMQ) for events, commands and node updates.",
         responsibilities: ["Decouple producers and consumers.", "Carry messages such as SM_UserVM and NodeUpdate.", "Buffer bursts; tolerate slow consumers."],
         interfaces: ["push 8444 / pull 8443", "QueueClient", "topic-based routing"], href: "core/messageQueue.html" },
       queueclient: { layer: "2. Services & Networking", title: "Queue Client", summary: "Node-side adapter so any module can publish to or consume from the message queue.",
-        responsibilities: ["Connect, retry, subscribe/publish.", "Hide queue plumbing .", "Bind a node to its topic (nodeTopic)."],
+        responsibilities: ["Connect, retry, subscribe/publish.", "Hide queue plumbing from nodes.", "Bind a node to its topic (nodeTopic)."],
         interfaces: ["push / pull services", "nodeTopic = fullName()", "Message Catalog"], href: "core/queueClient.html" },
-      appproxy: { layer: "2. Services & Networking", title: "App Proxy", summary: "Service routing steers application traffic to the right endpoint (local vs remote) via the ServiceTable.",
+      appproxy: { layer: "2. Services & Networking", title: "App Proxy", summary: "Secure entry point that steers application traffic to the right endpoint (local vs remote) via the ServiceTable.",
         responsibilities: ["Route RESTful requests.", "Consult the ServiceTable directory.", "Surface routing failures early."],
         interfaces: ["PASSTHROUGH / EDGE modes", "ServiceTable", "Fog Nodes / DataCentre"], href: "core/appProxy.html" },
       protocols: { layer: "2. Services & Networking", title: "Application Protocols", summary: "The message contracts and semantics carried across the data plane (RESTful verbs and response codes).",
         responsibilities: ["Make application contracts explicit.", "Define verbs (GET/POST/PUT/DELETE) and codes.", "Bridge SIMCAN and INET app messages."],
         interfaces: ["RestfulRequest / RestfulResponse", "Verb / ResponseCode", "INET_AppMessage"], href: "core/protocols.html" },
-      fognodes: { layer: "3. Fog & Cloud", title: "Fog Nodes", summary: "Compute nodes close to the data source that run local logic, filter · aggregate and aggregation, and accept offloaded work.",
+      fognodes: { layer: "3. Fog & Cloud", title: "Fog Nodes", summary: "Compute nodes close to the data source that run local logic, filtering and aggregation, and accept offloaded work.",
         responsibilities: ["Process close to the Edge.", "Cut latency versus the Cloud.", "Report state via NodeUpdate."],
-        interfaces: ["blades · VMs", "AppProxy", "DcManager / ResourceManager"], href: "core/fogNodes.html" },
-      datacentre: { layer: "3. Fog & Cloud", title: "DataCentre & Cloud", summary: "Cloud capacity storage · compute CloudProvider broker that places VM requests and tracks nodes.",
+        interfaces: ["blades · VMs · zones", "AppProxy", "DcManager / ResourceManager"], href: "core/fogNodes.html" },
+      datacentre: { layer: "3. Fog & Cloud", title: "DataCentre & Cloud", summary: "Central storage and heavy compute, fronted by the CloudProvider broker that places VM requests and tracks nodes.",
         responsibilities: ["Provide central capacity.", "Broker placement (CloudProvider).", "Keep a fresh node view (NodeDb)."],
         interfaces: ["CloudProvider · NodeDb", "blades / VMs", "NodeUpdate"], href: "core/datacentre.html" },
-      dcmanager: { layer: "4. Orchestration", title: "DcManager", summary: "Manages the VM lifecycle deploy gates routing inside a DataCentre / FogNode.",
+      dcmanager: { layer: "4. Orchestration", title: "DcManager", summary: "Manages the VM deployment lifecycle, gates and callback routing inside a DataCentre / FogNode.",
         responsibilities: ["Create, update and finalize deployments.", "Coordinate with ResourceManager.", "Build hypervisor URLs (node::blade)."],
-        interfaces: ["lifecycle deploy gates", "ResourceManager", "DcHypervisor"], href: "core/dcManager.html" },
-      resourcemgr: { layer: "4. Orchestration", title: "ResourceManager", summary: "Controls capacity and usage CPU · RAM · VMs VMs) with atomic allocation and rollback.",
+        interfaces: ["lifecycle gates", "ResourceManager", "DcHypervisor"], href: "core/dcManager.html" },
+      resourcemgr: { layer: "4. Orchestration", title: "ResourceManager", summary: "Controls capacity and usage of resources (CPU, RAM, VMs) with atomic allocation and rollback.",
         responsibilities: ["Track available resources.", "Allocate via FirstFit / BestFit.", "Roll back partial allocations atomically."],
         interfaces: ["FirstFit / BestFit", "NodePool", "DcManager"], href: "core/resourceManager.html" },
       placement: { layer: "4. Orchestration", title: "Placement Strategies", summary: "Two-level decision engine that picks where VMs and services run across Fog and Cloud.",
         responsibilities: ["Select target nodes.", "Balance latency, capacity and policy.", "Encode global × local strategies."],
         interfaces: ["FirstFit / BestFit / WorstFit", "zone fallback", "ResourceManager constraints"], href: "core/placement.html" },
-      recipes: { layer: "5. Experiments · Ops · Reference", title: "Scenario Recipes", summary: "Copyable  for common Simcan2Fog scenarios, from single DataCentre to controlled scaling.",
-        responsibilities: ["Cut setup time.", "Standardize scenarios.", "Document tested ."],
-        interfaces: ["showcases / simulations", "INI templates", "implementation "], href: "core/recipes.html" },
-      workflow: { layer: "5. Experiments · Ops · Reference", title: "Experimental Workflow", summary: "Research-grade method: variable control, sweeps, deterministic seeds and the scave→CSV→Python pipeline",
+      recipes: { layer: "5. Experiments · Ops · Reference", title: "Scenario Recipes", summary: "Copyable patterns for common Simcan2Fog scenarios, from single DataCentre to controlled scaling.",
+        responsibilities: ["Cut setup time.", "Standardize scenarios.", "Document tested patterns."],
+        interfaces: ["showcases / simulations", "INI templates", "implementation guides"], href: "core/recipes.html" },
+      workflow: { layer: "5. Experiments · Ops · Reference", title: "Experimental Workflow", summary: "Research-grade method: variable control, sweeps, deterministic seeds and the scave→CSV→Python pipeline.",
         responsibilities: ["Structure simulation campaigns.", "Keep runs reproducible and traceable.", "Connect configs to results."],
         interfaces: ["${p=...} sweeps · seed-set", "results dossier", "scave / CSV / Python"], href: "core/workflow.html" },
-      observability: { layer: "5. Experiments · Ops · Reference", title: "Observability", summary: "Signals metrics · traces traces to inspect end-to-end behaviour.",
+      observability: { layer: "5. Experiments · Ops · Reference", title: "Observability", summary: "Signals, recorders, metrics and traces to inspect end-to-end behaviour.",
         responsibilities: ["Measure performance.", "Debug behaviour.", "Validate complex scenarios."],
         interfaces: ["signals + recorders", "scalars / vectors", "Scave"], href: "core/observability.html" },
       troubleshoot: { layer: "5. Experiments · Ops · Reference", title: "Troubleshooting", summary: "Diagnostic guide for common config, communication and execution failures.",
         responsibilities: ["Locate the failing layer.", "Offer fast debugging checks.", "Shorten time-to-fix."],
         interfaces: ["symptom cards", "known errors", "debugging toolbox"], href: "core/troubleshooting.html" },
-      msgcatalog: { layer: "5. Experiments · Ops · Reference", title: "Message Catalog", summary: "Catalog of message types, op-codes · schemas and schemas used across the architecture.",
+      msgcatalog: { layer: "5. Experiments · Ops · Reference", title: "Message Catalog", summary: "Catalog of message types, op-codes and schemas used across the architecture.",
         responsibilities: ["Define message types.", "Clarify payloads and contracts.", "Separate data, control and orchestration."],
         interfaces: ["SM_UserVM · NodeUpdate", "op codes (500 / 10001 …)", "RestfulRequest / Response"], href: "core/msgCatalog.html" },
-      parameters: { layer: "5. Experiments · Ops · Reference", title: "Parameters", summary: "Reference for configurable parameters · sweeps across modules, scenarios and campaigns.",
+      parameters: { layer: "5. Experiments · Ops · Reference", title: "Parameters", summary: "Reference for configurable parameters across modules, scenarios and campaigns.",
         responsibilities: ["Document values and defaults.", "Enable sensitivity analysis.", "Make config assumptions explicit."],
-        interfaces: ["omnetpp.ini", "NED parameters · sweeps", "parameter sweeps"], href: "core/parameters.html" },
-      initemplates: { layer: "5. Experiments · Ops · Reference", title: "INI Templates", summary: "Reusable templates to deploy scenarios and config templates variants.",
-        responsibilities: ["Create base config templatess.", "Improve reproducibility.", "Speed up new experiments."],
+        interfaces: ["omnetpp.ini", "NED parameters", "parameter sweeps"], href: "core/parameters.html" },
+      initemplates: { layer: "5. Experiments · Ops · Reference", title: "INI Templates", summary: "Reusable templates to deploy scenarios and configuration variants.",
+        responsibilities: ["Create base configurations.", "Improve reproducibility.", "Speed up new experiments."],
         interfaces: ["[General] → [Config X]", "extends inheritance", "presets"], href: "core/iniTemplates.html" }
     };
     const $ = id => document.getElementById(id);
@@ -1134,40 +1115,13 @@
     function fill(node, items){ node.innerHTML=""; items.forEach(t=>{ const li=document.createElement("li"); li.textContent=t; node.appendChild(li); }); }
     function open(key){ const d=M[key]; if(!d) return; $("am-kicker").textContent=d.layer; $("am-title").textContent=d.title; $("am-summary").textContent=d.summary; fill($("am-resp"),d.responsibilities); fill($("am-iface"),d.interfaces); $("am-link").href=d.href; $("am-link").textContent="Open "+d.title+" documentation →"; bd.classList.add("open"); }
     function close(){ bd.classList.remove("open"); }
-    const archBand = document.querySelector(".archmap-band");
-    const archStage = $("archmap-stage");
-    const archExpand = $("archmap-expand");
-    const archCloseFull = $("archmap-close-full");
-    function openArchFullscreen(){
-      if(!archBand) return;
-      archBand.classList.add("archmap-fullscreen");
-      document.body.classList.add("archmap-is-fullscreen");
-      if(archCloseFull) archCloseFull.focus({ preventScroll: true });
-    }
-    function closeArchFullscreen(){
-      if(!archBand) return;
-      archBand.classList.remove("archmap-fullscreen");
-      document.body.classList.remove("archmap-is-fullscreen");
-      if(archExpand) archExpand.focus({ preventScroll: true });
-    }
-    function clickedModule(target){ return !!(target && target.closest && target.closest(".module[data-module]")); }
-    if(archExpand) archExpand.addEventListener("click", openArchFullscreen);
-    if(archCloseFull) archCloseFull.addEventListener("click", closeArchFullscreen);
-    if(archStage){
-      archStage.addEventListener("click", e=>{ if(!clickedModule(e.target)) openArchFullscreen(); });
-      archStage.addEventListener("keydown", e=>{
-        if((e.key==="Enter"||e.key===" ") && !clickedModule(e.target)){
-          e.preventDefault(); openArchFullscreen();
-        }
-      });
-    }
     document.querySelectorAll(".archmap .module[data-module]").forEach(node=>{
       node.addEventListener("click", e=>{ if(e.ctrlKey||e.metaKey||e.shiftKey||e.altKey) return; e.preventDefault(); open(node.dataset.module); });
       node.addEventListener("keydown", e=>{ if(e.key==="Enter"||e.key===" "){ e.preventDefault(); open(node.dataset.module); } });
     });
     $("am-close").addEventListener("click", close);
     bd.addEventListener("click", e=>{ if(e.target===bd) close(); });
-    document.addEventListener("keydown", e=>{ if(e.key==="Escape"){ close(); closeArchFullscreen(); } });
+    document.addEventListener("keydown", e=>{ if(e.key==="Escape") close(); });
   })();
   </script>
 </body>
